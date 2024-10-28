@@ -10,8 +10,8 @@ namespace ProjectTemplate.Editor
 		private const string PREVIOUS_SCENE_KEY = "PreviousScene";
 		private const string SHOULD_LOAD_STARTUP_SCENE_KEY = "LoadStartupScene";
 
-		private const string LOAD_STARTUP_SCENE_ON_PLAY = "Development/Load Startup Scene On Play";
-		private const string DONT_LOAD_STARTUP_SCENE_ON_PLAY = "Development/Don't Load Startup Scene On Play";
+		private const string LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Load Startup Scene On Play";
+		private const string DONT_LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Don't Load Startup Scene On Play";
 
 		private static bool _restartingToSwitchedScene;
 
