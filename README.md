@@ -5,3 +5,5 @@ A Main menu layer can be added in between bootstrap and level scenes, in which m
 DEPENDENCIES:
 Odin Inspector
 ES3
+DOTween
+Feel/NiceVibrations
