@@ -3,7 +3,7 @@ using VContainer.Unity;
 
 using ProjectTemplate.CrossScene;
 using ProjectTemplate.CrossScene.Messages;
-using ProjectTemplate.Infrastructure.PubSub;
+using ProjectTemplate.Infrastructure.SignalBus;
 
 namespace ProjectTemplate.Scopes
 {
@@ -12,17 +12,23 @@ namespace ProjectTemplate.Scopes
 		protected override void Configure(IContainerBuilder builder)
 		{
 			RegisterEntryPoints(builder);
-			RegisterMessages(builder);
+			RegisterSignalBus(builder);
+			RegisterSignals(builder);
 		}
-
-		private static void RegisterMessages(IContainerBuilder builder)
-		{
-			builder.RegisterInstance(new MessageChannel<LoadSceneMessage>()).AsImplementedInterfaces();
-		}
-
+		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
 		{
 			builder.RegisterEntryPoint<SceneLoader>().AsSelf();
+		}
+
+		private void RegisterSignalBus(IContainerBuilder builder)
+		{
+			builder.RegisterSignalBus();
+		}
+		
+		private void RegisterSignals(IContainerBuilder builder)
+		{
+			builder.DeclareSignal<LoadSceneSignal>();
 		}
 	}
 }

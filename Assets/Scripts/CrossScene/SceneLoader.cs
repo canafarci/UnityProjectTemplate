@@ -4,29 +4,29 @@ using System;
 
 using VContainer;
 using VContainer.Unity;
+
 using ProjectTemplate.CrossScene.Messages;
-using ProjectTemplate.Infrastructure.PubSub;
+using ProjectTemplate.Infrastructure.SignalBus;
 
 namespace ProjectTemplate.CrossScene
 {
 	public class SceneLoader : IInitializable, IDisposable
 	{
-		[Inject] private ISubscriber<LoadSceneMessage> _loadSceneSubscriber;
-
-
+		[Inject] SignalBus _signalBus;
+		
 		public void Initialize()
 		{
-			_loadSceneSubscriber.Subscribe(OnLoadSceneMessage);
+			_signalBus.Subscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 
-		private void OnLoadSceneMessage(LoadSceneMessage message)
+		private void OnLoadSceneMessage(LoadSceneSignal signal)
 		{
-			SceneManager.LoadSceneAsync(message.sceneID);
+			SceneManager.LoadSceneAsync(signal.sceneID);
 		}
 
 		public void Dispose()
 		{
-			_loadSceneSubscriber.Unsubscribe(OnLoadSceneMessage);
+			_signalBus.Unsubscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 	}
 }

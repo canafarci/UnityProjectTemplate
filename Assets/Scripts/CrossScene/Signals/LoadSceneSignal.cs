@@ -1,10 +1,10 @@
 namespace ProjectTemplate.CrossScene.Messages
 {
-	public struct LoadSceneMessage
+	public struct LoadSceneSignal
 	{
 		public int sceneID { get; private set; }
 
-		public LoadSceneMessage(int sceneID)
+		public LoadSceneSignal(int sceneID)
 		{
 			this.sceneID = sceneID;
 		}
