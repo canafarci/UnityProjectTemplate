@@ -1,6 +1,6 @@
 using ProjectTemplate.CrossScene.Enums;
 
-namespace ProjectTemplate.CrossScene.Messages
+namespace ProjectTemplate.CrossScene.Signals
 {
 	public readonly struct ChangeAudioSettingsSignal
 	{

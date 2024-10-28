@@ -5,7 +5,8 @@ using VContainer.Unity;
 
 using ProjectTemplate.CrossScene;
 using ProjectTemplate.CrossScene.Audio;
-using ProjectTemplate.CrossScene.Messages;
+using ProjectTemplate.CrossScene.Haptic;
+using ProjectTemplate.CrossScene.Signals;
 using ProjectTemplate.Data.Persistent;
 using ProjectTemplate.Infrastructure.SignalBus;
 
@@ -35,11 +36,13 @@ namespace ProjectTemplate.Scopes
 		{
 			builder.RegisterEntryPoint<SceneLoader>().AsSelf(); 
 			builder.RegisterEntryPoint<AudioController>().AsSelf();
+			builder.RegisterEntryPoint<HapticController>().AsSelf();
 		}
 		
 		private void RegisterServices(IContainerBuilder builder)
 		{
 			builder.Register<IAudioModel, AudioModel>(Lifetime.Singleton).AsSelf();
+			builder.Register<IHapticModel, HapticModel>(Lifetime.Singleton).AsSelf();
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 		}
 		
@@ -50,6 +53,7 @@ namespace ProjectTemplate.Scopes
 			builder.DeclareSignal<LoadSceneSignal>();
 			builder.DeclareSignal<ChangeAudioSettingsSignal>();
 			builder.DeclareSignal<PlayAudioSignal>();
+			builder.DeclareSignal<PlayHapticSignal>();
 		}
 	}
 }

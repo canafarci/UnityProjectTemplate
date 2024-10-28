@@ -5,7 +5,7 @@ using System;
 using VContainer;
 using VContainer.Unity;
 
-using ProjectTemplate.CrossScene.Messages;
+using ProjectTemplate.CrossScene.Signals;
 using ProjectTemplate.Infrastructure.SignalBus;
 
 namespace ProjectTemplate.CrossScene

@@ -1,7 +1,7 @@
 using ProjectTemplate.CrossScene.Enums;
 using UnityEngine;
 
-namespace ProjectTemplate.CrossScene.Messages
+namespace ProjectTemplate.CrossScene.Signals
 {
 	public readonly struct PlayAudioSignal
 	{

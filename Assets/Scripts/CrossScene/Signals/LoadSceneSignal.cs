@@ -1,4 +1,4 @@
-namespace ProjectTemplate.CrossScene.Messages
+namespace ProjectTemplate.CrossScene.Signals
 {
 	public struct LoadSceneSignal
 	{
