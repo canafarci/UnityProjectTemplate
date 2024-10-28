@@ -4,115 +4,153 @@ using UnityEngine.SceneManagement;
 
 namespace ProjectTemplate.Editor
 {
-	[InitializeOnLoad]
-	public class BootstrapSceneLoader
-	{
-		private const string PREVIOUS_SCENE_KEY = "PreviousScene";
-		private const string SHOULD_LOAD_STARTUP_SCENE_KEY = "LoadStartupScene";
+    [InitializeOnLoad]
+    public class BootstrapSceneLoader
+    {
+        private const string PREVIOUS_SCENE_KEY = "PreviousScene";
+        private const string LOAD_SCENE_MODE_KEY = "LoadSceneMode";
+        private const string SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY = "SceneToLoadAfterBootstrap";
 
-		private const string LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Load Startup Scene On Play";
-		private const string DONT_LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Don't Load Startup Scene On Play";
+        private const string LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Load Startup Scene On Play";
+        private const string DONT_LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Don't Load Startup Scene On Play";
+        private const string LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY = "Window/Development/Load Startup and Current Scene On Play";
 
-		private static bool _restartingToSwitchedScene;
+        private static bool _restartingToSwitchedScene;
 
-		private static string bootstrapScene => EditorBuildSettings.scenes[0].path;
+        private static string bootstrapScene => EditorBuildSettings.scenes[0].path;
 
-		static BootstrapSceneLoader()
-		{
-			EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
-		}
+        static BootstrapSceneLoader()
+        {
+            EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
+        }
 
-		#region Getters-Setters
+        private enum LoadSceneMode
+        {
+            DoNotLoadStartupScene = 0,
+            LoadStartupSceneOnly = 1,
+            LoadStartupAndCurrentScene = 2
+        }
 
-		private static string previousScene
-		{
-			get => EditorPrefs.GetString(PREVIOUS_SCENE_KEY);
-			set => EditorPrefs.SetString(PREVIOUS_SCENE_KEY, value);
-		}
+        #region Getters-Setters
 
-		private static bool shouldLoadStartupScene
-		{
-			get
-			{
-				if (!EditorPrefs.HasKey(SHOULD_LOAD_STARTUP_SCENE_KEY))
-					EditorPrefs.SetBool(SHOULD_LOAD_STARTUP_SCENE_KEY, true);
+        private static string previousScene
+        {
+            get => EditorPrefs.GetString(PREVIOUS_SCENE_KEY);
+            set => EditorPrefs.SetString(PREVIOUS_SCENE_KEY, value);
+        }
 
-				return EditorPrefs.GetBool(SHOULD_LOAD_STARTUP_SCENE_KEY);
-			}
+        private static LoadSceneMode loadSceneMode
+        {
+            get
+            {
+                if (!EditorPrefs.HasKey(LOAD_SCENE_MODE_KEY))
+                    EditorPrefs.SetInt(LOAD_SCENE_MODE_KEY, (int)LoadSceneMode.LoadStartupSceneOnly);
 
-			set => EditorPrefs.SetBool(SHOULD_LOAD_STARTUP_SCENE_KEY, value);
-		}
+                return (LoadSceneMode)EditorPrefs.GetInt(LOAD_SCENE_MODE_KEY);
+            }
+            set => EditorPrefs.SetInt(LOAD_SCENE_MODE_KEY, (int)value);
+        }
 
-		#endregion
+        #endregion
 
-		[MenuItem(LOAD_STARTUP_SCENE_ON_PLAY, true)]
-		private static bool ShowLoadBootstrapSceneOnPlay() => !shouldLoadStartupScene;
+        [MenuItem(LOAD_STARTUP_SCENE_ON_PLAY)]
+        private static void EnableLoadBootstrapSceneOnPlay()
+        {
+            loadSceneMode = LoadSceneMode.LoadStartupSceneOnly;
+        }
 
-		[MenuItem(LOAD_STARTUP_SCENE_ON_PLAY)]
-		private static void EnableLoadBootstrapSceneOnPlay()
-		{
-			shouldLoadStartupScene = true;
-		}
+        [MenuItem(LOAD_STARTUP_SCENE_ON_PLAY, true)]
+        private static bool ValidateEnableLoadBootstrapSceneOnPlay()
+        {
+            Menu.SetChecked(LOAD_STARTUP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupSceneOnly);
+            return true;
+        }
 
-		[MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY, true)]
-		private static bool ShowDoNotLoadBootstrapSceneOnPlay() => shouldLoadStartupScene;
+        [MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY)]
+        private static void DisableDoNotLoadStartupSceneOnPlay()
+        {
+            loadSceneMode = LoadSceneMode.DoNotLoadStartupScene;
+        }
 
-		[MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY)]
-		private static void DisableDoNotLoadBootstrapSceneOnPlay()
-		{
-			shouldLoadStartupScene = false;
-		}
+        [MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY, true)]
+        private static bool ValidateDisableDoNotLoadStartupSceneOnPlay()
+        {
+            Menu.SetChecked(DONT_LOAD_STARTUP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.DoNotLoadStartupScene);
+            return true;
+        }
 
-		private static void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
-		{
-			if (!shouldLoadStartupScene) return;
+        [MenuItem(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY)]
+        private static void EnableLoadStartupAndCurrentSceneOnPlay()
+        {
+            loadSceneMode = LoadSceneMode.LoadStartupAndCurrentScene;
+        }
 
-			if (_restartingToSwitchedScene) //error check as multiple starts and stops happening
-			{
-				if (playModeStateChange == PlayModeStateChange.EnteredPlayMode) _restartingToSwitchedScene = false;
-				return;
-			}
+        [MenuItem(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY, true)]
+        private static bool ValidateEnableLoadStartupAndCurrentSceneOnPlay()
+        {
+            Menu.SetChecked(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupAndCurrentScene);
+            return true;
+        }
 
-			if (playModeStateChange == PlayModeStateChange.ExitingEditMode)
-			{
-				// cache previous scene to return to it after play session ends
-				previousScene = EditorSceneManager.GetActiveScene().path;
+        private static void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
+        {
+            if (loadSceneMode == LoadSceneMode.DoNotLoadStartupScene) return;
 
-				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-				{
-					// user either hit "Save" or "Don't Save"; open bootstrap scene
+            if (_restartingToSwitchedScene)
+            {
+                if (playModeStateChange == PlayModeStateChange.EnteredPlayMode) _restartingToSwitchedScene = false;
+                return;
+            }
 
-					if (!string.IsNullOrEmpty(bootstrapScene) &&
-					    System.Array.Exists(EditorBuildSettings.scenes, scene => scene.path == bootstrapScene))
-					{
-						Scene activeScene = EditorSceneManager.GetActiveScene();
+            if (playModeStateChange == PlayModeStateChange.ExitingEditMode)
+            {
+                previousScene = EditorSceneManager.GetActiveScene().path;
 
-						_restartingToSwitchedScene =
-							activeScene.path == string.Empty || !bootstrapScene.Contains(activeScene.path);
+                if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                {
+                    if (!string.IsNullOrEmpty(bootstrapScene) &&
+                        System.Array.Exists(EditorBuildSettings.scenes, scene => scene.path == bootstrapScene))
+                    {
+                        Scene activeScene = EditorSceneManager.GetActiveScene();
 
-						// only switch if editor is in a empty scene or active scene is not startup scene
-						if (_restartingToSwitchedScene)
-						{
-							EditorApplication.isPlaying = false;
+                        _restartingToSwitchedScene =
+                            activeScene.path == string.Empty || !bootstrapScene.Contains(activeScene.path);
 
-							// scene is included in build settings; open it
-							EditorSceneManager.OpenScene(bootstrapScene);
+                        if (_restartingToSwitchedScene)
+                        {
+                            EditorApplication.isPlaying = false;
 
-							EditorApplication.isPlaying = true;
-						}
-					}
-				}
-				else
-				{
-					// user either hit "Cancel" or exited window; don't open startup scene & return to editor
-					EditorApplication.isPlaying = false;
-				}
-			}
-			//return to last open scene
-			else if (playModeStateChange == PlayModeStateChange.EnteredEditMode)
-			{
-				if (!string.IsNullOrEmpty(previousScene)) EditorSceneManager.OpenScene(previousScene);
-			}
-		}
-	}
+                            // Set the scene to load after bootstrap based on the selected mode
+                            if (loadSceneMode == LoadSceneMode.LoadStartupAndCurrentScene)
+                            {
+                                EditorPrefs.SetString(SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY, previousScene);
+                            }
+                            else
+                            {
+                                // Clear any previous setting
+                                EditorPrefs.DeleteKey(SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY);
+                            }
+
+                            // Open the bootstrap scene
+                            EditorSceneManager.OpenScene(bootstrapScene);
+
+                            EditorApplication.isPlaying = true;
+                        }
+                    }
+                }
+                else
+                {
+                    // User canceled the save operation
+                    EditorApplication.isPlaying = false;
+                }
+            }
+            else if (playModeStateChange == PlayModeStateChange.EnteredEditMode)
+            {
+                // Clean up after exiting play mode
+                EditorPrefs.DeleteKey(SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY);
+
+                if (!string.IsNullOrEmpty(previousScene)) EditorSceneManager.OpenScene(previousScene);
+            }
+        }
+    }
 }

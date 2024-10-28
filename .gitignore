@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /.idea
+/Assets/Plugins/Sirenix
+/Assets/Plugins/Easy Save 3
