@@ -1,3 +1,4 @@
+using ProjectTemplate.CrossScene.Enums;
 using UnityEngine.SceneManagement;
 
 using VContainer;
