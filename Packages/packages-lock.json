@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "9057452c86079e4265228480b1439442894d5078"
+      "hash": "f9fd769be7c634610f2a61aa914a1a55f34740e1"
     },
     "com.unity.burst": {
       "version": "1.8.13",
@@ -152,11 +152,11 @@
       }
     },
     "jp.hadashikick.vcontainer": {
-      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.6.3",
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.16.4",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "afaeff82040994f7836afa9f5116eb52a4e54f69"
+      "hash": "4f099507f7c13bbb8ba00f4a91c78feeccc778ba"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

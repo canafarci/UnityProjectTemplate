@@ -1,7 +1,7 @@
 using UnityEngine.SceneManagement;
 
 using System;
-
+using DG.Tweening;
 using VContainer;
 using VContainer.Unity;
 
@@ -21,6 +21,8 @@ namespace ProjectTemplate.CrossScene
 
 		private void OnLoadSceneMessage(LoadSceneSignal signal)
 		{
+			DOTween.KillAll();
+			GC.Collect();
 			SceneManager.LoadSceneAsync(signal.sceneID);
 		}
 
