@@ -11,12 +11,13 @@ namespace ProjectTemplate.Editor
         private const string LOAD_SCENE_MODE_KEY = "LoadSceneMode";
         private const string SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY = "SceneToLoadAfterBootstrap";
 
-        private const string LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Load Startup Scene On Play";
-        private const string DONT_LOAD_STARTUP_SCENE_ON_PLAY = "Window/Development/Don't Load Startup Scene On Play";
-        private const string LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY = "Window/Development/Load Startup and Current Scene On Play";
+        private const string LOAD_BOOTSTRAP_SCENE_ON_PLAY = "Tools/Bootstrap Scene Loader/Load Bootstrap Scene On Play";
+        private const string DONT_LOAD_BOOTSTRAP_SCENE_ON_PLAY = "Tools/Bootstrap Scene Loader/Don't Load Bootstrap Scene On Play";
+        private const string LOAD_BOOTSTRAP_AND_CURRENT_SCENE_ON_PLAY = "Tools/Bootstrap Scene Loader/Load Bootstrap then Current Scene On Play";
 
         private static bool _restartingToSwitchedScene;
-
+        
+        //bootstrap scene needs to be inside build settings at index 0
         private static string bootstrapScene => EditorBuildSettings.scenes[0].path;
 
         static BootstrapSceneLoader()
@@ -53,42 +54,42 @@ namespace ProjectTemplate.Editor
 
         #endregion
 
-        [MenuItem(LOAD_STARTUP_SCENE_ON_PLAY)]
+        [MenuItem(LOAD_BOOTSTRAP_SCENE_ON_PLAY)]
         private static void EnableLoadBootstrapSceneOnPlay()
         {
             loadSceneMode = LoadSceneMode.LoadStartupSceneOnly;
         }
 
-        [MenuItem(LOAD_STARTUP_SCENE_ON_PLAY, true)]
+        [MenuItem(LOAD_BOOTSTRAP_SCENE_ON_PLAY, true)]
         private static bool ValidateEnableLoadBootstrapSceneOnPlay()
         {
-            Menu.SetChecked(LOAD_STARTUP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupSceneOnly);
+            Menu.SetChecked(LOAD_BOOTSTRAP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupSceneOnly);
             return true;
         }
 
-        [MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY)]
+        [MenuItem(DONT_LOAD_BOOTSTRAP_SCENE_ON_PLAY)]
         private static void DisableDoNotLoadStartupSceneOnPlay()
         {
             loadSceneMode = LoadSceneMode.DoNotLoadStartupScene;
         }
 
-        [MenuItem(DONT_LOAD_STARTUP_SCENE_ON_PLAY, true)]
+        [MenuItem(DONT_LOAD_BOOTSTRAP_SCENE_ON_PLAY, true)]
         private static bool ValidateDisableDoNotLoadStartupSceneOnPlay()
         {
-            Menu.SetChecked(DONT_LOAD_STARTUP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.DoNotLoadStartupScene);
+            Menu.SetChecked(DONT_LOAD_BOOTSTRAP_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.DoNotLoadStartupScene);
             return true;
         }
 
-        [MenuItem(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY)]
+        [MenuItem(LOAD_BOOTSTRAP_AND_CURRENT_SCENE_ON_PLAY)]
         private static void EnableLoadStartupAndCurrentSceneOnPlay()
         {
             loadSceneMode = LoadSceneMode.LoadStartupAndCurrentScene;
         }
 
-        [MenuItem(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY, true)]
+        [MenuItem(LOAD_BOOTSTRAP_AND_CURRENT_SCENE_ON_PLAY, true)]
         private static bool ValidateEnableLoadStartupAndCurrentSceneOnPlay()
         {
-            Menu.SetChecked(LOAD_STARTUP_AND_CURRENT_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupAndCurrentScene);
+            Menu.SetChecked(LOAD_BOOTSTRAP_AND_CURRENT_SCENE_ON_PLAY, loadSceneMode == LoadSceneMode.LoadStartupAndCurrentScene);
             return true;
         }
 
