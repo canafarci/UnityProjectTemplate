@@ -1,3 +1,4 @@
+using DG.Tweening;
 using ProjectTemplate.CrossScene.Enums;
 using UnityEngine.SceneManagement;
 
@@ -14,7 +15,25 @@ namespace ProjectTemplate.Bootstrap
 		[Inject] private SignalBus _signalBus;
 		public void Initialize()
 		{
+			DOTween.Init(false, false).SetCapacity(200, 10);
+			
+			LoadNextScene();
+		}
+
+		private void LoadNextScene()
+		{
 #if UNITY_EDITOR
+			if (LoadSceneAfterBootstrap()) return;
+#endif
+
+			int defaultSceneIndex = 1;
+			// Load the default scene
+			_signalBus.Fire(new LoadSceneSignal(defaultSceneIndex));
+		}
+
+#if UNITY_EDITOR
+		private bool LoadSceneAfterBootstrap()
+		{
 			const string SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY = "SceneToLoadAfterBootstrap";
 			if (UnityEditor.EditorPrefs.HasKey(SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY))
 			{
@@ -26,14 +45,12 @@ namespace ProjectTemplate.Bootstrap
 				{
 					// Load the scene by path
 					SceneManager.LoadScene(sceneToLoadPath, LoadSceneMode.Single);
-					return;
+					return true;
 				}
 			}
-#endif
 
-			int defaultSceneIndex = 1; // Default scene index
-			// Load the default scene
-			_signalBus.Fire(new LoadSceneSignal(defaultSceneIndex)); // Publish load scene message
+			return false;
 		}
+#endif
 	}
 }
