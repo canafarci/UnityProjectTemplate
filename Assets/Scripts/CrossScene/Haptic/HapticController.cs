@@ -18,18 +18,25 @@ namespace ProjectTemplate.CrossScene.Haptic
 		public void Initialize()
 		{
 			_signalBus.Subscribe<PlayHapticSignal>(OnPlayHapticMessage);
+			_signalBus.Subscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);
 		}
-
+		
 		private void OnPlayHapticMessage(PlayHapticSignal signal)
 		{
-			if (!_hapticModel.isOn) return;
+			if (!_hapticModel.isEnabled) return;
             
 			HapticPatterns.PlayPreset(signal.hapticType);
+		}
+		
+		private void OnChangeHapticActivationSignal(ChangeHapticActivationSignal obj)
+		{
+			_hapticModel.ChangeHapticActivation();
 		}
 
 		public void Dispose()
 		{
 			_signalBus.Unsubscribe<PlayHapticSignal>(OnPlayHapticMessage);
+			_signalBus.Unsubscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);
 		}
 	}
 }

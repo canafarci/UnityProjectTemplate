@@ -1,28 +1,33 @@
-// using System.Collections.Generic;
-// using Sirenix.OdinInspector;
-// using UnityEngine;
-// using UnityEngine.UI;
-//
-// namespace ProjectTemplate.Gameplay.GameSceneSettings
-// {
-//     public class GameSceneSettingsView : SerializedMonoBehaviour
-//     {
-//         [SerializeField] private Button _togglePanelButton;
-//         [SerializeField] private Button _exitButton;
-//         [SerializeField] private Button _soundButton;
-//         [SerializeField] private Button _musicButton;
-//         [SerializeField] private Button _backgroundButton;
-//         [SerializeField] private GameObject _backgroundImage;
-//         [SerializeField] private List<Transform> _buttonTransforms;
-//         [SerializeField] private Dictionary<SettingsTypes, GameObject> _settingsOffGameObjects;
-//
-//         public Button TogglePanelButton => _togglePanelButton;
-//         public Button ExitButton => _exitButton;
-//         public Button SoundButton => _soundButton;
-//         public Button MusicButton => _musicButton;
-//         public Dictionary<SettingsTypes, GameObject> SettingsOffGameObjects => _settingsOffGameObjects;
-//         public List<Transform> ButtonTransforms => _buttonTransforms;
-//         public GameObject BackgroundImage => _backgroundImage;
-//         public Button BackgroundButton => _backgroundButton;
-//     }
-// }
+using UnityEngine;
+using UnityEngine.UI;
+
+using System.Collections.Generic;
+
+using Sirenix.OdinInspector;
+
+using ProjectTemplate.CrossScene.Enums;
+using UnityEngine.Serialization;
+
+namespace ProjectTemplate.Gameplay.GameSceneSettings
+{
+    public class GameSceneSettingsView : SerializedMonoBehaviour
+    {
+        [SerializeField] private Button TogglePanelButton;
+        [SerializeField] private Button HapticButton;
+        [SerializeField] private Button SoundButton;
+        [SerializeField] private Button ReloadButton;
+        [SerializeField] private Button MusicButton;
+        [SerializeField] private GameObject BackgroundImage;
+        [SerializeField] private List<Transform> ButtonTransforms;
+        [SerializeField] private Dictionary<SettingType, GameObject> SettingsOffGameObjects;
+
+        public Button togglePanelButton => TogglePanelButton;
+        public Button hapticButton => HapticButton;
+        public Button soundButton => SoundButton;
+        public Button musicButton => MusicButton;
+        public Button reloadButton => ReloadButton;
+        public Dictionary<SettingType, GameObject> settingsOffGameObjects => SettingsOffGameObjects;
+        public List<Transform> buttonTransforms => ButtonTransforms;
+        public GameObject backgroundImage => BackgroundImage;
+    }
+}

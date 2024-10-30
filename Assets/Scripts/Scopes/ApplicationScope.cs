@@ -52,6 +52,7 @@ namespace ProjectTemplate.Scopes
 		{
 			builder.DeclareSignal<LoadSceneSignal>();
 			builder.DeclareSignal<ChangeAudioSettingsSignal>();
+			builder.DeclareSignal<ChangeHapticActivationSignal>();
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
 		}

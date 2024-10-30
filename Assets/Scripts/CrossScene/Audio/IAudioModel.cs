@@ -5,8 +5,8 @@ namespace ProjectTemplate.CrossScene.Audio
 {
     public interface IAudioModel
     {
-        public bool isSoundMuted { get; }
-        public bool isMusicMuted { get; }
+        public bool isSoundEnabled { get; }
+        public bool isMusicEnabled { get; }
         public AudioClip GetAudioClip(AudioClipID clipID);
         public void ChangeSoundActivation();
         public void ChangeMusicActivation();
