@@ -1,3 +1,4 @@
+using Gameplay.GameplayLifecycle;
 using ProjectTemplate.Gameplay.GameSceneSettings;
 using VContainer;
 using VContainer.Unity;
@@ -9,6 +10,12 @@ namespace ProjectTemplate.Scopes
 		protected override void Configure(IContainerBuilder builder)
 		{
 			RegisterInGameSettings(builder);
+			RegisterGameplayLifecycleManagers(builder);
+		}
+
+		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
+		{
+			builder.RegisterEntryPoint<GameplayEntryPoint>();
 		}
 
 		private void RegisterInGameSettings(IContainerBuilder builder)

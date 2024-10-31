@@ -2,9 +2,9 @@ using UnityEngine.SceneManagement;
 
 namespace ProjectTemplate.CrossScene.Data
 {
-	public class GameplayPersistentData
+	public class GameplayPersistentData : IGameplayPersistentData
 	{
-		private int _levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, 2);
+		private int _levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, 1);
 		private int _levelVisualDisplayNumber = ES3.Load(LEVEL_VISUAL_NUMBER, PERSISTENT_DATA_PATH, 1);
 		private int _towerHealthUpgradeLevel;
 		private bool _isFirstTimePlaying;
@@ -40,6 +40,11 @@ namespace ProjectTemplate.CrossScene.Data
 				targetSceneIndex = currentSceneIndex + 1;
 			}
 
+			SaveIndices(targetSceneIndex);
+		}
+
+		private void SaveIndices(int targetSceneIndex)
+		{
 			_levelToLoadIndex = targetSceneIndex;
 			ES3.Save(LEVEL_TO_LOAD_INDEX, _levelToLoadIndex, PERSISTENT_DATA_PATH);
 			//use this index to fake new level numbers after built in levels end

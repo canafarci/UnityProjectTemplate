@@ -1,4 +1,5 @@
 using DG.Tweening;
+using ProjectTemplate.CrossScene.Data;
 using ProjectTemplate.CrossScene.Enums;
 using UnityEngine.SceneManagement;
 
@@ -13,11 +14,18 @@ namespace ProjectTemplate.Bootstrap
 	public class BootstrapSceneEntryPoint : IInitializable
 	{
 		[Inject] private SignalBus _signalBus;
+		[Inject] private IGameplayPersistentData _gameplayPersistentData;
 		public void Initialize()
 		{
-			DOTween.Init(false, false).SetCapacity(200, 10);
-			
+			InitDOTween();
+
 			LoadNextScene();
+		}
+
+		private void InitDOTween()
+		{
+			DOTween.Init(false, false).SetCapacity(200, 10);
+			DOTween.defaultEaseType = Ease.Linear;
 		}
 
 		private void LoadNextScene()
@@ -26,9 +34,9 @@ namespace ProjectTemplate.Bootstrap
 			if (LoadSceneAfterBootstrap()) return;
 #endif
 
-			int defaultSceneIndex = 1;
+			int sceneIndex = _gameplayPersistentData.levelToLoadIndex;
 			// Load the default scene
-			_signalBus.Fire(new LoadSceneSignal(defaultSceneIndex));
+			_signalBus.Fire(new LoadSceneSignal(sceneIndex));
 		}
 
 #if UNITY_EDITOR
