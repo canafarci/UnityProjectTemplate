@@ -1,12 +1,10 @@
+using System.Collections.Generic;
+using ProjectTemplate.CrossScene.Enums;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Audio;
 
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
-
-using ProjectTemplate.CrossScene.Enums;
-
-namespace ProjectTemplate.Data.Persistent
+namespace ProjectTemplate.CrossScene.Data
 {
     [CreateAssetMenu(fileName = "Sounds Data", menuName = "ProjectTemplate/Sounds Data", order = 0)]
     public class AudioDataSO : SerializedScriptableObject

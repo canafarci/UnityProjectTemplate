@@ -2,21 +2,21 @@ using UnityEngine.SceneManagement;
 
 using System;
 using DG.Tweening;
-using VContainer;
-using VContainer.Unity;
-
 using ProjectTemplate.CrossScene.Signals;
-using ProjectTemplate.Infrastructure.SignalBus;
+using ProjectTemplate.Infrastructure.Templates;
 
 namespace ProjectTemplate.CrossScene
 {
-	public class SceneLoader : IInitializable, IDisposable
+	public class SceneLoader : SignalListener
 	{
-		[Inject] SignalBus _signalBus;
-		
-		public void Initialize()
+		protected override void SubscribeToSignals()
 		{
 			_signalBus.Subscribe<LoadSceneSignal>(OnLoadSceneMessage);
+		}
+
+		protected override void UnsubscribeToSignals()
+		{
+			_signalBus.Unsubscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 
 		private void OnLoadSceneMessage(LoadSceneSignal signal)
@@ -24,11 +24,6 @@ namespace ProjectTemplate.CrossScene
 			DOTween.KillAll();
 			GC.Collect();
 			SceneManager.LoadSceneAsync(signal.sceneID);
-		}
-
-		public void Dispose()
-		{
-			_signalBus.Unsubscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 	}
 }

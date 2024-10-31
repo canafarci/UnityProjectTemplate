@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using VContainer;
 using VContainer.Unity;
 
-namespace ProjectTemplate.Infrastructure.SignalBus
+namespace ProjectTemplate.Infrastructure.Signals
 {
 	public static class ContainerBuilderExtensions
 	{

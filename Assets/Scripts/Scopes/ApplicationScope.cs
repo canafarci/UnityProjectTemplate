@@ -8,8 +8,8 @@ using ProjectTemplate.CrossScene.Audio;
 using ProjectTemplate.CrossScene.Data;
 using ProjectTemplate.CrossScene.Haptic;
 using ProjectTemplate.CrossScene.Signals;
-using ProjectTemplate.Data.Persistent;
-using ProjectTemplate.Infrastructure.SignalBus;
+using ProjectTemplate.Gameplay.Signals;
+using ProjectTemplate.Infrastructure.Signals;
 
 namespace ProjectTemplate.Scopes
 {
@@ -58,6 +58,10 @@ namespace ProjectTemplate.Scopes
 			builder.DeclareSignal<ChangeHapticActivationSignal>();
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
+			
+			//Gameplay
+			builder.DeclareSignal<GameStateChangedSignal>();
+			builder.DeclareSignal<ChangeGameStateSignal>();
 		}
 	}
 }

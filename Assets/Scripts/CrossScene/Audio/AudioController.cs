@@ -7,14 +7,13 @@ using VContainer.Unity;
 
 using ProjectTemplate.CrossScene.Enums;
 using ProjectTemplate.CrossScene.Signals;
-using ProjectTemplate.Infrastructure.SignalBus;
+using ProjectTemplate.Infrastructure.Signals;
+using ProjectTemplate.Infrastructure.Templates;
 
 namespace ProjectTemplate.CrossScene.Audio
 {
-    public class AudioController : IInitializable, IDisposable
+    public class AudioController : SignalListener
     {
-        [Inject] SignalBus _signalBus;
-        
         private readonly IAudioModel _audioModel;
         private readonly AudioMediator _mediator;
 
@@ -24,7 +23,7 @@ namespace ProjectTemplate.CrossScene.Audio
             _mediator = mediator;
         }
 
-        public void Initialize()
+        protected override void SubscribeToSignals()
         {
             _signalBus.Subscribe<ChangeAudioSettingsSignal>(AudioSettingsChangeHandler);
             _signalBus.Subscribe<PlayAudioSignal>(PlayAudioMessageHandler);
@@ -63,7 +62,7 @@ namespace ProjectTemplate.CrossScene.Audio
             }        
         }
         
-        public void Dispose()
+        protected override void UnsubscribeToSignals()
         {
             _signalBus.Unsubscribe<ChangeAudioSettingsSignal>(AudioSettingsChangeHandler);
             _signalBus.Unsubscribe<PlayAudioSignal>(PlayAudioMessageHandler);

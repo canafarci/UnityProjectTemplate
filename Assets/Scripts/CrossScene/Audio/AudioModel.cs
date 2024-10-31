@@ -1,8 +1,8 @@
+using ProjectTemplate.CrossScene.Data;
 using UnityEngine;
 using UnityEngine.Audio;
 
 using ProjectTemplate.CrossScene.Enums;
-using ProjectTemplate.Data.Persistent;
 
 namespace ProjectTemplate.CrossScene.Audio
 {

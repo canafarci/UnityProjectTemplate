@@ -10,7 +10,7 @@ using ProjectTemplate.CrossScene.Enums;
 using ProjectTemplate.CrossScene.Haptic;
 using ProjectTemplate.CrossScene.Signals;
 using ProjectTemplate.Gameplay.Enums;
-using ProjectTemplate.Infrastructure.SignalBus;
+using ProjectTemplate.Infrastructure.Signals;
 
 namespace ProjectTemplate.Gameplay.GameSceneSettings
 {

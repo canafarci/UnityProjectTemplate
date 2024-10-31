@@ -7,7 +7,7 @@ using VContainer;
 using VContainer.Unity;
 
 using ProjectTemplate.CrossScene.Signals;
-using ProjectTemplate.Infrastructure.SignalBus;
+using ProjectTemplate.Infrastructure.Signals;
 
 namespace ProjectTemplate.Bootstrap
 {

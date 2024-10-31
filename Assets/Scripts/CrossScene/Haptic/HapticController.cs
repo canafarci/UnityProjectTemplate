@@ -1,24 +1,20 @@
-using System;
-
 using Lofelt.NiceVibrations;
 
 using VContainer;
-using VContainer.Unity;
 
-using ProjectTemplate.Infrastructure.SignalBus;
 using ProjectTemplate.CrossScene.Signals;
+using ProjectTemplate.Infrastructure.Templates;
 
 namespace ProjectTemplate.CrossScene.Haptic
 {
-	public class HapticController : IInitializable, IDisposable
+	public class HapticController : SignalListener
 	{
-		[Inject] private SignalBus _signalBus;
 		[Inject] private IHapticModel _hapticModel;
-		
-		public void Initialize()
+
+		protected override void SubscribeToSignals()
 		{
 			_signalBus.Subscribe<PlayHapticSignal>(OnPlayHapticMessage);
-			_signalBus.Subscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);
+			_signalBus.Subscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);		
 		}
 		
 		private void OnPlayHapticMessage(PlayHapticSignal signal)
@@ -28,12 +24,12 @@ namespace ProjectTemplate.CrossScene.Haptic
 			HapticPatterns.PlayPreset(signal.hapticType);
 		}
 		
-		private void OnChangeHapticActivationSignal(ChangeHapticActivationSignal obj)
+		private void OnChangeHapticActivationSignal(ChangeHapticActivationSignal signal)
 		{
 			_hapticModel.ChangeHapticActivation();
 		}
-
-		public void Dispose()
+		
+		protected override void UnsubscribeToSignals()
 		{
 			_signalBus.Unsubscribe<PlayHapticSignal>(OnPlayHapticMessage);
 			_signalBus.Unsubscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);

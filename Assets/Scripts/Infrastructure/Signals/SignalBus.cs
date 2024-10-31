@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace ProjectTemplate.Infrastructure.SignalBus
+namespace ProjectTemplate.Infrastructure.Signals
 {
 	public sealed class SignalBus
 	{

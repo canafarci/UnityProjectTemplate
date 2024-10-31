@@ -1,7 +1,9 @@
-using Gameplay.GameplayLifecycle;
-using ProjectTemplate.Gameplay.GameSceneSettings;
 using VContainer;
 using VContainer.Unity;
+
+using ProjectTemplate.Gameplay.GameplayLifecycle;
+using ProjectTemplate.Gameplay.GameplayLifecycle.GameStates;
+using ProjectTemplate.Gameplay.GameSceneSettings;
 
 namespace ProjectTemplate.Scopes
 {
@@ -12,10 +14,11 @@ namespace ProjectTemplate.Scopes
 			RegisterInGameSettings(builder);
 			RegisterGameplayLifecycleManagers(builder);
 		}
-
+		
 		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
 		{
 			builder.RegisterEntryPoint<GameplayEntryPoint>();
+			builder.RegisterEntryPoint<GameStateController>();
 		}
 
 		private void RegisterInGameSettings(IContainerBuilder builder)
