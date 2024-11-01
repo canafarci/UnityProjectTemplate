@@ -45,5 +45,10 @@ namespace ProjectTemplate.Gameplay.UI.GameOverPanel
 		{
 			_view.continueButton.onClick.RemoveAllListeners();
 		}
+
+		public void DisableContinueButton()
+		{
+			_view.continueButton.interactable = false;
+		}
 	}
 }

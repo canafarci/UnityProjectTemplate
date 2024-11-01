@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ProjectTemplate.CrossScene.Data
@@ -13,7 +14,7 @@ namespace ProjectTemplate.CrossScene.Data
 		private	const string LEVEL_VISUAL_NUMBER = "LEVEL_VISUAL_NUMBER";
 		private	const string PERSISTENT_DATA_PATH = "PERSISTENT_DATA";
 		private	const string IS_FIRST_TIME_PLAYING = "IS_FIRST_TIME_PLAYING";
-		private const int LOOPING_LEVEL_INDEX = 2;
+		private const int LEVEL_TO_START_LOOPING_INDEX = 1;
 
 		public int levelToLoadIndex => _levelToLoadIndex;
 		public int levelVisualDisplayNumber => _levelVisualDisplayNumber;
@@ -31,9 +32,9 @@ namespace ProjectTemplate.CrossScene.Data
 			int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 				
 			int sceneCount = SceneManager.sceneCountInBuildSettings;
-			if (currentSceneIndex + 1 == sceneCount)
+			if (currentSceneIndex + 1 >= sceneCount)
 			{
-				targetSceneIndex = LOOPING_LEVEL_INDEX;
+				targetSceneIndex = LEVEL_TO_START_LOOPING_INDEX;
 			}
 			else
 			{

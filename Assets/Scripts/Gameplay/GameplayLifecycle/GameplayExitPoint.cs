@@ -5,6 +5,7 @@ using VContainer;
 using ProjectTemplate.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Gameplay.Signals;
 using ProjectTemplate.Infrastructure.Templates;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ProjectTemplate.Gameplay.GameplayLifecycle

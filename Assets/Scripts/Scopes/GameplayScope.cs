@@ -20,7 +20,7 @@ namespace ProjectTemplate.Scopes
 		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
 		{
 			builder.RegisterEntryPoint<GameplayEntryPoint>();
-			builder.Register<GameplayExitPoint>(Lifetime.Singleton);
+			builder.RegisterEntryPoint<GameplayExitPoint>();
 			builder.RegisterEntryPoint<GameStateController>();
 			builder.Register<IGameStateModel, GameStateModel>(Lifetime.Singleton);
 		}

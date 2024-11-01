@@ -26,6 +26,7 @@ namespace ProjectTemplate.Gameplay.UI.GameOverPanel
 		private void ContinueButtonClickedHandler()
 		{
 			_signalBus.Fire(new ExitGameplayLevelSignal());
+			_mediator.DisableContinueButton();
 		}
 
 		private void OnGameStateChangedSignal(GameStateChangedSignal signal)
@@ -33,7 +34,6 @@ namespace ProjectTemplate.Gameplay.UI.GameOverPanel
 			if (signal.newState == GameState.GameOver)
 			{
 				_mediator.ActivateGameOverPanel(_gameStateModel.isGameWon);
-				Debug.Log("Called");
 			}
 		}
 

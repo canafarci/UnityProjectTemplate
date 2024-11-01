@@ -18,9 +18,6 @@ namespace ProjectTemplate.Gameplay.GameplayLifecycle
 			InitializeGameplay();
 			
 			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
-			
-			_signalBus.Fire(new SetGameResultSignal(isGameWon: true));
-			_signalBus.Fire(new ChangeGameStateSignal(GameState.GameOver));
 		}
 
 		private void InitializeGameplay()
