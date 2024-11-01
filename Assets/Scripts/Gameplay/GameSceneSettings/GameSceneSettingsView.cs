@@ -17,7 +17,7 @@ namespace ProjectTemplate.Gameplay.GameSceneSettings
         [SerializeField] private Button SoundButton;
         [SerializeField] private Button ReloadButton;
         [SerializeField] private Button MusicButton;
-        [SerializeField] private GameObject BackgroundImage;
+        [SerializeField] private Image BackgroundImage;
         [SerializeField] private List<Transform> ButtonTransforms;
         [SerializeField] private Dictionary<SettingType, GameObject> SettingsOffGameObjects;
 
@@ -28,6 +28,6 @@ namespace ProjectTemplate.Gameplay.GameSceneSettings
         public Button reloadButton => ReloadButton;
         public Dictionary<SettingType, GameObject> settingsOffGameObjects => SettingsOffGameObjects;
         public List<Transform> buttonTransforms => ButtonTransforms;
-        public GameObject backgroundImage => BackgroundImage;
+        public Image backgroundImage => BackgroundImage;
     }
 }

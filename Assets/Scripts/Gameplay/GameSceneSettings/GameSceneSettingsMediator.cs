@@ -6,6 +6,7 @@ using VContainer.Unity;
 
 using ProjectTemplate.CrossScene.Enums;
 using ProjectTemplate.Gameplay.Enums;
+using UnityEngine;
 
 namespace ProjectTemplate.Gameplay.GameSceneSettings
 {
@@ -38,23 +39,39 @@ namespace ProjectTemplate.Gameplay.GameSceneSettings
         public async UniTask AnimateButtons(PanelActivationState lastActivationState)
         {
             int buttonTransformsCount = _view.buttonTransforms.Count;
-            
-            if (lastActivationState == PanelActivationState.Inactive)
-            {
-                _view.backgroundImage.SetActive(true);
-                
-                for (int i = 0; i < buttonTransformsCount; i++)
-                   await _view.buttonTransforms[i].transform.DOLocalMoveX(ON_X_POS, 0.1f);
-            }
-            else
-            {
-                _view.backgroundImage.SetActive(false);
 
-                for (int i = buttonTransformsCount - 1; i >= 0; i--)
-                    await _view.buttonTransforms[i].transform.DOLocalMoveX(OFF_X_POS, 0.1f);
+            switch (lastActivationState)
+            {
+                case PanelActivationState.Inactive:
+                {
+                    _view.backgroundImage.gameObject.SetActive(true);
+                    AnimateBackgroundAlpha(0f, 0.9f, .2f);
+
+                    for (int i = 0; i < buttonTransformsCount; i++)
+                        await _view.buttonTransforms[i].transform.DOLocalMoveX(ON_X_POS, 0.1f).SetEase(Ease.OutBack);
+                    break;
+                }
+                    case PanelActivationState.Active:
+                {
+                    _view.backgroundImage.gameObject.SetActive(false);
+
+                    for (int i = buttonTransformsCount - 1; i >= 0; i--)
+                        await _view.buttonTransforms[i].transform.DOLocalMoveX(OFF_X_POS, 0.1f).SetEase(Ease.InBack);;
+                    break;
+                }
+                default:
+                    break;
             }
         }
-        
+
+        private void AnimateBackgroundAlpha(float startValue, float endValue, float duration)
+        {
+            Color color = _view.backgroundImage.color;
+            color.a = startValue;
+            _view.backgroundImage.color = color;
+            DOTween.ToAlpha(()=> _view.backgroundImage.color, x=> _view.backgroundImage.color = x, endValue, duration);
+        }
+
         public void Dispose()
         {
             _view.hapticButton.onClick.RemoveAllListeners();

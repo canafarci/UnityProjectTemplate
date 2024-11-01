@@ -217,7 +217,7 @@ MonoBehaviour:
   SoundButton: {fileID: 4409324146101849309}
   ReloadButton: {fileID: 4947343118788222832}
   MusicButton: {fileID: 2961965397784658669}
-  BackgroundImage: {fileID: 7754898327023129672}
+  BackgroundImage: {fileID: 7145287039312366535}
   ButtonTransforms:
   - {fileID: 6352317877101969588}
   - {fileID: 718855905640900578}
