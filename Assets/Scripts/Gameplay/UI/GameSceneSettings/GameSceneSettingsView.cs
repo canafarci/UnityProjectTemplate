@@ -1,14 +1,10 @@
+using System.Collections.Generic;
+using ProjectTemplate.CrossScene.Enums;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-using System.Collections.Generic;
-
-using Sirenix.OdinInspector;
-
-using ProjectTemplate.CrossScene.Enums;
-using UnityEngine.Serialization;
-
-namespace ProjectTemplate.Gameplay.GameSceneSettings
+namespace ProjectTemplate.Gameplay.UI.GameSceneSettings
 {
     public class GameSceneSettingsView : SerializedMonoBehaviour
     {

@@ -1,14 +1,12 @@
 using System;
-
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using VContainer.Unity;
-
 using ProjectTemplate.CrossScene.Enums;
 using ProjectTemplate.Gameplay.Enums;
-using UnityEngine;
+using ProjectTemplate.Utility.Extensions;
+using VContainer.Unity;
 
-namespace ProjectTemplate.Gameplay.GameSceneSettings
+namespace ProjectTemplate.Gameplay.UI.GameSceneSettings
 {
     public class GameSceneSettingsMediator : IInitializable, IDisposable
     {
@@ -45,7 +43,7 @@ namespace ProjectTemplate.Gameplay.GameSceneSettings
                 case PanelActivationState.Inactive:
                 {
                     _view.backgroundImage.gameObject.SetActive(true);
-                    AnimateBackgroundAlpha(0f, 0.9f, .2f);
+                    _view.backgroundImage.AnimateBackgroundAlpha(0f, 0.9f, .2f);
 
                     for (int i = 0; i < buttonTransformsCount; i++)
                         await _view.buttonTransforms[i].transform.DOLocalMoveX(ON_X_POS, 0.1f).SetEase(Ease.OutBack);
@@ -64,13 +62,7 @@ namespace ProjectTemplate.Gameplay.GameSceneSettings
             }
         }
 
-        private void AnimateBackgroundAlpha(float startValue, float endValue, float duration)
-        {
-            Color color = _view.backgroundImage.color;
-            color.a = startValue;
-            _view.backgroundImage.color = color;
-            DOTween.ToAlpha(()=> _view.backgroundImage.color, x=> _view.backgroundImage.color = x, endValue, duration);
-        }
+
 
         public void Dispose()
         {

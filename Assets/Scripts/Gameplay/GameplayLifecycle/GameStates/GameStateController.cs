@@ -6,11 +6,23 @@ namespace ProjectTemplate.Gameplay.GameplayLifecycle.GameStates
 {
 	public class GameStateController : SignalListener
 	{
+		private readonly IGameStateModel _gameStateModel;
 		private GameState _currentState;
 
-		protected override void SubscribeToSignals()
+		public GameStateController(IGameStateModel gameStateModel)
+		{
+			_gameStateModel = gameStateModel;
+		}
+
+		protected override void SubscribeToEvents()
 		{
 			_signalBus.Subscribe<ChangeGameStateSignal>(OnChangeGameStateSignal);
+			_signalBus.Subscribe<SetGameResultSignal>(OnSetGameResultSignal);
+		}
+		
+		private void OnSetGameResultSignal(SetGameResultSignal signal)
+		{
+			_gameStateModel.SetGameIsWon(signal.isGameWon);
 		}
 
 		private void OnChangeGameStateSignal(ChangeGameStateSignal signal)
@@ -21,9 +33,10 @@ namespace ProjectTemplate.Gameplay.GameplayLifecycle.GameStates
 			_signalBus.Fire(new GameStateChangedSignal(_currentState, oldState));
 		}
 		
-		protected override void UnsubscribeToSignals()
+		protected override void UnsubscribeFromEvents()
 		{
 			_signalBus.Unsubscribe<ChangeGameStateSignal>(OnChangeGameStateSignal);
+			_signalBus.Unsubscribe<SetGameResultSignal>(OnSetGameResultSignal);
 		}
 	}
 }

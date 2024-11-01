@@ -1,18 +1,15 @@
-using UnityEngine.SceneManagement;
-
 using System;
-
-using VContainer;
-using VContainer.Unity;
-
 using ProjectTemplate.CrossScene.Audio;
 using ProjectTemplate.CrossScene.Enums;
 using ProjectTemplate.CrossScene.Haptic;
 using ProjectTemplate.CrossScene.Signals;
 using ProjectTemplate.Gameplay.Enums;
 using ProjectTemplate.Infrastructure.Signals;
+using UnityEngine.SceneManagement;
+using VContainer;
+using VContainer.Unity;
 
-namespace ProjectTemplate.Gameplay.GameSceneSettings
+namespace ProjectTemplate.Gameplay.UI.GameSceneSettings
 {
     public class GameSceneSettingsController : IInitializable, IDisposable
     {

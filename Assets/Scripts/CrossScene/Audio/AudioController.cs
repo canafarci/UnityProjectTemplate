@@ -23,7 +23,7 @@ namespace ProjectTemplate.CrossScene.Audio
             _mediator = mediator;
         }
 
-        protected override void SubscribeToSignals()
+        protected override void SubscribeToEvents()
         {
             _signalBus.Subscribe<ChangeAudioSettingsSignal>(AudioSettingsChangeHandler);
             _signalBus.Subscribe<PlayAudioSignal>(PlayAudioMessageHandler);
@@ -62,7 +62,7 @@ namespace ProjectTemplate.CrossScene.Audio
             }        
         }
         
-        protected override void UnsubscribeToSignals()
+        protected override void UnsubscribeFromEvents()
         {
             _signalBus.Unsubscribe<ChangeAudioSettingsSignal>(AudioSettingsChangeHandler);
             _signalBus.Unsubscribe<PlayAudioSignal>(PlayAudioMessageHandler);

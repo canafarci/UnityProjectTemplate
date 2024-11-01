@@ -11,7 +11,7 @@ namespace ProjectTemplate.CrossScene.Haptic
 	{
 		[Inject] private IHapticModel _hapticModel;
 
-		protected override void SubscribeToSignals()
+		protected override void SubscribeToEvents()
 		{
 			_signalBus.Subscribe<PlayHapticSignal>(OnPlayHapticMessage);
 			_signalBus.Subscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);		
@@ -29,7 +29,7 @@ namespace ProjectTemplate.CrossScene.Haptic
 			_hapticModel.ChangeHapticActivation();
 		}
 		
-		protected override void UnsubscribeToSignals()
+		protected override void UnsubscribeFromEvents()
 		{
 			_signalBus.Unsubscribe<PlayHapticSignal>(OnPlayHapticMessage);
 			_signalBus.Unsubscribe<ChangeHapticActivationSignal>(OnChangeHapticActivationSignal);

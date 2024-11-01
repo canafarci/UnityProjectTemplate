@@ -62,6 +62,8 @@ namespace ProjectTemplate.Scopes
 			//Gameplay
 			builder.DeclareSignal<GameStateChangedSignal>();
 			builder.DeclareSignal<ChangeGameStateSignal>();
+			builder.DeclareSignal<SetGameResultSignal>();
+			builder.DeclareSignal<ExitGameplayLevelSignal>();
 		}
 	}
 }

@@ -190,6 +190,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Over Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3343841638362729086, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563319050614, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563319052532, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563320653558, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563334918206, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563334918206, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979988563334918206, guid: 2c03cad12f7194889abbfe5deae6c982,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8824390181802672882, guid: 2c03cad12f7194889abbfe5deae6c982,
         type: 3}
       propertyPath: m_Pivot.x

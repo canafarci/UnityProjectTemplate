@@ -9,12 +9,12 @@ namespace ProjectTemplate.CrossScene
 {
 	public class SceneLoader : SignalListener
 	{
-		protected override void SubscribeToSignals()
+		protected override void SubscribeToEvents()
 		{
 			_signalBus.Subscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 
-		protected override void UnsubscribeToSignals()
+		protected override void UnsubscribeFromEvents()
 		{
 			_signalBus.Unsubscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}

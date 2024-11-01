@@ -13,15 +13,15 @@ namespace ProjectTemplate.Infrastructure.Templates
 		
 		public virtual void Initialize()
 		{
-			SubscribeToSignals();
+			SubscribeToEvents();
 		}
 		
-		protected abstract void SubscribeToSignals();
-		protected abstract void UnsubscribeToSignals();
+		protected abstract void SubscribeToEvents();
+		protected abstract void UnsubscribeFromEvents();
 		
 		public virtual void Dispose()
 		{
-			UnsubscribeToSignals();
+			UnsubscribeFromEvents();
 		}
 	}
 }
