@@ -1,9 +1,9 @@
+using VContainer;
+using VContainer.Unity;
+
 using ProjectTemplate.Gameplay.Enums;
 using ProjectTemplate.Gameplay.Signals;
 using ProjectTemplate.Infrastructure.Signals;
-using UnityEngine;
-using VContainer;
-using VContainer.Unity;
 
 namespace ProjectTemplate.Gameplay.GameplayLifecycle
 {

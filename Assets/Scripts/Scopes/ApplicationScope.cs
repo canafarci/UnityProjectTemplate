@@ -9,28 +9,32 @@ using ProjectTemplate.CrossScene.Data;
 using ProjectTemplate.CrossScene.Haptic;
 using ProjectTemplate.CrossScene.Signals;
 using ProjectTemplate.Gameplay.Signals;
+using ProjectTemplate.Infrastructure.Pool;
 using ProjectTemplate.Infrastructure.Signals;
 
 namespace ProjectTemplate.Scopes
 {
 	public class ApplicationScope : LifetimeScope
 	{
-		[SerializeField] AudioDataSO _audioDataSO;
-		[SerializeField] private AudioView _audioView;
+		[SerializeField] private AudioDataSO AudioDataSO;
+		[SerializeField] private AudioView AudioView;
+		[SerializeField] private PoolConfig PoolConfig;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
 			RegisterInstances(builder);
 			RegisterEntryPoints(builder);
 			RegisterServices(builder);
+			
 			RegisterSignalBus(builder);
+			RegisterPoolManager(builder);
 			RegisterSignals(builder);
 		}
 
 		private void RegisterInstances(IContainerBuilder builder)
 		{
-			builder.RegisterInstance(_audioDataSO);
-			builder.RegisterInstance(_audioView);
+			builder.RegisterInstance(AudioDataSO);
+			builder.RegisterInstance(AudioView);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
@@ -50,6 +54,7 @@ namespace ProjectTemplate.Scopes
 		}
 		
 		private void RegisterSignalBus(IContainerBuilder builder) => builder.RegisterSignalBus();
+		private void RegisterPoolManager(IContainerBuilder builder) => builder.RegisterPoolManager(PoolConfig);
 
 		private void RegisterSignals(IContainerBuilder builder)
 		{

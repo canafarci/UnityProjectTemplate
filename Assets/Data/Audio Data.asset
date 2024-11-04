@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aa65171b06f4240ac5a5490d532357d, type: 3}
-  m_Name: Sounds Data
+  m_Name: Audio Data
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2

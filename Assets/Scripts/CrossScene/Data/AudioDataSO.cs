@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 namespace ProjectTemplate.CrossScene.Data
 {
-    [CreateAssetMenu(fileName = "Sounds Data", menuName = "ProjectTemplate/Sounds Data", order = 0)]
+    [CreateAssetMenu(fileName = "Audio Data", menuName = "Infrastructure/Sounds Data", order = 0)]
     public class AudioDataSO : SerializedScriptableObject
     {
         [SerializeField] private AudioMixer _audioMixer;

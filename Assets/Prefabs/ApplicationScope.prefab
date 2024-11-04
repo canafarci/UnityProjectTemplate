@@ -400,5 +400,6 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _audioDataSO: {fileID: 11400000, guid: 20a7e24eaa0f545b680bc1905df674e4, type: 2}
-  _audioView: {fileID: 9013529549580266518}
+  AudioDataSO: {fileID: 11400000, guid: 20a7e24eaa0f545b680bc1905df674e4, type: 2}
+  AudioView: {fileID: 0}
+  PoolConfig: {fileID: 11400000, guid: 1bb4d5465cfab4c8d89b88e42d40fc3e, type: 2}
