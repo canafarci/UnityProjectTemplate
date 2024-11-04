@@ -30,7 +30,7 @@ namespace ProjectTemplate.Infrastructure.Signals
 
 		public static void RegisterPoolManager(this IContainerBuilder builder, PoolConfig poolConfig)
 		{
-			builder.Register<PoolManager>(resolver => new PoolManager(poolConfig), Lifetime.Singleton);
+			builder.RegisterEntryPoint<PoolManager>(resolver => new PoolManager(poolConfig), Lifetime.Singleton).AsSelf();
 		}
 	}
 }

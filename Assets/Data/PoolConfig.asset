@@ -21,7 +21,4 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  PoolEntries:
-  - PoolID: 
-    Prefab: {fileID: 0}
-    IsMonoBehaviour: 0
+  PoolEntries: []

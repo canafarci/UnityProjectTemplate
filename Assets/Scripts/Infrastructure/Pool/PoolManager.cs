@@ -1,15 +1,20 @@
+using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Pool;
+
 using System;
 using System.Collections.Generic;
-using ProjectTemplate.Infrastructure.Pool.Enums;
-using UnityEngine;
-using UnityEngine.Pool;
+
 using VContainer.Unity;
+
+using ProjectTemplate.Infrastructure.Pool.Enums;
 
 namespace ProjectTemplate.Infrastructure.Pool
 {
 	public class PoolManager : IInitializable
 	{
-		private readonly Dictionary<PoolID, object> _pools = new();
+		private readonly Dictionary<PoolID, object> _monoPools = new();
+		private readonly Dictionary<PoolID, object> _genericPools = new();
 		private readonly PoolConfig _config;
 
 		public PoolManager(PoolConfig config)
@@ -19,50 +24,90 @@ namespace ProjectTemplate.Infrastructure.Pool
 
 		public void Initialize()
 		{
-			foreach (PoolConfig.PoolEntry entry in _config.PoolEntries)
+			foreach (PoolEntry entry in _config.PoolEntries)
 			{
+				PoolID poolID = Enum.Parse<PoolID>(entry.PoolID);
+
 				if (entry.IsMonoBehaviour && entry.Prefab != null)
 				{
-					// Use ObjectPool for MonoBehaviour-based prefabs
-					ObjectPool<GameObject> pool = new(
-					                                  () => GameObject.Instantiate(entry.Prefab),
-					                                  obj => obj.SetActive(true),
-					                                  obj => obj.SetActive(false),
-					                                  GameObject.Destroy,
-					                                  false,
-					                                  10);
+					// Get the specific MonoBehaviour type from the prefab
+					Type monoType = entry.ClassType;
 
-					_pools[Enum.Parse<PoolID>(entry.PoolID)] = pool;
+					// Create GenericMonoPool<T> where T is the MonoBehaviour type
+					Type generic = typeof(GenericMonoPool<>);
+					Type poolType = generic.MakeGenericType(monoType);
+
+					// Use the constructor that takes a GameObject parameter
+					object pool = Activator.CreateInstance(poolType, new object[] { entry.Prefab });
+
+					_monoPools[poolID] = pool;
 				}
 				else if (!entry.IsMonoBehaviour && entry.ClassType != null)
 				{
-					// Use ObjectPool for plain C# classes
-					Type poolType = typeof(ObjectPool<>).MakeGenericType(entry.ClassType);
-					Func<object> createFunc = Delegate.CreateDelegate(
-					                                                  typeof(Func<>).MakeGenericType(entry.ClassType),
-					                                                  this,
-					                                                  nameof(CreateInstance)) as Func<object>;
+					// Get the specific MonoBehaviour type from the prefab
+					Type type = entry.ClassType;
 
-					object pool = Activator.CreateInstance(poolType, createFunc, null, null, false, 10);
-					_pools[Enum.Parse<PoolID>(entry.PoolID)] = pool;
+					// Create GenericMonoPool<T> where T is the MonoBehaviour type
+					Type generic = typeof(GenericPool<>);
+					Type poolType = generic.MakeGenericType(type);
+
+					// Use the constructor that takes a GameObject parameter
+					object pool = Activator.CreateInstance(poolType);
+					
+					_genericPools[poolID] = pool;
 				}
 			}
 		}
 
-		private object CreateInstance(Type type) => Activator.CreateInstance(type);
-
-		public T Get<T>(PoolID id) where T : class
+		public T GetMono<T>(PoolID id) where T : MonoBehaviour
 		{
-			if (_pools.TryGetValue(id, out object pool) && pool is ObjectPool<T> objectPool) return objectPool.Get();
-			throw new Exception($"No pool found for ID {id}");
+			if (_monoPools.TryGetValue(id, out object poolObj))
+			{
+				var pool = poolObj as GenericMonoPool<T>;
+				Assert.IsNotNull(pool, "Pool object is null.");
+
+				return pool.Get();
+			}
+			
+			throw new InvalidOperationException($"No pool found for ID {id} of type {typeof(T)}.");
+		}
+		
+		public T GetGeneric<T>(PoolID id) where T : class, IPoolable
+		{
+			if (_genericPools.TryGetValue(id, out object poolObj))
+			{
+				GenericPool<T> pool = poolObj as GenericPool<T>;
+				Assert.IsNotNull(pool, "Pool object is null.");
+				return pool.Get();
+			}
+			
+			throw new InvalidOperationException($"No pool found for ID {id} of type {typeof(T)}.");
 		}
 
-		public void Release<T>(PoolID id, T obj) where T : class
+		public void ReleaseMono<T>(PoolID id, T obj) where T : MonoBehaviour
 		{
-			if (_pools.TryGetValue(id, out object pool) && pool is ObjectPool<T> objectPool)
-				objectPool.Release(obj);
+			if (_monoPools.TryGetValue(id, out object poolObj))
+			{
+				GenericMonoPool<T> pool = poolObj as GenericMonoPool<T>;
+				Assert.IsNotNull(pool, "Pool object is null.");
+
+				pool.Release(obj);
+			}
 			else
-				Debug.LogError($"No pool found for ID {id}");
+				Debug.LogError($"No pool found for ID {id} of type {typeof(T)}.");
+		}
+		
+		public void ReleaseGeneric<T>(PoolID id, T obj) where T : class, IPoolable
+		{
+			if (_genericPools.TryGetValue(id, out object poolObj))
+			{
+				GenericPool<T> pool = poolObj as GenericPool<T>;
+				Assert.IsNotNull(pool, "Pool object is null.");
+
+				pool.Release(obj);
+			}
+			else
+				Debug.LogError($"No pool found for ID {id} of type {typeof(T)}.");
 		}
 	}
 }

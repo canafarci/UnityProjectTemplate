@@ -1,53 +1,25 @@
 using UnityEngine;
-
 using Sirenix.OdinInspector;
-
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ProjectTemplate.Infrastructure.Pool
 {
 	[CreateAssetMenu(fileName = "PoolConfig", menuName = "Infrastructure/PoolConfig")]
 	public class PoolConfig : SerializedScriptableObject
 	{
-		[Serializable]
-		public class PoolEntry
+		[TableList]
+		public List<PoolEntry> PoolEntries = new();
+
+		[Button(ButtonSizes.Large)] 
+		[GUIColor(0.4f, 0.8f, 1.0f)]
+		private void UpdatePoolIDEnum()
 		{
-			[HorizontalGroup("ID")]
-			[HideLabel]
-			public string PoolID;
-
-			[HorizontalGroup("Prefab")]
-			[HideLabel]
-			[ShowIf("@this.isMonoBehaviour")]
-			public GameObject Prefab;
-
-			[HorizontalGroup("Class")]
-			[HideLabel]
-			[ShowIf("@!this.isMonoBehaviour")]
-			[ValueDropdown("GetClassTypes")]
-			public Type ClassType;
-
-			[HorizontalGroup("IsMono")]
-			[HideLabel]
-			public bool IsMonoBehaviour;
-
-			// Odin Inspector dropdown for selecting available classes
-			private static IEnumerable<Type> GetClassTypes()
+			PoolEnumFileUpdater fileEnumFileUpdater = new PoolEnumFileUpdater();
+			
+			using (fileEnumFileUpdater)
 			{
-				var types = new List<Type>();
-				foreach (Type type in AppDomain.CurrentDomain.GetAssemblies()
-				                               .SelectMany(assembly => assembly.GetTypes())
-				                               .Where(t => t.IsClass && !t.IsAbstract))
-				{
-					types.Add(type);
-				}
-				return types;
+				fileEnumFileUpdater.UpdateEnumFile(PoolEntries);
 			}
 		}
-
-		[TableList]
-		public List<PoolEntry> PoolEntries = new List<PoolEntry>();
 	}
 }
