@@ -44,13 +44,6 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 			_gameStateController.Initialize();
 		}
 
-		[TearDown]
-		public void TearDown()
-		{
-			_gameStateController.Dispose();
-			_container.Dispose();
-		}
-
 		[Test]
 		public void Should_Subscribe_To_ChangeGameStateSignal_And_SetGameResultSignal_On_Initialize()
 		{
