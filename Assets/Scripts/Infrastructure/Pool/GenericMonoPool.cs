@@ -35,6 +35,7 @@ namespace ProjectTemplate.Infrastructure.Pool
 		private T OnCreate()
 		{
 			T mono = GameObject.Instantiate(_prefab).GetComponent<T>();
+			MonoBehaviour.DontDestroyOnLoad(mono.gameObject);
 			return mono;
 		}
 

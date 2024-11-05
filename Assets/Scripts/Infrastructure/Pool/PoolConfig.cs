@@ -9,17 +9,5 @@ namespace ProjectTemplate.Infrastructure.Pool
 	{
 		[TableList]
 		public List<PoolEntry> PoolEntries = new();
-
-		[Button(ButtonSizes.Large)] 
-		[GUIColor(0.4f, 0.8f, 1.0f)]
-		private void UpdatePoolIDEnum()
-		{
-			PoolEnumFileUpdater fileEnumFileUpdater = new PoolEnumFileUpdater();
-			
-			using (fileEnumFileUpdater)
-			{
-				fileEnumFileUpdater.UpdateEnumFile(PoolEntries);
-			}
-		}
 	}
 }

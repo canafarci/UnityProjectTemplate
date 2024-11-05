@@ -9,10 +9,6 @@ namespace ProjectTemplate.Infrastructure.Pool
 	[Serializable]
 	public class PoolEntry
 	{
-		[HorizontalGroup("ID")]
-		[HideLabel]
-		public string PoolID;
-
 		[HorizontalGroup("IsMono")]
 		[HideLabel]
 		public bool IsMonoBehaviour;
@@ -33,7 +29,7 @@ namespace ProjectTemplate.Infrastructure.Pool
 		public Type ClassType
 		{
 			get => Type.GetType(classTypeName);
-			set => classTypeName = value?.AssemblyQualifiedName;
+			set => classTypeName = value?.Name;
 		}
 
 		// Odin dropdown to show available classes
