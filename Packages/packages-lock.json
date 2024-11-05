@@ -17,6 +17,13 @@
       "dependencies": {},
       "hash": "f9fd769be7c634610f2a61aa914a1a55f34740e1"
     },
+    "com.github-glitchenzo.nugetforunity": {
+      "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0d0e4af9c79d63224ae26f1a3e822300b1475da7"
+    },
     "com.unity.burst": {
       "version": "1.8.13",
       "depth": 1,
@@ -167,6 +174,12 @@
       "source": "git",
       "dependencies": {},
       "hash": "4f099507f7c13bbb8ba00f4a91c78feeccc778ba"
+    },
+    "nuget-packages": {
+      "version": "file:nuget-packages",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

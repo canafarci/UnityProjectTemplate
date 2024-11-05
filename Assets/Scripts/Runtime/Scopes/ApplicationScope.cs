@@ -4,7 +4,7 @@ using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
-using ProjectTemplate.Runtime.Infrastructure.Pool;
+using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using UnityEngine;
 using VContainer;
