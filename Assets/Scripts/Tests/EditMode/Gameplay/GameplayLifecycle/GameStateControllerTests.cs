@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Reflection;
 using Moq;
@@ -34,7 +35,6 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 			builder.DeclareSignal<SetGameResultSignal>();
 			builder.DeclareSignal<GameStateChangedSignal>();
 
-
 			_container = builder.Build();
 
 			_signalBus = _container.Resolve<SignalBus>();
@@ -50,13 +50,17 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 			// Arrange
 			ChangeGameStateSignal changeGameStateSignal = new(GameState.Playing);
 			SetGameResultSignal setGameResultSignal = new (true);
-
+			bool receivedChangeGameStateSignal = false;
+			Action<GameStateChangedSignal> firstHandler = signal => receivedChangeGameStateSignal = true;
+			
 			// Act
+			_signalBus.Subscribe<GameStateChangedSignal>(firstHandler);
 			_signalBus.Fire(changeGameStateSignal);
 			_signalBus.Fire(setGameResultSignal);
 
 			// Assert that both events are handled correctly
 			_mockGameStateModel.Verify(m => m.SetGameIsWon(true), Times.Once);
+			Assert.IsTrue(receivedChangeGameStateSignal, "Did not receive GameStateChangedSignal");
 		}
 
 		
@@ -75,6 +79,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		    bool signalFired = false;
 		    
 		    _signalBus.Subscribe<GameStateChangedSignal>(Handler);
+		    
 		    // Subscribe to GameStateChangedSignal for verification
 		    void Handler(GameStateChangedSignal signal)
 		    {
@@ -108,8 +113,11 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		    _gameStateController.Dispose();
 		
 		    // Attempt to fire signals after disposal
-		    _signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
-		    _signalBus.Fire(new SetGameResultSignal(true));
+		    var firstException = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new ChangeGameStateSignal(GameState.Playing)));
+		    Assert.AreEqual("No subscribers for signal 'ChangeGameStateSignal'.", firstException.Message);
+		    
+		    var secondException = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new SetGameResultSignal(true)));
+		    Assert.AreEqual("No subscribers for signal 'SetGameResultSignal'.", secondException.Message);
 		
 		    // Assert that the methods were not called after disposal
 		    _mockGameStateModel.Verify(m => m.SetGameIsWon(It.IsAny<bool>()), Times.Never);
