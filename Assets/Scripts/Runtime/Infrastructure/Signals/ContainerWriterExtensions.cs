@@ -29,10 +29,5 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
 			// Clear the declared signals list to prevent issues if the container is built multiple times
 			DeclaredSignalTypes.Clear();
 		}
-
-		public static void RegisterPoolManager(this IContainerBuilder builder, PoolConfig poolConfig)
-		{
-			builder.RegisterEntryPoint<PoolManager>(resolver => new PoolManager(poolConfig), Lifetime.Singleton).AsSelf();
-		}
 	}
 }

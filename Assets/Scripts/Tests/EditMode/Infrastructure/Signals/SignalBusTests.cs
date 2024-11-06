@@ -1,10 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using Moq;
 using NUnit.Framework;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
+using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using UnityEngine;
 using UnityEngine.TestTools;
+using VContainer;
+using ContainerBuilderExtensions = ProjectTemplate.Runtime.Infrastructure.Signals.ContainerBuilderExtensions;
 
 namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
 {
@@ -18,6 +24,26 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
             // Define the signals that SignalBus should recognize
             List<Type> declaredSignals = new List<Type> { typeof(TestSignal) };
             _signalBus = new SignalBus(declaredSignals);
+        }
+
+        [Test] 
+        public void DeclareSignal_Should_Update_DeclaredSignalTypes()
+        {
+            //arrange
+            ContainerBuilder builder = new();
+            
+            //Act
+            builder.DeclareSignal<TestSignal>();
+            
+            //Assert
+            Type extensionsType = typeof(ContainerBuilderExtensions);
+
+            // Access the private static field 'DeclaredSignalTypes' via reflection
+            FieldInfo declaredSignalTypesField = extensionsType.GetField("DeclaredSignalTypes", BindingFlags.NonPublic | BindingFlags.Static);
+            // Get the value of 'DeclaredSignalTypes'
+            List<Type> declaredSignalTypes = (List<Type>)declaredSignalTypesField.GetValue(null);
+            
+            Assert.IsTrue(declaredSignalTypes.Contains(typeof(TestSignal)));
         }
 
         [Test]
