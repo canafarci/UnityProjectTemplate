@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.TestTools.TestRunner.Api;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ProjectTemplate.Editor
@@ -10,6 +12,8 @@ namespace ProjectTemplate.Editor
         private const string PREVIOUS_SCENE_KEY = "PreviousScene";
         private const string LOAD_SCENE_MODE_KEY = "LoadSceneMode";
         private const string SCENE_TO_LOAD_AFTER_BOOTSTRAP_KEY = "SceneToLoadAfterBootstrap";
+        
+        private const string IS_TESTING_KEY = "IsTestingPlayMode";
 
         private const string LOAD_BOOTSTRAP_SCENE_ON_PLAY = "Tools/Bootstrap Scene Loader/Load Bootstrap Scene On Play";
         private const string DONT_LOAD_BOOTSTRAP_SCENE_ON_PLAY = "Tools/Bootstrap Scene Loader/Don't Load Bootstrap Scene On Play";
@@ -95,8 +99,8 @@ namespace ProjectTemplate.Editor
 
         private static void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
         {
-            if (loadSceneMode == LoadSceneMode.DoNotLoadStartupScene) return;
-
+            // Skip BootstrapSceneLoader behavior if a test is running
+            if (EditorPrefs.HasKey(IS_TESTING_KEY) || loadSceneMode == LoadSceneMode.DoNotLoadStartupScene)  return;
             if (_restartingToSwitchedScene)
             {
                 if (playModeStateChange == PlayModeStateChange.EnteredPlayMode) _restartingToSwitchedScene = false;
