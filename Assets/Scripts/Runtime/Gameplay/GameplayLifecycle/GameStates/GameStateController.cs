@@ -1,6 +1,7 @@
 using ProjectTemplate.Runtime.Gameplay.Enums;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
+using UnityEngine.Assertions;
 
 namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates
 {
@@ -17,26 +18,35 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates
 		protected override void SubscribeToEvents()
 		{
 			_signalBus.Subscribe<ChangeGameStateSignal>(OnChangeGameStateSignal);
-			_signalBus.Subscribe<SetGameResultSignal>(OnSetGameResultSignal);
+			_signalBus.Subscribe<TriggerLevelEndSignal>(OnTriggerLevelEndSignal);
 		}
 		
-		private void OnSetGameResultSignal(SetGameResultSignal signal)
+		private void OnTriggerLevelEndSignal(TriggerLevelEndSignal signal)
 		{
 			_gameStateModel.SetGameIsWon(signal.isGameWon);
+			ChangeGameState(GameState.GameOver);
 		}
 
 		private void OnChangeGameStateSignal(ChangeGameStateSignal signal)
 		{
+			Assert.IsFalse(signal.newState == GameState.GameOver, 
+			               "Game Over change should be triggered with use of TriggerLevelEndSignal");
+			
+			ChangeGameState(signal.newState);
+		}
+
+		private void ChangeGameState(GameState newState)
+		{
 			GameState oldState = _currentState;
-			_currentState = signal.newState;
+			_currentState = newState;
 			
 			_signalBus.Fire(new GameStateChangedSignal(_currentState, oldState));
 		}
-		
+
 		protected override void UnsubscribeFromEvents()
 		{
 			_signalBus.Unsubscribe<ChangeGameStateSignal>(OnChangeGameStateSignal);
-			_signalBus.Unsubscribe<SetGameResultSignal>(OnSetGameResultSignal);
+			_signalBus.Unsubscribe<TriggerLevelEndSignal>(OnTriggerLevelEndSignal);
 		}
 	}
 }

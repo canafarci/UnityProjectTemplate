@@ -32,7 +32,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 			builder.RegisterSignalBus();
 
 			builder.DeclareSignal<ChangeGameStateSignal>();
-			builder.DeclareSignal<SetGameResultSignal>();
+			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<GameStateChangedSignal>();
 
 			_container = builder.Build();
@@ -49,14 +49,14 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		{
 			// Arrange
 			ChangeGameStateSignal changeGameStateSignal = new(GameState.Playing);
-			SetGameResultSignal setGameResultSignal = new (true);
+			TriggerLevelEndSignal triggerLevelEndSignal = new (true);
 			bool receivedChangeGameStateSignal = false;
 			Action<GameStateChangedSignal> firstHandler = signal => receivedChangeGameStateSignal = true;
 			
 			// Act
 			_signalBus.Subscribe<GameStateChangedSignal>(firstHandler);
 			_signalBus.Fire(changeGameStateSignal);
-			_signalBus.Fire(setGameResultSignal);
+			_signalBus.Fire(triggerLevelEndSignal);
 
 			// Assert that both events are handled correctly
 			_mockGameStateModel.Verify(m => m.SetGameIsWon(true), Times.Once);
@@ -100,7 +100,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		    bool isGameWon = true;
 		
 		    // Act
-		    _signalBus.Fire(new SetGameResultSignal(isGameWon));
+		    _signalBus.Fire(new TriggerLevelEndSignal(isGameWon));
 		
 		    // Assert
 		    _mockGameStateModel.Verify(m => m.SetGameIsWon(isGameWon), Times.Once);
@@ -116,7 +116,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		    var firstException = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new ChangeGameStateSignal(GameState.Playing)));
 		    Assert.AreEqual("No subscribers for signal 'ChangeGameStateSignal'.", firstException.Message);
 		    
-		    var secondException = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new SetGameResultSignal(true)));
+		    var secondException = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new TriggerLevelEndSignal(true)));
 		    Assert.AreEqual("No subscribers for signal 'SetGameResultSignal'.", secondException.Message);
 		
 		    // Assert that the methods were not called after disposal

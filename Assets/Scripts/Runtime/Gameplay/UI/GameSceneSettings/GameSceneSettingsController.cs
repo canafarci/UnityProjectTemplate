@@ -4,6 +4,7 @@ using ProjectTemplate.Runtime.CrossScene.Enums;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Enums;
+using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -89,16 +90,37 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
         
         private async void OnToggleButtonClicked()
         {
-            if (_activationState == PanelActivationState.Animating) return;
-            PanelActivationState lastActivationState = _activationState;
-            
-            _activationState = PanelActivationState.Animating;
-            
-             await _gameSceneSettingsMediator.AnimateButtons(lastActivationState);
+            if (_activationState != PanelActivationState.Animating)
+            {
+                HandlePreToggleState();
+        
+                PanelActivationState previousState = _activationState;
+                _activationState = PanelActivationState.Animating;
+        
+                await _gameSceneSettingsMediator.AnimateButtons(previousState);
+        
+                UpdatePostToggleState(previousState);
+            }
+        }
 
-             _activationState = lastActivationState == PanelActivationState.Active
-                                    ? PanelActivationState.Inactive
-                                    : PanelActivationState.Active;
+        private void HandlePreToggleState()
+        {
+            if (_activationState == PanelActivationState.Inactive)
+            {
+                _signalBus.Fire(new ChangeGameStateSignal(GameState.Paused));
+            }
+        }
+
+        private void UpdatePostToggleState(PanelActivationState previousState)
+        {
+            _activationState = previousState == PanelActivationState.Active
+                                   ? PanelActivationState.Inactive
+                                   : PanelActivationState.Active;
+
+            if (_activationState == PanelActivationState.Active)
+            {
+                _signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
+            }
         }
 
         public void Dispose()

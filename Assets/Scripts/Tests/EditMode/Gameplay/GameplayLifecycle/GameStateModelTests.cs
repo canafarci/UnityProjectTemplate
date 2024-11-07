@@ -27,7 +27,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 			builder.RegisterSignalBus();
 
 			builder.DeclareSignal<ChangeGameStateSignal>();
-			builder.DeclareSignal<SetGameResultSignal>();
+			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<GameStateChangedSignal>();
 
 
@@ -52,7 +52,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		public void SetGameResultSignal_OnGameWon_Should_Set_IsGameWon_True()
 		{
 			//Act
-			_signalBus.Fire(new SetGameResultSignal(isGameWon: true));
+			_signalBus.Fire(new TriggerLevelEndSignal(isGameWon: true));
 			//Assert
 			Assert.IsTrue(_gameStateModel.isGameWon);
 		}
@@ -61,7 +61,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.GameplayLifecycle
 		public void SetGameResultSignal_OnGameLost_Should_Set_IsGameWon_False()
 		{
 			//Act
-			_signalBus.Fire(new SetGameResultSignal(isGameWon: false));
+			_signalBus.Fire(new TriggerLevelEndSignal(isGameWon: false));
 			//Assert
 			Assert.IsFalse(_gameStateModel.isGameWon);
 		}

@@ -70,7 +70,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			//Gameplay
 			builder.DeclareSignal<GameStateChangedSignal>();
 			builder.DeclareSignal<ChangeGameStateSignal>();
-			builder.DeclareSignal<SetGameResultSignal>();
+			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<ExitGameplayLevelSignal>();
 		}
 	}

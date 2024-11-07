@@ -1,9 +1,12 @@
+using ProjectTemplate.Runtime.Infrastructure.Data;
 using UnityEngine.SceneManagement;
+using VContainer;
 
 namespace ProjectTemplate.Runtime.CrossScene.Data
 {
 	public class GameplayPersistentData : IGameplayPersistentData
 	{
+		[Inject] private ApplicationSettings _applicationSettings;
 		private int _levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, 1);
 		private int _levelVisualDisplayNumber = ES3.Load(LEVEL_VISUAL_NUMBER, PERSISTENT_DATA_PATH, 1);
 		private int _towerHealthUpgradeLevel;
@@ -13,7 +16,6 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 		private	const string LEVEL_VISUAL_NUMBER = "LEVEL_VISUAL_NUMBER";
 		private	const string PERSISTENT_DATA_PATH = "PERSISTENT_DATA";
 		private	const string IS_FIRST_TIME_PLAYING = "IS_FIRST_TIME_PLAYING";
-		private const int LEVEL_TO_START_LOOPING_INDEX = 1;
 
 		public int levelToLoadIndex => _levelToLoadIndex;
 		public int levelVisualDisplayNumber => _levelVisualDisplayNumber;
@@ -33,7 +35,7 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 			int sceneCount = SceneManager.sceneCountInBuildSettings;
 			if (currentSceneIndex + 1 >= sceneCount)
 			{
-				targetSceneIndex = LEVEL_TO_START_LOOPING_INDEX;
+				targetSceneIndex = _applicationSettings.LevelToLoopAfterAllLevelsFinishedIndex;
 			}
 			else
 			{
