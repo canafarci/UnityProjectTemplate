@@ -7,6 +7,8 @@ using ProjectTemplate.Runtime.CrossScene;
 using ProjectTemplate.Runtime.CrossScene.Audio;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
+using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
+using ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
@@ -28,10 +30,11 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterInstances(builder);
 			RegisterEntryPoints(builder);
 			RegisterServices(builder);
-			
 			RegisterSignals(builder);
-		}
+			RegisterLoadingScreen(builder);
 
+		}
+		
 		private void RegisterInstances(IContainerBuilder builder)
 		{
 			builder.RegisterInstance(AudioDataSO);
@@ -61,6 +64,7 @@ namespace ProjectTemplate.Runtime.Scopes
 
 		private void RegisterSignals(IContainerBuilder builder)
 		{
+			//cross scene
 			builder.DeclareSignal<LoadSceneSignal>();
 			builder.DeclareSignal<ChangeAudioSettingsSignal>();
 			builder.DeclareSignal<ChangeHapticActivationSignal>();
@@ -72,6 +76,16 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<ChangeGameStateSignal>();
 			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<ExitGameplayLevelSignal>();
+		}
+		
+		private void RegisterLoadingScreen(IContainerBuilder builder)
+		{
+			if (!ApplicationSettings.ShowLoadingScreen) return;
+
+			builder.RegisterComponentInNewPrefab(ApplicationSettings.LoadingScreenPrefab, Lifetime.Scoped).DontDestroyOnLoad();
+			builder.RegisterEntryPoint<LoadingScreenController>();
+			builder.DeclareSignal<LoadingStartedSignal>();
+			builder.DeclareSignal<LoadingFinishedSignal>();
 		}
 	}
 }

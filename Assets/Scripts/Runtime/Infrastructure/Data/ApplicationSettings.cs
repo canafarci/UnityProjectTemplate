@@ -1,6 +1,8 @@
 using DG.Tweening;
+using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Data
 {
@@ -22,9 +24,9 @@ namespace ProjectTemplate.Runtime.Infrastructure.Data
 		[TitleGroup("Loading Screen")]
 		
 		[ShowIf("ShowLoadingScreen")]
-		public float LoadingScreenFadeDuration = 0.5f;
+		public float LoadingScreenMinimumDuration = 0.5f;
 		[ShowIf("ShowLoadingScreen")]
-		public GameObject LoadingScreenPrefab;
+		public LoadingScreenView LoadingScreenPrefab;
 		
 		[TitleGroup("DOTween Settings")]
 		public bool RecycleAllByDefault = false;
