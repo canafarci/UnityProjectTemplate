@@ -1,19 +1,24 @@
+using UnityEngine;
+
+using VContainer;
+using VContainer.Unity;
+
 using ProjectTemplate.Runtime.CrossScene;
 using ProjectTemplate.Runtime.CrossScene.Audio;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
+using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
-using UnityEngine;
-using VContainer;
-using VContainer.Unity;
 
 namespace ProjectTemplate.Runtime.Scopes
 {
 	public class ApplicationScope : LifetimeScope
 	{
+		[SerializeField] private ApplicationSettings ApplicationSettings;
 		[SerializeField] private AudioDataSO AudioDataSO;
 		[SerializeField] private AudioView AudioView;
 		[SerializeField] private PoolConfig PoolConfig;
@@ -24,8 +29,6 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterEntryPoints(builder);
 			RegisterServices(builder);
 			
-			RegisterSignalBus(builder);
-			RegisterPoolManager(builder);
 			RegisterSignals(builder);
 		}
 
@@ -33,6 +36,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.RegisterInstance(AudioDataSO);
 			builder.RegisterInstance(AudioView);
+			builder.RegisterInstance(ApplicationSettings);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
@@ -49,10 +53,11 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);
+			
+			builder.RegisterSignalBus();
+			builder.RegisterPoolManager(PoolConfig);
+			builder.RegisterAppController();
 		}
-		
-		private void RegisterSignalBus(IContainerBuilder builder) => builder.RegisterSignalBus();
-		private void RegisterPoolManager(IContainerBuilder builder) => builder.RegisterPoolManager(PoolConfig);
 
 		private void RegisterSignals(IContainerBuilder builder)
 		{

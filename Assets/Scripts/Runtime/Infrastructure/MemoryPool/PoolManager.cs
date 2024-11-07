@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ProjectTemplate.Runtime.Infrastructure.Data;
 using UnityEngine;
 using UnityEngine.Assertions;
 using VContainer.Unity;

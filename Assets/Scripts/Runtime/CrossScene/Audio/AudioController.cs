@@ -49,7 +49,6 @@ namespace ProjectTemplate.Runtime.CrossScene.Audio
                     break;
                 case AudioSourceType.Music:
                     _audioModel.ChangeMusicActivation();
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

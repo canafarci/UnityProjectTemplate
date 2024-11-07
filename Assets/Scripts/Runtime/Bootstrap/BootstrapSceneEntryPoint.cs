@@ -1,6 +1,11 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Signals;
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
+using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -12,27 +17,27 @@ namespace ProjectTemplate.Runtime.Bootstrap
 	{
 		[Inject] private SignalBus _signalBus;
 		[Inject] private IGameplayPersistentData _gameplayPersistentData;
+		[Inject] private ApplicationSettings _applicationSettings;
+		[Inject] private AppInitializer _appInitializer;
+		
 		public void Initialize()
 		{
-			InitDOTween();
-
-			LoadNextScene();
+			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Initializing));
+			
+			_appInitializer.ApplyAppSettings();
+			LoadNextScene();		
 		}
-
-		private void InitDOTween()
-		{
-			DOTween.Init(false, false).SetCapacity(200, 10);
-			DOTween.defaultEaseType = Ease.Linear;
-		}
-
+		
 		private void LoadNextScene()
 		{
 #if UNITY_EDITOR
 			if (LoadSceneAfterBootstrap()) return;
 #endif
-
-			int sceneIndex = _gameplayPersistentData.levelToLoadIndex;
-			// Load the default scene
+			
+			int sceneIndex = _applicationSettings.HasMainMenu ?
+				                 _applicationSettings.MainMenuSceneIndex :
+				                 _gameplayPersistentData.levelToLoadIndex;
+			
 			_signalBus.Fire(new LoadSceneSignal(sceneIndex));
 		}
 

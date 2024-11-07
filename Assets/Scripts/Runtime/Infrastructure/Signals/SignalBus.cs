@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
 using UnityEngine;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Signals
@@ -132,6 +133,12 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
 				_lock.EnterReadLock();
 				try
 				{
+					//Exclude App State Changed Signal
+					//Because this signal is used by Loading Screen in Bootstrap scene
+					//Which might not get injected if it gets deselected in App Settings
+					if (_signalType == typeof(AppStateChangedSignal))
+						return true;
+					
 					return _handlers.Count > 0;
 				}
 				finally

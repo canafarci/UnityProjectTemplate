@@ -65,6 +65,7 @@ namespace ProjectTemplate.Editor
                     // Style the container to align at the bottom of the layout
                     container.style.alignSelf = Align.FlexStart;
                     container.style.justifyContent = Justify.FlexEnd;
+                    container.style.justifyContent = Justify.FlexEnd;
                     container.style.marginTop = 5;
                     container.style.paddingLeft = 5;
                     container.style.marginLeft = 5;  

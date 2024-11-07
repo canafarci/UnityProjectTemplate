@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: ProjectTemplate.Runtime.Scopes.ApplicationScope
   autoRun: 1
   autoInjectGameObjects: []
+  ApplicationSettings: {fileID: 11400000, guid: c1155561ae3b14425b24cfbc136dce9d,
+    type: 2}

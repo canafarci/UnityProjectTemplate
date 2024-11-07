@@ -16,7 +16,7 @@ namespace DefaultNamespace
 			Assert.IsTrue(SceneManager.GetActiveScene().buildIndex == 0);
 			yield return null; // Allow Unity to process the frame
 		}
-		
+
 		[UnityTest]
 		public IEnumerator Scene_At_Index_Zero_Is_Named_Bootstrap()
 		{
@@ -26,6 +26,5 @@ namespace DefaultNamespace
 			Assert.IsTrue(SceneManager.GetActiveScene().name == "Bootstrap");
 			yield return null; // Allow Unity to process the frame
 		}
-		
 	}
 }
