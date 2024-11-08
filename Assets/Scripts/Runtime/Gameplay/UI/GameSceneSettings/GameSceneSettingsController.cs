@@ -113,11 +113,11 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
 
         private void UpdatePostToggleState(PanelActivationState previousState)
         {
-            _activationState = previousState == PanelActivationState.Active
-                                   ? PanelActivationState.Inactive
-                                   : PanelActivationState.Active;
+            _activationState = previousState == PanelActivationState.Inactive
+                                   ? PanelActivationState.Active
+                                   : PanelActivationState.Inactive;
 
-            if (_activationState == PanelActivationState.Active)
+            if (_activationState == PanelActivationState.Inactive)
             {
                 _signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
             }

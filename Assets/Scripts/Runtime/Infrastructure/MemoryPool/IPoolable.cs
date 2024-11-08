@@ -5,6 +5,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		public void OnCreate();
 		public void OnDestroy();
 		public void OnReturnToPool();
-		public void OnTakeFromPool();
+		public void OnGetFromPool();
 	}
 }

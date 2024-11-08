@@ -36,7 +36,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		private static IEnumerable<ValueDropdownItem<string>> GetClassTypeNames()
 		{
 			var types = AppDomain.CurrentDomain.GetAssemblies()
-			                     .Where(a => a.FullName.StartsWith("Assembly-CSharp"))
 			                     .SelectMany(assembly => assembly.GetTypes())
 			                     .Where(t => t.IsClass && !t.IsAbstract)
 			                     .Select(type => new ValueDropdownItem<string>(type.FullName, type.AssemblyQualifiedName));

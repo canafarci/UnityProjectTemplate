@@ -28,10 +28,7 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 				_signalBus.Subscribe<LoadingFinishedSignal>(OnLoadingFinishedSignal);
 		}
 
-		private void OnLoadingFinishedSignal(LoadingFinishedSignal signal)
-		{
-			EnterGameplay();
-		}
+		private void OnLoadingFinishedSignal(LoadingFinishedSignal signal) => EnterGameplay();
 
 		public void Start()
 		{
@@ -39,19 +36,20 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 				EnterGameplay();
 		}
 
-		private void EnterGameplay()
+		private async void EnterGameplay()
 		{
 			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Gameplay));
 			_signalBus.Fire(new ChangeGameStateSignal(GameState.Initializing));
 			
 			InitializeGameplay();
+
+			await UniTask.Delay(TimeSpan.FromSeconds(1f));
 			
 			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
 		}
 
 		private void InitializeGameplay()
 		{
-			Debug.Log("Initialized Gameplay Scene");
 		}
 		
 		public void Dispose()

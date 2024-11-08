@@ -166,6 +166,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4396756959859596595, guid: ece3e99c19e344b3db47e01b13bc722b,
+        type: 3}
+      propertyPath: parentReference.TypeName
+      value: ProjectTemplate.Runtime.Scopes.ApplicationScope
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -454,6 +459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6349510657676682800, guid: e29267134d2fe4fbeae896305d468b3a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 7874352029933094464, guid: e29267134d2fe4fbeae896305d468b3a,
         type: 3}

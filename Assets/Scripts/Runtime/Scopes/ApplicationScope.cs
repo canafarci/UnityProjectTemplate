@@ -32,7 +32,6 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterServices(builder);
 			RegisterSignals(builder);
 			RegisterLoadingScreen(builder);
-
 		}
 		
 		private void RegisterInstances(IContainerBuilder builder)

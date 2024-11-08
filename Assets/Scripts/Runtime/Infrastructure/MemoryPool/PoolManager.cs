@@ -89,7 +89,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 				Debug.LogError($"No pool found for type {typeof(T)}.");
 		}
 		
-		public void ReleaseGeneric<T>(T obj) where T : class, IPoolable
+		public void ReleasePure<T>(T obj) where T : class, IPoolable
 		{
 			if (_genericPools.TryGetValue(typeof(T), out object poolObj))
 			{

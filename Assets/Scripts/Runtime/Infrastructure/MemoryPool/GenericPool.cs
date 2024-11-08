@@ -18,13 +18,13 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
 		public T Get()
 		{
-			T mono = _genericPool.Get();
-			return mono;
+			T obj = _genericPool.Get();
+			return obj;
 		}
 
-		public void Release(T mono)
+		public void Release(T obj)
 		{
-			_genericPool.Release(mono);
+			_genericPool.Release(obj);
 		}
 
 		private T OnCreate()
@@ -36,7 +36,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
 		private void OnTakeFromPool(T obj)
 		{
-			obj.OnTakeFromPool();
+			obj.OnGetFromPool();
 		}
 
 		private void OnReturnToPool(T obj)
