@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PoolConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -22,11 +22,13 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   PoolEntries:
-  - IsMonoBehaviour: 0
-    Prefab: {fileID: 0}
-    ClassTypeName: 
+  - IsMonoBehaviour: 1
+    Prefab: {fileID: 1784773728448463992, guid: 0ca1917df338ae24ba36781747499d37,
+      type: 3}
+    ClassTypeName: ProjectTemplate.Runtime.TestMono, ProjectTemplate.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     InitialSize: 5
     DefaultCapacity: 10
     MaximumSize: 100
-    DontRecycleWithSceneChange: 1
+    RecycleWithSceneChange: 1
     RecycleSceneID: 3

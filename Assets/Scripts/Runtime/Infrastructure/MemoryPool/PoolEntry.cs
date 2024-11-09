@@ -31,10 +31,10 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		[FoldoutGroup("Pool Entry Data")]
 		public int MaximumSize = 100;
 		[FoldoutGroup("Pool Entry Data")]
-		public bool DontRecycleWithSceneChange = false;
+		public bool RecycleWithSceneChange = true;
 		
 		[FoldoutGroup("Pool Entry Data")]
-		[ShowIf(nameof(DontRecycleWithSceneChange), false)]
+		[ShowIf(nameof(RecycleWithSceneChange))]
 		public AppStateID RecycleSceneID;    
 
 		// Property to get the actual Type from the string
@@ -48,9 +48,10 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		private static IEnumerable<ValueDropdownItem<string>> GetClassTypeNames()
 		{
 			var types = AppDomain.CurrentDomain.GetAssemblies()
-			                     .SelectMany(assembly => assembly.GetTypes())
-			                     .Where(t => t.IsClass && !t.IsAbstract)
-			                     .Select(type => new ValueDropdownItem<string>(type.FullName, type.AssemblyQualifiedName));
+				.SelectMany(assembly => assembly.GetTypes())
+				.Where(t => t.IsClass && !t.IsAbstract && typeof(IPoolable).IsAssignableFrom(t))
+				.Select(type => new ValueDropdownItem<string>(type.FullName, type.AssemblyQualifiedName));
+
 
 			return types;
 		}

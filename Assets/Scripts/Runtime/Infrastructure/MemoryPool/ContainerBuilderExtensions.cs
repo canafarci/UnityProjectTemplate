@@ -12,7 +12,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 	{
 		public static void RegisterPoolManager(this IContainerBuilder builder, PoolConfig poolConfig)
 		{
-			builder.RegisterEntryPoint<PoolManager>(resolver => new PoolManager(poolConfig), Lifetime.Singleton).AsSelf();
+			builder.RegisterEntryPoint<PoolManager>().WithParameter(poolConfig).AsSelf();
 		}
 	}
 }

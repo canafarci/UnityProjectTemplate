@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 
 using System;
 using System.Collections.Generic;
-
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
@@ -15,6 +15,8 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		private readonly Dictionary<Type, object> _monoPools = new();
 		private readonly Dictionary<Type, object> _genericPools = new();
 		private readonly PoolConfig _config;
+		
+		public static event Action<AppStateID, AppStateID> OnAppStateChanged;
 
 		public PoolManager(PoolConfig config)
 		{
@@ -28,11 +30,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
 		private void OnAppStateChangedSignal(AppStateChangedSignal signal)
 		{
-			foreach (object poolObj in _monoPools.Values)
-			{
-				var pool = poolObj as GenericMonoPool<T>;
-
-			}
+			OnAppStateChanged?.Invoke(signal.newState, signal.oldState);
 		}
 
 		protected override void UnsubscribeFromEvents()
@@ -40,8 +38,10 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			_signalBus.Unsubscribe<AppStateChangedSignal>(OnAppStateChangedSignal);
 		}
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+			
 			foreach (PoolEntry entry in _config.PoolEntries)
 			{
 				if (entry.IsMonoBehaviour && entry.Prefab != null)
@@ -56,7 +56,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 					PoolParams poolParams = new PoolParams(entry.InitialSize,
 					                                       entry.DefaultCapacity,
 					                                       entry.MaximumSize,
-					                                       entry.DontRecycleWithSceneChange,
+					                                       entry.RecycleWithSceneChange,
 					                                       entry.RecycleSceneID);
 
 					// Use the constructor that takes a GameObject parameter

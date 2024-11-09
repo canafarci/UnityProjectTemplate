@@ -12,16 +12,17 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		private readonly GameObject _prefab;
 		private readonly ObjectPool<T> _monoPool;
 		private readonly int _initialSize;
-		private List<T> _initialObjectList = new List<T>();
 		private readonly AppStateID _appStateToRecycle;
-		private readonly bool _dontRecycleWithSceneChange;
+		private readonly bool _recycleWithSceneChange;
+		
+		private List<T> _initialObjectList = new List<T>();
 
 		public GenericMonoPool(GameObject prefab, PoolParams poolParams)
 		{
 			_prefab = prefab;
 			_initialSize = poolParams.InitialSize;
 			_appStateToRecycle = poolParams.RecycleSceneID;
-			_dontRecycleWithSceneChange = poolParams.DontRecycleWithSceneChange;
+			_recycleWithSceneChange = poolParams.RecycleWithSceneChange;
 			
 			_monoPool = new ObjectPool<T>(OnCreate,
 			                              OnGetFromPool,
@@ -30,39 +31,17 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			                              true, 
 			                              poolParams.DefaultCapacity, 
 			                              poolParams.MaximumSize);
-			
-			if (_dontRecycleWithSceneChange)
+
+			if (_recycleWithSceneChange)
+			{
+				PoolManager.OnAppStateChanged += OnAppStateChangedHandler;
+			}
+			else
+			{
 				InstantiateDefaultObjects();
-		}
-
-		public AppStateID appStateToRecycle => _appStateToRecycle;
-		public bool dontRecycleWithSceneChange => _dontRecycleWithSceneChange;
-
-		//instantiate att app launch & dont destroy
-		//instantiate based on scene type and recycle on scene change
-		
-		public void InstantiateDefaultObjects()
-		{
-			for (int i = 0; i < _initialSize; i++)
-			{
-				T mono = OnCreate();
-				_initialObjectList.Add(mono);
-			}
-			
-			_initialObjectList.ForEach(Release);
-			
-			_initialObjectList.Clear();
-			_initialObjectList = null;
-		}
-		
-		public void DestroyAll()
-		{
-			foreach (T mono in GetInternalList())
-			{
-				OnDestroyMono(mono);
 			}
 		}
-
+		
 		public T Get()
 		{
 			T mono = _monoPool.Get();
@@ -74,10 +53,45 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			_monoPool.Release(mono);
 		}
 
+		private void OnAppStateChangedHandler(AppStateID newState, AppStateID oldState)
+		{
+			if (oldState == _appStateToRecycle)
+			{
+				DestroyAll();
+			}
+			else if (newState == _appStateToRecycle)
+			{
+				InstantiateDefaultObjects();
+			}
+		}
+		
+		private void InstantiateDefaultObjects()
+		{
+			for (int i = 0; i < _initialSize; i++)
+			{
+				T mono = OnCreate();
+				_initialObjectList.Add(mono);
+			}
+			
+			_initialObjectList.ForEach(Release);
+			
+			_initialObjectList.Clear();
+
+			if (!_recycleWithSceneChange)
+				_initialObjectList = null;
+		}
+		
+		private void DestroyAll()
+		{
+			foreach (T mono in GetInternalList())
+			{
+				OnDestroyMono(mono);
+			}
+		}
+		
 		private T OnCreate()
 		{
 			T mono = GameObject.Instantiate(_prefab).GetComponent<T>();
-			MonoBehaviour.DontDestroyOnLoad(mono.gameObject);
 			mono.OnCreate();
 			return mono;
 		}
@@ -96,6 +110,8 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
 		private void OnDestroyMono(T mono)
 		{
+			if (mono == null) return;
+			
 			mono.OnDestroy();
 			GameObject.Destroy(mono.gameObject);
 		}
@@ -112,6 +128,16 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			else
 			{
 				throw new InvalidOperationException("Field 'm_List' not found.");
+			}
+		}
+
+		~GenericMonoPool()
+		{
+			DestroyAll();
+
+			if (_recycleWithSceneChange)
+			{
+				PoolManager.OnAppStateChanged -= OnAppStateChangedHandler;
 			}
 		}
 	}

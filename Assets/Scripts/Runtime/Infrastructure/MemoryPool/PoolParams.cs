@@ -7,19 +7,19 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		public int InitialSize;
 		public int DefaultCapacity;
 		public int MaximumSize;
-		public bool DontRecycleWithSceneChange;
+		public bool RecycleWithSceneChange;
 		public AppStateID RecycleSceneID;
 
 		public PoolParams(int initialSize, 
 		                  int defaultCapacity, 
 		                  int maximumSize, 
-		                  bool dontRecycleWithSceneChange, 
+		                  bool recycleWithSceneChange, 
 		                  AppStateID recycleSceneID)
 		{
 			InitialSize = initialSize;
 			DefaultCapacity = defaultCapacity;
 			MaximumSize = maximumSize;
-			DontRecycleWithSceneChange = dontRecycleWithSceneChange;
+			RecycleWithSceneChange = recycleWithSceneChange;
 			RecycleSceneID = recycleSceneID;
 		}
 	}
