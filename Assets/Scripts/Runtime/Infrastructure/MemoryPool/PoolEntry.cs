@@ -1,35 +1,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 {
 	[Serializable]
 	public class PoolEntry
 	{
-		[HorizontalGroup("IsMono")]
-		[HideLabel]
+		[FoldoutGroup("Pool Entry Data")]
 		public bool IsMonoBehaviour;
 
-		[HorizontalGroup("Prefab")]
-		[HideLabel]
-		[ShowIf("@this.IsMonoBehaviour")]
+		[FoldoutGroup("Pool Entry Data")]
+		[ShowIf(nameof(IsMonoBehaviour))]
 		public GameObject Prefab;
 
 		// Store the class type as a string for serialization
-		[HorizontalGroup("Class")]
-		[HideLabel]
+		[FoldoutGroup("Pool Entry Data")]
 		[ValueDropdown("GetClassTypeNames")]
 		[SerializeField]
-		private string classTypeName;
+		private string ClassTypeName;
+
+		[FoldoutGroup("Pool Entry Data")]
+		public int InitialSize = 5;
+		[FoldoutGroup("Pool Entry Data")]
+		public int DefaultCapacity = 10;
+		[FoldoutGroup("Pool Entry Data")]
+		public int MaximumSize = 100;
+		[FoldoutGroup("Pool Entry Data")]
+		public bool DontRecycleWithSceneChange = false;
+		
+		[FoldoutGroup("Pool Entry Data")]
+		[ShowIf(nameof(DontRecycleWithSceneChange), false)]
+		public AppStateID RecycleSceneID;    
 
 		// Property to get the actual Type from the string
-		public Type ClassType
+		public Type classType
 		{
-			get => Type.GetType(classTypeName);
-			set => classTypeName = value?.Name;
+			get => Type.GetType(ClassTypeName);
+			set => ClassTypeName = value?.Name;
 		}
 
 		// Odin dropdown to show available classes

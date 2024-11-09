@@ -1,13 +1,16 @@
-using System;
-using System.Collections.Generic;
-using ProjectTemplate.Runtime.Infrastructure.Data;
 using UnityEngine;
 using UnityEngine.Assertions;
-using VContainer.Unity;
+
+using System;
+using System.Collections.Generic;
+
+using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
+using ProjectTemplate.Runtime.Infrastructure.Data;
+using ProjectTemplate.Runtime.Infrastructure.Templates;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 {
-	public class PoolManager : IInitializable
+	public class PoolManager : SignalListener
 	{
 		private readonly Dictionary<Type, object> _monoPools = new();
 		private readonly Dictionary<Type, object> _genericPools = new();
@@ -17,6 +20,25 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		{
 			_config = config;
 		}
+		
+		protected override void SubscribeToEvents()
+		{
+			_signalBus.Subscribe<AppStateChangedSignal>(OnAppStateChangedSignal);
+		}
+
+		private void OnAppStateChangedSignal(AppStateChangedSignal signal)
+		{
+			foreach (object poolObj in _monoPools.Values)
+			{
+				var pool = poolObj as GenericMonoPool<T>;
+
+			}
+		}
+
+		protected override void UnsubscribeFromEvents()
+		{
+			_signalBus.Unsubscribe<AppStateChangedSignal>(OnAppStateChangedSignal);
+		}
 
 		public void Initialize()
 		{
@@ -25,20 +47,26 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 				if (entry.IsMonoBehaviour && entry.Prefab != null)
 				{
 					// Get the specific MonoBehaviour type from the prefab
-					Type monoType = entry.ClassType;
+					Type monoType = entry.classType;
 
 					// Create GenericMonoPool<T> where T is the MonoBehaviour type
 					Type generic = typeof(GenericMonoPool<>);
 					Type poolType = generic.MakeGenericType(monoType);
+					
+					PoolParams poolParams = new PoolParams(entry.InitialSize,
+					                                       entry.DefaultCapacity,
+					                                       entry.MaximumSize,
+					                                       entry.DontRecycleWithSceneChange,
+					                                       entry.RecycleSceneID);
 
 					// Use the constructor that takes a GameObject parameter
-					object pool = Activator.CreateInstance(poolType, new object[] { entry.Prefab });
+					object pool = Activator.CreateInstance(poolType, entry.Prefab, poolParams);
 
 					_monoPools[monoType] = pool;
 				}
-				else if (!entry.IsMonoBehaviour && entry.ClassType != null)
+				else if (!entry.IsMonoBehaviour && entry.classType != null)
 				{
-					Type type = entry.ClassType;
+					Type type = entry.classType;
 
 					// Create GenericPool<T> where T is the class type
 					Type generic = typeof(GenericPool<>);
@@ -51,7 +79,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			}
 		}
 
-		public T GetMono<T>() where T : MonoBehaviour
+		public T GetMono<T>() where T : MonoBehaviour, IPoolable
 		{
 			if (_monoPools.TryGetValue(typeof(T), out object poolObj))
 			{
@@ -76,7 +104,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			throw new InvalidOperationException($"No pool found for type {typeof(T)}.");
 		}
 
-		public void ReleaseMono<T>(T obj) where T : MonoBehaviour
+		public void ReleaseMono<T>(T obj) where T : MonoBehaviour, IPoolable
 		{
 			if (_monoPools.TryGetValue(typeof(T), out object poolObj))
 			{
