@@ -31,11 +31,11 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 		[FoldoutGroup("Pool Entry Data")]
 		public int MaximumSize = 100;
 		[FoldoutGroup("Pool Entry Data")]
-		public bool RecycleWithSceneChange = true;
+		public bool ManagePoolOnSceneChange = true;
 		
 		[FoldoutGroup("Pool Entry Data")]
-		[ShowIf(nameof(RecycleWithSceneChange))]
-		public AppStateID RecycleSceneID;    
+		[ShowIf(nameof(ManagePoolOnSceneChange))]
+		public AppStateID LifetimeSceneID;    
 
 		// Property to get the actual Type from the string
 		public Type classType

@@ -21,14 +21,4 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  PoolEntries:
-  - IsMonoBehaviour: 1
-    Prefab: {fileID: 1784773728448463992, guid: 0ca1917df338ae24ba36781747499d37,
-      type: 3}
-    ClassTypeName: ProjectTemplate.Runtime.TestMono, ProjectTemplate.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    InitialSize: 5
-    DefaultCapacity: 10
-    MaximumSize: 100
-    RecycleWithSceneChange: 1
-    RecycleSceneID: 3
+  PoolEntries: []

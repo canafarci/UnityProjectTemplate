@@ -26,18 +26,19 @@ namespace ProjectTemplate.Runtime.CrossScene
 			_signalBus.Unsubscribe<LoadSceneSignal>(OnLoadSceneMessage);
 		}
 
-		private void OnLoadSceneMessage(LoadSceneSignal signal)
+		private async void OnLoadSceneMessage(LoadSceneSignal signal)
 		{
-			AsyncOperation operation = SceneManager.LoadSceneAsync(signal.sceneID);
 			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Loading));
-
+			
+			await UniTask.NextFrame();
+			
+			AsyncOperation operation = SceneManager.LoadSceneAsync(signal.sceneID);
 			if (_applicationSettings.ShowLoadingScreen)
 			{
 				_signalBus.Fire(new LoadingStartedSignal(operation));
 			}
 			
 			DOTween.KillAll();
-			GC.Collect();
 		}
 	}
 }

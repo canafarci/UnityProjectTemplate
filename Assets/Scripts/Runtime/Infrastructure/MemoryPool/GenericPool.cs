@@ -1,52 +1,40 @@
 using System;
-using UnityEngine.Pool;
+using System.Collections.Generic;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 {
-	public class GenericPool<T> where T : class, IPoolable
+	public class GenericPool<T> : PoolBase<T> where T : class, IPoolable
 	{
-		private readonly ObjectPool<T> _genericPool;
+		// ReSharper disable once CollectionNeverQueried.Local
+		private List<T> _referenceToStopGCList; //needed to stop GC from collecting pure C# classes
 
-		public GenericPool()
+		public GenericPool(PoolParams poolParams) : base(poolParams)
 		{
-			_genericPool = new ObjectPool<T>(OnCreate,
-			                                 OnTakeFromPool,
-			                                 OnReturnToPool,
-			                                 OnDestroy,
-			                                 true, 10, 100);
+			if (!_managePoolOnSceneChange)
+			{
+				InstantiateDefaultObjects();
+			}
 		}
 
-		public T Get()
-		{
-			T obj = _genericPool.Get();
-			return obj;
-		}
-
-		public void Release(T obj)
-		{
-			_genericPool.Release(obj);
-		}
-
-		private T OnCreate()
+		protected override T CreateObject()
 		{
 			T obj = Activator.CreateInstance<T>();
-			obj.OnCreate();
+			obj.OnCreated();
+			
+			//needed to stop GC from collecting pure C# classes
+			if (!_managePoolOnSceneChange)
+			{
+				_referenceToStopGCList ??= new List<T>();
+				_referenceToStopGCList.Add(obj);
+			}
+			
 			return obj;
 		}
 
-		private void OnTakeFromPool(T obj)
-		{
-			obj.OnGetFromPool();
-		}
+		protected override void GetFromPool(T obj) => obj.OnGetFromPool();
 
-		private void OnReturnToPool(T obj)
-		{
-			obj.OnReturnToPool();
-		}
+		protected override void ReturnToPool(T obj) => obj.OnReturnToPool();
 
-		private void OnDestroy(T obj)
-		{
-			obj.OnDestroy();
-		}
+		protected override void DestroyObject(T obj) => obj.OnDestroyed();
 	}
 }
