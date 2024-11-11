@@ -52,7 +52,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
 				}
 				else
 				{
-					throw new InvalidOperationException($"No subscribers for signal '{signalType.Name}'.");
+					Debug.LogWarning($"No subscribers for signal '{signalType.Name}'.");
 				}
 			}
 			else

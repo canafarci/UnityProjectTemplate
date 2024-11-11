@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 1205385288871502284, guid: ece3e99c19e344b3db47e01b13bc722b,
         type: 3}
       propertyPath: m_Name
-      value: Scope
+      value: Gameplay Scope
       objectReference: {fileID: 0}
     - target: {fileID: 4015976073814844927, guid: ece3e99c19e344b3db47e01b13bc722b,
         type: 3}
@@ -169,7 +169,7 @@ PrefabInstance:
     - target: {fileID: 4396756959859596595, guid: ece3e99c19e344b3db47e01b13bc722b,
         type: 3}
       propertyPath: parentReference.TypeName
-      value: ProjectTemplate.Runtime.Scopes.ApplicationScope
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

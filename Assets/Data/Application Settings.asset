@@ -23,9 +23,9 @@ MonoBehaviour:
     SerializationNodes: []
   TargetFrameRate: 60
   ShowLoadingScreen: 1
-  HasMainMenu: 0
-  FirstGameplayLevelIndex: 1
-  LevelToLoopAfterAllLevelsFinishedIndex: 1
+  HasMainMenu: 1
+  FirstGameplayLevelIndex: 2
+  LevelToLoopAfterAllLevelsFinishedIndex: 2
   MainMenuSceneIndex: 1
   LoadingScreenMinimumDuration: 1
   LoadingScreenPrefab: {fileID: 1944170148758412870, guid: a7bb6bb9bcf4c4640a6b952280d96a00,

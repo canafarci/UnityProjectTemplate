@@ -15,6 +15,7 @@ using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
+using ProjectTemplate.Runtime.MainMenu.Signals;
 
 namespace ProjectTemplate.Runtime.Scopes
 {
@@ -69,6 +70,9 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<ChangeHapticActivationSignal>();
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
+			
+			//Main Menu
+			builder.DeclareSignal<TriggerExitMainMenuSignal>();
 			
 			//Gameplay
 			builder.DeclareSignal<GameStateChangedSignal>();

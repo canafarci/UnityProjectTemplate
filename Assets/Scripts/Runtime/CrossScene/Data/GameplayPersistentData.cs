@@ -6,8 +6,9 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 {
 	public class GameplayPersistentData : IGameplayPersistentData
 	{
-		[Inject] private ApplicationSettings _applicationSettings;
-		private int _levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, 1);
+		private readonly ApplicationSettings _applicationSettings;
+		
+		private int _levelToLoadIndex;
 		private int _levelVisualDisplayNumber = ES3.Load(LEVEL_VISUAL_NUMBER, PERSISTENT_DATA_PATH, 1);
 		private int _towerHealthUpgradeLevel;
 		private bool _isFirstTimePlaying;
@@ -19,6 +20,12 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 
 		public int levelToLoadIndex => _levelToLoadIndex;
 		public int levelVisualDisplayNumber => _levelVisualDisplayNumber;
+
+		public GameplayPersistentData(ApplicationSettings applicationSettings)
+		{
+			_applicationSettings = applicationSettings;
+			_levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, _applicationSettings.FirstGameplayLevelIndex);
+		}
 
 		public bool IsFirstTimePlaying()
 		{
