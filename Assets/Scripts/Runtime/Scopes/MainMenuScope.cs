@@ -15,7 +15,7 @@ namespace ProjectTemplate.Runtime.Scopes
 
 		private void RegisterPlayGameCanvas(IContainerBuilder builder)
 		{
-			builder.RegisterComponentInHierarchy<PlayGameCanvasView>().AsSelf();
+			builder.RegisterComponentInHierarchy<PlayGamePanelView>().AsSelf();
 			builder.RegisterEntryPoint<PlayGameCanvasController>();
 		}
 

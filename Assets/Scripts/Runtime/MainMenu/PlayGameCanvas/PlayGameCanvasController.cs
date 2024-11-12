@@ -8,9 +8,9 @@ namespace ProjectTemplate.Runtime.MainMenu.PlayGameCanvas
 	public class PlayGameCanvasController : IInitializable, IDisposable
 	{
 		private readonly SignalBus _signalBus;
-		private readonly PlayGameCanvasView _view;
+		private readonly PlayGamePanelView _view;
 
-		public PlayGameCanvasController(SignalBus signalBus, PlayGameCanvasView view)
+		public PlayGameCanvasController(SignalBus signalBus, PlayGamePanelView view)
 		{
 			_signalBus = signalBus;
 			_view = view;

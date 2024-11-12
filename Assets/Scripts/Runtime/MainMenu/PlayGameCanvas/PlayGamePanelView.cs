@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ProjectTemplate.Runtime.MainMenu.PlayGameCanvas
 {
-	public class PlayGameCanvasView : MonoBehaviour
+	public class PlayGamePanelView : MonoBehaviour
 	{
 		[SerializeField] Button PlayGameButton;
 
