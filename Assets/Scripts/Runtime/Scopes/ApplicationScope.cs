@@ -8,7 +8,6 @@ using ProjectTemplate.Runtime.CrossScene.Audio;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
-using ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals;
 using ProjectTemplate.Runtime.CrossScene.Notifications;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;

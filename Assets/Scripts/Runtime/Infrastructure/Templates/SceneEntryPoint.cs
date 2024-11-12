@@ -1,5 +1,5 @@
 ﻿using System;
-using ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals;
+using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using VContainer;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals
+namespace ProjectTemplate.Runtime.CrossScene.Signals
 {
 	public readonly struct LoadingStartedSignal
 	{

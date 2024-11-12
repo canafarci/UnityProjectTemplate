@@ -1,7 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals;
+using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
 using UnityEngine;
