@@ -17,7 +17,8 @@
     "precompiledReferences": [
         "nunit.framework.dll",
         "Castle.Core.dll",
-        "Moq.dll"
+        "Moq.dll",
+        "Sirenix.Serialization.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

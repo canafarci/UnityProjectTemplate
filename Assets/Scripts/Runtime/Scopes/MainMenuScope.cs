@@ -1,4 +1,5 @@
 ﻿using ProjectTemplate.Runtime.MainMenu.MainMenuLifecycle;
+using ProjectTemplate.Runtime.MainMenu.UI.CurrencyPanel;
 using ProjectTemplate.Runtime.MainMenu.UI.PlayGamePanel;
 using ProjectTemplate.Runtime.MainMenu.UI.SettingsPanel;
 using VContainer;
@@ -13,6 +14,13 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterMainMenuLifecycleManagers(builder);
 			RegisterPlayGamePanel(builder);
 			RegisterSettingsPanel(builder);
+			RegisterCurrencyPanel(builder);
+		}
+
+		private void RegisterCurrencyPanel(IContainerBuilder builder)
+		{
+			builder.RegisterEntryPoint<CurrencyPanelController>();
+			builder.RegisterComponentInHierarchy<CurrencyPanelView>().AsSelf();
 		}
 
 		private void RegisterPlayGamePanel(IContainerBuilder builder)

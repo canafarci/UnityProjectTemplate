@@ -5,6 +5,7 @@ using VContainer.Unity;
 
 using ProjectTemplate.Runtime.CrossScene;
 using ProjectTemplate.Runtime.CrossScene.Audio;
+using ProjectTemplate.Runtime.CrossScene.Currency;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
@@ -25,6 +26,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		[SerializeField] private AudioDataSO AudioDataSO;
 		[SerializeField] private AudioView AudioView;
 		[SerializeField] private PoolConfig PoolConfig;
+		[SerializeField] private CurrencyConfig CurrencyConfig;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
@@ -40,6 +42,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterInstance(AudioDataSO);
 			builder.RegisterInstance(AudioView);
 			builder.RegisterInstance(ApplicationSettings);
+			builder.RegisterInstance(CurrencyConfig);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
@@ -54,6 +57,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.Register<IAudioModel, AudioModel>(Lifetime.Singleton);
 			builder.Register<IHapticModel, HapticModel>(Lifetime.Singleton);
 			builder.Register<INotificationModel, NotificationModel>(Lifetime.Singleton);
+			builder.Register<ICurrencyModel, CurrencyModel>(Lifetime.Singleton);
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);
@@ -71,6 +75,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<ChangeHapticActivationSignal>();
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
+			builder.DeclareSignal<CurrencyChangedSignal>();
 			
 			//Main Menu
 			builder.DeclareSignal<TriggerExitMainMenuSignal>();
