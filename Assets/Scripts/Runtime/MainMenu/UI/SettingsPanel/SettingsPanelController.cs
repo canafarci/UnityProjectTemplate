@@ -1,22 +1,22 @@
 using System;
-using MainMenu.Enums;
 using ProjectTemplate.Runtime.CrossScene.Audio;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
+using ProjectTemplate.Runtime.CrossScene.Notifications;
+using ProjectTemplate.Runtime.MainMenu.Enums;
 using VContainer;
 using VContainer.Unity;
-using WarRush.CrossScene.Notifications;
 
-namespace MainMenu.Settings
+namespace ProjectTemplate.Runtime.MainMenu.UI.SettingsPanel
 {
-	public class SettingsUIController : IInitializable, IDisposable
+	public class SettingsPanelController : IInitializable, IDisposable
 	{
 		[Inject] private IAudioModel _audioModel;
 		[Inject] private IHapticModel _hapticModel;
 		[Inject] private INotificationModel _notificationModel;
 		
-		private readonly SettingsUIMediator _mediator;
+		private readonly SettingsPanelMediator _mediator;
 
-		public SettingsUIController(SettingsUIMediator mediator)
+		public SettingsPanelController(SettingsPanelMediator mediator)
 		{
 			_mediator = mediator;
 		}

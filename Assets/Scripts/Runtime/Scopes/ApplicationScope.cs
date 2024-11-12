@@ -9,6 +9,7 @@ using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen.Signals;
+using ProjectTemplate.Runtime.CrossScene.Notifications;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
@@ -53,6 +54,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.Register<IAudioModel, AudioModel>(Lifetime.Singleton);
 			builder.Register<IHapticModel, HapticModel>(Lifetime.Singleton);
+			builder.Register<INotificationModel, NotificationModel>(Lifetime.Singleton);
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);

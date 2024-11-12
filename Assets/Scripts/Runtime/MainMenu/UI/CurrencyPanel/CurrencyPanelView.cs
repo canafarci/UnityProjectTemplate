@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace MainMenu.CurrencyUI
+namespace ProjectTemplate.Runtime.MainMenu.UI.CurrencyPanel
 {
-	public class CurrencyUIView : MonoBehaviour
+	public class CurrencyPanelView : MonoBehaviour
 	{
 		[SerializeField] private TextMeshProUGUI CurrencyText;
 		public TextMeshProUGUI currencyText => CurrencyText;

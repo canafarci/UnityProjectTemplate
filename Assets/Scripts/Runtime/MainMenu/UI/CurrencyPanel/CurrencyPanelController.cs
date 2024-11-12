@@ -1,11 +1,6 @@
-using System;
-using ProjectTemplate.Runtime.Infrastructure.Templates;
-using VContainer;
-using VContainer.Unity;
-
-namespace MainMenu.CurrencyUI
+namespace ProjectTemplate.Runtime.MainMenu.UI.CurrencyPanel
 {
-	public class CurrencyUIController //: SignalListener
+	public class CurrencyPanelController //: SignalListener
 	{
 		// protected override void SubscribeToEvents()
 		// {

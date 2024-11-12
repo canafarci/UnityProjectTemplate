@@ -1,4 +1,4 @@
-namespace WarRush.CrossScene.Notifications
+namespace ProjectTemplate.Runtime.CrossScene.Notifications
 {
 	public interface INotificationModel
 	{

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using MainMenu.Enums;
+using ProjectTemplate.Runtime.MainMenu.Enums;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace MainMenu.Data
+namespace ProjectTemplate.Runtime.MainMenu.Data
 {
 	[CreateAssetMenu(fileName = "Upgrade Data", menuName = "WarRush/Upgrade Data", order = 0)]
 	public class UpgradeDataSO : SerializedScriptableObject

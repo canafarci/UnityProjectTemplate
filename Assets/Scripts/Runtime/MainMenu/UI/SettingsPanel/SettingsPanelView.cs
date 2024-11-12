@@ -2,9 +2,9 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainMenu.Settings
+namespace ProjectTemplate.Runtime.MainMenu.UI.SettingsPanel
 {
-    public class SettingsUIView : SerializedMonoBehaviour
+    public class SettingsPanelView : SerializedMonoBehaviour
     {
         [SerializeField] private Button FacebookDataDeleteButton;
         [SerializeField] private Button RestorePurchasesButton;
@@ -22,31 +22,18 @@ namespace MainMenu.Settings
         [SerializeField] private SettingSlider HapticSettingSlider;
         
         public Button facebookDataDeleteButton => FacebookDataDeleteButton;
-
         public Button restorePurchasesButton => RestorePurchasesButton;
-
         public Button privacyPolicyButton => PrivacyPolicyButton;
-
         public Button termsAndConditionsButton => TermsAndConditionsButton;
-
         public Button backButton => BackButton;
-
         public Button toggleMusicButton => ToggleMusicButton;
-
         public Button toggleSoundButton => ToggleSoundButton;
-
         public Button toggleHapticButton => ToggleHapticButton;
-
         public Button toggleNotificationsButton => ToggleNotificationsButton;
-
         public SettingSlider musicSettingSlider => MusicSettingSlider;
-
         public SettingSlider soundSettingSlider => SoundSettingSlider;
-
         public SettingSlider notificationSettingSlider => NotificationSettingSlider;
-
         public SettingSlider hapticSettingSlider => HapticSettingSlider;
-
         public Button openSettingsButton => OpenSettingsButton;
     }
 }

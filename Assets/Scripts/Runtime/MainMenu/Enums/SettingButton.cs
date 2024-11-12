@@ -1,4 +1,4 @@
-namespace MainMenu.Enums
+namespace ProjectTemplate.Runtime.MainMenu.Enums
 {
 	public enum SettingButton
 	{

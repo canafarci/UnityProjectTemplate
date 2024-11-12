@@ -1,42 +1,42 @@
 using System;
-using MainMenu.Enums;
+using ProjectTemplate.Runtime.MainMenu.Enums;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace MainMenu.Settings
+namespace ProjectTemplate.Runtime.MainMenu.UI.SettingsPanel
 {
-	public class SettingsUIMediator : IInitializable, IDisposable
+	public class SettingsPanelMediator : IInitializable, IDisposable
 	{
-		private readonly SettingsUIView _view;
+		private readonly SettingsPanelView _view;
 		public event Action<SettingButton> OnToggleSettingButtonClicked; 
 
-		public SettingsUIMediator(SettingsUIView view)
+		public SettingsPanelMediator(SettingsPanelView view)
 		{
 			_view = view;
 		}
 		
-		public async void ChangeSliderVisual(SettingButton button, bool isOn)
+		public async void ChangeSliderVisual(SettingButton button, bool isEnabled)
 		{
 			switch (button)
 			{
 				case SettingButton.Music:
 					_view.toggleMusicButton.interactable = false;
-					await _view.musicSettingSlider.UpdateAppearance(isOn);
+					await _view.musicSettingSlider.UpdateAppearance(isEnabled);
 					_view.toggleMusicButton.interactable = true;
 					break;
 				case SettingButton.Sound:
 					_view.toggleSoundButton.interactable = false;
-					await _view.soundSettingSlider.UpdateAppearance(isOn);
+					await _view.soundSettingSlider.UpdateAppearance(isEnabled);
 					_view.toggleSoundButton.interactable = true;
 					break;
 				case SettingButton.Haptic:
 					_view.toggleHapticButton.interactable = false;
-					await _view.hapticSettingSlider.UpdateAppearance(isOn);
+					await _view.hapticSettingSlider.UpdateAppearance(isEnabled);
 					_view.toggleHapticButton.interactable = true;
 					break;
 				case SettingButton.Notification:
 					_view.toggleNotificationsButton.interactable = false;
-					await _view.notificationSettingSlider.UpdateAppearance(isOn);
+					await _view.notificationSettingSlider.UpdateAppearance(isEnabled);
 					_view.toggleNotificationsButton.interactable = true;
 					break;
 				default:
