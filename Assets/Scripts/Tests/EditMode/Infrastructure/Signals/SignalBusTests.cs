@@ -71,13 +71,15 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
             // Act
             _signalBus.Subscribe(handler);
             _signalBus.Unsubscribe(handler);
-            
-            var exception = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(new TestSignal()));
-            Assert.AreEqual("No subscribers for signal 'TestSignal'.", exception.Message);
+
+            // Expect a warning instead of an exception, as there are no subscribers after unsubscribing.
+            LogAssert.Expect(LogType.Warning, "No subscribers for signal 'TestSignal'.");
+            _signalBus.Fire(new TestSignal());
 
             // Assert
             Assert.IsFalse(handlerCalled, "The handler should not be called after being unsubscribed.");
         }
+
 
         [Test]
         public void Fire_Should_Invoke_All_Subscribed_Handlers_For_Signal()
@@ -122,14 +124,17 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
         }
 
         [Test]
-        public void Fire_Should_Throw_Exception_If_No_Handlers_Are_Subscribed()
+        public void Fire_Should_Log_Warning_If_No_Handlers_Are_Subscribed()
         {
             // Arrange
             var testSignal = new TestSignal();
 
-            // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => _signalBus.Fire(testSignal));
-            Assert.AreEqual("No subscribers for signal 'TestSignal'.", exception.Message);
+            // Act
+            LogAssert.Expect(LogType.Warning, "No subscribers for signal 'TestSignal'.");
+            _signalBus.Fire(testSignal);
+
+            // Assert
+            // No exception should be thrown, and the warning log should match.
         }
 
         [Test]

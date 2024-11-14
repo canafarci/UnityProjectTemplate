@@ -14,10 +14,19 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.CrossScene.Currency
         private CurrencyConfig _currencyConfig;
         private ICurrencyModel _currencyModel;
         private SignalBus _signalBus;
-
+        private Dictionary<CurrencyID, int> _originalLookup;
+        private	const string PERSISTENT_DATA_PATH = "PERSISTENT_DATA";
+        private	const string CURRENCY_KEY = "CURRENCY_KEY";
+        
         [SetUp]
         public void Setup()
         {
+            if (ES3.KeyExists(CURRENCY_KEY, PERSISTENT_DATA_PATH))
+            {
+                _originalLookup = ES3.Load<Dictionary<CurrencyID, int>>(CURRENCY_KEY, PERSISTENT_DATA_PATH);
+                ES3.DeleteKey(CURRENCY_KEY, PERSISTENT_DATA_PATH);
+            }
+            
             ContainerBuilder builder = new();
             builder.RegisterSignalBus();
             builder.DeclareSignal<CurrencyChangedSignal>();
@@ -36,6 +45,16 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.CrossScene.Currency
             
             IObjectResolver container = builder.Build();
             _currencyModel = container.Resolve<ICurrencyModel>();
+            _signalBus = container.Resolve<SignalBus>();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (ES3.KeyExists(CURRENCY_KEY, PERSISTENT_DATA_PATH))
+            {
+                ES3.Save(CURRENCY_KEY, _originalLookup, PERSISTENT_DATA_PATH);
+            }
         }
 
         private void SetCurrencyDefaultValues(Dictionary<CurrencyID, int> values)
@@ -78,7 +97,7 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.CrossScene.Currency
         [Test]
         public void AddCurrency_NegativeAmount_ThrowsAssertion()
         {
-            Assert.Throws<AssertionException>(() => _currencyModel.AddCurrency(CurrencyID.Money, -10));
+            Assert.Throws<UnityEngine.Assertions.AssertionException>(() => _currencyModel.AddCurrency(CurrencyID.Money, -10));
         }
 
         [Test]
@@ -90,13 +109,13 @@ namespace ProjectTemplate.Tests.EditMode.Gameplay.CrossScene.Currency
         [Test]
         public void AddCurrency_NonExistentCurrencyID_ThrowsAssertion()
         {
-            Assert.Throws<AssertionException>(() => _currencyModel.AddCurrency((CurrencyID)999, 10));
+            Assert.Throws<UnityEngine.Assertions.AssertionException>(() => _currencyModel.AddCurrency((CurrencyID)999, 10));
         }
 
         [Test]
         public void TryPayCost_NonExistentCurrencyID_ThrowsAssertion()
         {
-            Assert.Throws<AssertionException>(() => _currencyModel.TryPayCost((CurrencyID)999, 10));
+            Assert.Throws<UnityEngine.Assertions.AssertionException>(() => _currencyModel.TryPayCost((CurrencyID)999, 10));
         }
 
         [Test]
