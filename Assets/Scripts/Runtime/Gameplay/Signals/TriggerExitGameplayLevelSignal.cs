@@ -1,6 +1,6 @@
 namespace ProjectTemplate.Runtime.Gameplay.Signals
 {
-	public struct ExitGameplayLevelSignal
+	public struct TriggerExitGameplayLevelSignal
 	{
 		
 	}

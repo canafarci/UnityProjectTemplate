@@ -24,7 +24,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 
 		private void ContinueButtonClickedHandler()
 		{
-			_signalBus.Fire(new ExitGameplayLevelSignal());
+			_signalBus.Fire(new TriggerExitGameplayLevelSignal());
 			_mediator.DisableContinueButton();
 		}
 

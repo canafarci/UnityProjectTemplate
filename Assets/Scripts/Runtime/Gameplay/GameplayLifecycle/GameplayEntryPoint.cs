@@ -10,23 +10,14 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 {
 	public class GameplayEntryPoint : SceneEntryPoint
 	{
-		protected override async void EnterScene()
+		protected override void EnterScene()
 		{
-			try
-			{
-				_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Gameplay));
-				_signalBus.Fire(new ChangeGameStateSignal(GameState.Initializing));
+			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Gameplay));
+			_signalBus.Fire(new ChangeGameStateSignal(GameState.Initializing));
 			
-				InitializeGameplay();
-
-				await UniTask.Delay(TimeSpan.FromSeconds(1f));
+			InitializeGameplay();
 			
-				_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
-			}
-			catch (Exception e)
-			{
-				UnityEngine.Debug.LogWarning(e);
-			}
+			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
 		}
 		
 		private void InitializeGameplay()

@@ -24,10 +24,10 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 		
 		protected override void SubscribeToEvents()
 		{
-			_signalBus.Subscribe<ExitGameplayLevelSignal>(OnExitGameplayLevelSignal);
+			_signalBus.Subscribe<TriggerExitGameplayLevelSignal>(OnExitGameplayLevelSignal);
 		}
 
-		private void OnExitGameplayLevelSignal(ExitGameplayLevelSignal signal)
+		private void OnExitGameplayLevelSignal(TriggerExitGameplayLevelSignal signal)
 		{
 			int targetSceneIndex = GetNextLevelIndex();
 			
@@ -49,7 +49,7 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 
 		protected override void UnsubscribeFromEvents()
 		{
-			_signalBus.Unsubscribe<ExitGameplayLevelSignal>(OnExitGameplayLevelSignal);
+			_signalBus.Unsubscribe<TriggerExitGameplayLevelSignal>(OnExitGameplayLevelSignal);
 		}
 	}
 }
