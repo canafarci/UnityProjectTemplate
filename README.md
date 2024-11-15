@@ -48,7 +48,7 @@ Scene archetypes Main Menu and Gameplay Scenes each have an Exit Point class to 
 These classes listen to signals
 
 ```
-    TriggerExitGameplayLevelSignal
+TriggerExitGameplayLevelSignal
 ```
 For Gameplay scene, this signal is triggered from GameStateController class when it processes 
 ```
@@ -56,15 +56,121 @@ TriggerLevelEndSignal(bool isGameWon)
 ```
 which takes in a boolean to set game result in IGameStateModel class.
 
+----
 
-
-and for main menu
+For main menu, exit point class listens for signal
 
 ```
-    TriggerExitMainMenuSignal
+TriggerExitMainMenuSignal
 ```
 
 respectively
+
+## Signal Bus
+
+
+The Signal Bus is a centralized event system that enables decoupled communication between components in your Unity project. It allows you to declare, subscribe to, and fire signals dynamically at runtime, facilitating a clean and modular architecture.
+
+Registering Signals in Scopes
+Signals can be declared within any scope, such as different scenes or lifetime scopes, allowing for flexible and modular signal management.
+
+During Container Setup:
+```
+public class SampleLifetimeScope : LifetimeScope
+{
+    protected override void Configure(IContainerBuilder builder)
+    {
+        builder.RegisterSignalBus();
+        builder.DeclareSignal<PlayerScoredSignal>();
+    }
+}
+```
+
+### Using the SignalListener Class
+To simplify subscribing and unsubscribing from signals, you can inherit from the SignalListener abstract class. This ensures that subscriptions are managed correctly and reduces boilerplate code.
+
+SignalListener Base Class:
+```
+using System;
+using VContainer;
+using VContainer.Unity;
+
+public abstract class SignalListener : IInitializable, IDisposable
+{
+[Inject] protected SignalBus _signalBus;
+
+    public virtual void Initialize()
+    {
+        SubscribeToEvents();
+    }
+
+    protected abstract void SubscribeToEvents();
+    protected abstract void UnsubscribeFromEvents();
+
+    public virtual void Dispose()
+    {
+        UnsubscribeFromEvents();
+    }
+}
+```
+Implementing a Signal Listener:
+```
+public class ScoreManager : SignalListener
+{
+    protected override void SubscribeToEvents()
+    {
+        _signalBus.Subscribe<PlayerScoredSignal>(OnPlayerScored);
+    }
+
+    protected override void UnsubscribeFromEvents()
+    {
+        _signalBus.Unsubscribe<PlayerScoredSignal>(OnPlayerScored);
+    }
+
+    private void OnPlayerScored(PlayerScoredSignal signal)
+    {
+        // Update the score based on signal.Points
+    }
+}
+```
+### Firing Signals
+When an event occurs, you can fire a signal to notify all subscribers.
+```
+public class PlayerController : MonoBehaviour
+{
+[Inject] private SignalBus _signalBus;
+
+    private void ScorePoint()
+    {
+        var signal = new PlayerScoredSignal { Points = 10 };
+        _signalBus.Fire(signal);
+    }
+}
+```
+Signal Class Example:
+```
+public struct PlayerScoredSignal
+{
+    public int Points;
+}
+```
+### Summary
+**Declare Signals:** \
+Use DeclareSignal<TSignal>() in the appropriate scope. \
+**Subscribe and Unsubscribe:** \
+Inherit from SignalListener and implement SubscribeToEvents() and UnsubscribeFromEvents(). \
+**Fire Signals**:  
+Use _signalBus.Fire(new TSignal()) to notify all subscribers.
+By leveraging the Signal Bus and the SignalListener class, you can create a flexible and maintainable event-driven architecture that scales with your project's needs.
+
+Note: Remember to register the SignalBus in your container:
+
+```
+builder.RegisterSignalBus();
+```
+And include any necessary dependencies in your project, such as VContainer, to ensure proper functionality.
+
+-------
 
 ### Acknowledgments
 Special thanks to the developers of VContainer, UniTask, and the Unity community for their invaluable resources and tools.
