@@ -22,14 +22,14 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
         public void Subscribe<TSignal>(Action<TSignal> handler)
         {
             Type signalType = typeof(TSignal);
-            if (!_subscriptions.TryGetValue(signalType, out SignalSubscription subscription))
+            if (_subscriptions.TryGetValue(signalType, out SignalSubscription subscription))
             {
-                // Declare the signal dynamically if it hasn't been declared yet
-                DeclareSignal<TSignal>();
-                subscription = _subscriptions[signalType];
+                subscription.Add(handler);
             }
-
-            subscription.Add(handler);
+            else
+            {
+                throw new InvalidOperationException($"Signal '{signalType.Name}' has not been declared. Please declare it during container setup.");
+            }
         }
 
         public void Unsubscribe<TSignal>(Action<TSignal> handler)
@@ -58,9 +58,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
             }
             else
             {
-                // Optionally declare the signal if it hasn't been declared
-                DeclareSignal<TSignal>();
-                Debug.LogWarning($"Signal '{signalType.Name}' has been dynamically declared but has no subscribers.");
+                throw new InvalidOperationException($"Signal '{signalType.Name}' has not been declared. Please declare it during container setup.");
             }
         }
 

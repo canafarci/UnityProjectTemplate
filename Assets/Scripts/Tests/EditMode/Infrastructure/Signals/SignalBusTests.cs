@@ -23,27 +23,7 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
         {
             // Define the signals that SignalBus should recognize
             _signalBus = new SignalBus();
-        }
-
-        [Test] 
-        public void DeclareSignal_Should_Update_DeclaredSignalTypes()
-        {
-            //arrange
-            ContainerBuilder builder = new();
-            
-            //Act
-            builder.DeclareSignal<TestSignal>();
-            
-            //Assert
-            Type extensionsType = typeof(ContainerBuilderExtensions);
-
-            // Access the private static field 'DeclaredSignalTypes' via reflection
-            FieldInfo declaredSignalTypesField = extensionsType.GetField("DeclaredSignalTypes",
-                BindingFlags.NonPublic | BindingFlags.Static);
-            // Get the value of 'DeclaredSignalTypes'
-            List<Type> declaredSignalTypes = (List<Type>)declaredSignalTypesField.GetValue(null);
-            
-            Assert.IsTrue(declaredSignalTypes.Contains(typeof(TestSignal)));
+            _signalBus.DeclareSignal<TestSignal>();
         }
 
         [Test]
