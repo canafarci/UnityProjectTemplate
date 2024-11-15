@@ -12,6 +12,9 @@ Features
 **<ins> Editor Configurable Object Pool </ins>**: An object pool directly configurable from the editor, with support for both Pure C# and Mono classes implementing IPoolable interface \
 **<ins> Bootstrap Scene Loader </ins>**: An editor tool to load bootstrap scene every time Play mode is entered, with option to load currently loaded scene after bootstrapping as well
 
+
+
+
 ### Getting Started
 
 Clone the Repository:
@@ -60,7 +63,6 @@ TriggerLevelEndSignal(bool isGameWon)
 ```
 which takes in a boolean to set game result in IGameStateModel class.
 
-----
 
 For main menu, exit point class listens for signal
 
@@ -68,17 +70,15 @@ For main menu, exit point class listens for signal
 TriggerExitMainMenuSignal
 ```
 
-respectively
-
+----
 ## Signal Bus
 
 
 The Signal Bus is a centralized event system that enables decoupled communication between components in your Unity project. It allows you to declare, subscribe to, and fire signals dynamically at runtime, facilitating a clean and modular architecture.
 
-Registering Signals in Scopes
-Signals can be declared within any scope, such as different scenes or lifetime scopes, allowing for flexible and modular signal management.
-
-During Container Setup:
+### Registering Signals in Scopes
+Signals can be declared within any scope, such as different scenes or lifetime scopes, allowing for flexible and modular signal management 
+during Container Setup:
 ```
 public class SampleLifetimeScope : LifetimeScope
 {
@@ -101,7 +101,7 @@ using VContainer.Unity;
 
 public abstract class SignalListener : IInitializable, IDisposable
 {
-[Inject] protected SignalBus _signalBus;
+    [Inject] protected SignalBus _signalBus;
 
     public virtual void Initialize()
     {
@@ -159,12 +159,11 @@ public struct PlayerScoredSignal
 }
 ```
 ### Summary
-**Declare Signals:** \
-Use DeclareSignal<TSignal>() in the appropriate scope. \
-**Subscribe and Unsubscribe:** \
+* Declare Signals: Use ```DeclareSignal<TSignal>()``` in the appropriate scope. \
+* Subscribe and Unsubscribe:
 Inherit from SignalListener and implement SubscribeToEvents() and UnsubscribeFromEvents(). \
-**Fire Signals**:  
-Use _signalBus.Fire(new TSignal()) to notify all subscribers.
+* Fire Signals:  Use _signalBus.Fire(new TSignal()) to notify all subscribers.
+
 By leveraging the Signal Bus and the SignalListener class, you can create a flexible and maintainable event-driven architecture that scales with your project's needs.
 
 Note: Remember to register the SignalBus in your container:
