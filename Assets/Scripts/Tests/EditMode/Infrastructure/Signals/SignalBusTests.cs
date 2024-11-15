@@ -22,8 +22,7 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
         public void SetUp()
         {
             // Define the signals that SignalBus should recognize
-            _signalBus = new SignalBus();
-            _signalBus.DeclareSignal<TestSignal>();
+            _signalBus = new SignalBus(new List<Type>() {typeof(TestSignal)});
         }
 
         [Test]

@@ -9,6 +9,17 @@ namespace ProjectTemplate.Runtime.Infrastructure.Signals
     public sealed class SignalBus
     {
         private readonly Dictionary<Type, SignalSubscription> _subscriptions = new();
+        
+        public SignalBus(List<Type> signalTypes)
+        {
+            foreach (Type signalType in signalTypes)
+            {
+                if (!_subscriptions.ContainsKey(signalType))
+                {
+                    _subscriptions[signalType] = new SignalSubscription(signalType);
+                }
+            }
+        }
 
         public void DeclareSignal<TSignal>()
         {
