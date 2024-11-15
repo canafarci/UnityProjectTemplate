@@ -172,6 +172,226 @@ And include any necessary dependencies in your project, such as VContainer, to e
 
 -------
 
+## Custom Object Pool
+
+-------
+The custom object pool in this project is designed to efficiently manage the creation and reuse of objects, both MonoBehaviours and pure C# classes, that implement the IPoolable interface. It helps reduce memory allocations and improve performance by reusing objects instead of instantiating and destroying them frequently.
+
+### Key Features
+* Supports MonoBehaviours and Pure C# Classes: Manage pools for both types of objects.
+* Editor Configurable: Define pool settings directly in the Unity Editor via PoolConfig.
+* Lifecycle Management: Objects implement IPoolable to handle their own initialization and cleanup.
+* Scene-Based Pool Management: Optionally manage pools based on scene changes using AppStateID.
+* Thread-Safe Operations: Safe to use in asynchronous contexts.
+
+### Setting Up the PoolManager
+To use the object pool, you need to register the PoolManager in your dependency injection container (e.g., VContainer) and provide it with a PoolConfig.
+
+Registering PoolManager:
+```
+
+public class ProjectLifetimeScope : LifetimeScope
+{
+    [SerializeField] private PoolConfig PoolConfig;
+
+    protected override void Configure(IContainerBuilder builder)
+    {
+        builder.RegisterPoolManager(PoolConfig);
+    }
+}
+```
+
+---- 
+
+### Configuring Pools via PoolConfig
+PoolConfig is a ScriptableObject that holds a list of PoolEntry objects, each defining the settings for a specific pool.
+
+#### Creating a PoolConfig:
+
+```
+Create a PoolConfig Asset:
+
+Right-click in the Project window.
+Select Create > Infrastructure > PoolConfig.
+Name the asset (e.g., "MyPoolConfig").
+```
+Define Pool Entries:
+
+* Open the PoolConfig asset.
+* Add new PoolEntry items to the list.
+
+#### PoolEntry Fields:
+
+* IsMonoBehaviour: Check this if the object is a MonoBehaviour.
+* Prefab: Assign the prefab if IsMonoBehaviour is true.
+* ClassTypeName: Select the class type that implements IPoolable.
+* InitialSize: Number of objects to instantiate initially.
+* DefaultCapacity: Initial capacity of the pool's internal list.
+* MaximumSize: Maximum number of objects the pool can hold.
+* ManagePoolOnSceneChange: If true, the pool will manage objects based on scene changes.
+* LifetimeSceneID: Specify the scene or app state the pool is associated with.
+
+---- 
+
+### Implementing the IPoolable Interface
+Any object you want to pool must implement the IPoolable interface:
+```
+public interface IPoolable
+{
+    void OnCreated();
+    void OnDestroyed();
+    void OnGetFromPool();
+    void OnReturnToPool();
+}
+```
+### Example Implementation for a MonoBehaviour:
+```
+public class Enemy : MonoBehaviour, IPoolable
+{
+    public void OnCreated()
+    {
+        // Initialization logic when the object is first created
+    }
+
+    public void OnDestroyed()
+    {
+        // Cleanup logic before the object is destroyed
+    }
+
+    public void OnGetFromPool()
+    {
+        // Reset the object's state when retrieved from the pool
+    }
+
+    public void OnReturnToPool()
+    {
+        // Logic before the object is returned to the pool
+    }
+}
+```
+Example Implementation for a Pure C# Class:
+```
+public class Projectile : IPoolable
+{
+    public void OnCreated()
+    {
+    // Initialization logic
+    }
+
+    public void OnDestroyed()
+    {
+        // Cleanup logic
+    }
+
+    public void OnGetFromPool()
+    {
+        // Reset state
+    }
+
+    public void OnReturnToPool()
+    {
+        // Logic before returning to pool
+    }
+}
+```
+----
+### Getting and Releasing Objects from the Pool
+Use the PoolManager to get and release objects.
+
+Injecting PoolManager:
+```
+public class EnemySpawner : MonoBehaviour
+{
+    [Inject] private PoolManager _poolManager;
+
+    // ...
+}
+```
+
+Getting a Pooled MonoBehaviour Object:
+```
+Enemy enemy = _poolManager.GetMono<Enemy>();
+// Use the enemy instance
+```
+Releasing a MonoBehaviour Object Back to the Pool:
+```
+_poolManager.ReleaseMono(enemy);
+```
+Getting a Pooled Pure C# Object:
+
+```
+Projectile projectile = _poolManager.GetPure<Projectile>();
+// Use the projectile instance
+```
+Releasing a Pure C# Object Back to the Pool:
+
+```
+_poolManager.ReleasePure(projectile);
+```
+Example Usage
+Spawning Enemies:
+```
+public class EnemySpawner : MonoBehaviour
+{
+[Inject] private PoolManager _poolManager;
+
+    private void SpawnEnemy()
+    {
+        Enemy enemy = _poolManager.GetMono<Enemy>();
+        enemy.transform.position = GetSpawnPosition();
+        // Initialize enemy as needed
+    }
+
+    private void DespawnEnemy(Enemy enemy)
+    {
+        _poolManager.ReleaseMono(enemy);
+    }
+}
+```
+Handling Projectiles:
+```
+public class Weapon : MonoBehaviour
+{
+    [Inject] private PoolManager _poolManager;
+
+    public void Fire()
+    {
+        Projectile projectile = _poolManager.GetPure<Projectile>();
+        projectile.SetPosition(transform.position);
+        projectile.Launch();
+    }
+
+    private void OnProjectileExpired(Projectile projectile)
+    {
+        _poolManager.ReleasePure(projectile);
+    }
+}
+```
+
+-----
+### Managing Pools on Scene Change
+If ManagePoolOnSceneChange is enabled for a pool, the pool will automatically manage its objects based on the specified LifetimeSceneID.
+
+Objects are destroyed when exiting the scene and Initial objects are instantiated when entering the scene. \
+This ensures that the pool's objects are only available during the gameplay scene, helping to manage memory and resources efficiently.
+
+### Best Practices
+* Always Release Objects: Make sure to release objects back to the pool when done.
+* Implement IPoolable Properly: Ensure all methods are appropriately handled to avoid unexpected behavior.
+* Configure Pools Wisely: Set InitialSize, DefaultCapacity, and MaximumSize based on expected usage to optimize performance.
+* Avoid Memory Leaks: If you're pooling MonoBehaviours that are not set to DontDestroyOnLoad, ensure they are properly managed when scenes change.
+### Summary
+* Register PoolManager with your container, providing a PoolConfig.
+* Define Pools in PoolConfig via PoolEntry items.
+* Implement IPoolable in your pooled objects.
+* Use ```GetMono<T>()``` and ```ReleaseMono<T>()``` for MonoBehaviours.
+* Use ```GetPure<T>()``` and ```ReleasePure<T>()``` for pure C# classes.
+By following these steps, you can effectively utilize the custom object pool in your Unity project to enhance performance and manage resources efficiently.
+
+Note: Ensure that any dependencies, such as Odin Inspector for the [FoldoutGroup] and [ValueDropdown] attributes, are included in your project to use the pool configuration in the editor.
+
+
+
 ### Acknowledgments
 Special thanks to the developers of VContainer, UniTask, and the Unity community for their invaluable resources and tools.
 
