@@ -22,8 +22,7 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
         public void SetUp()
         {
             // Define the signals that SignalBus should recognize
-            List<Type> declaredSignals = new List<Type> { typeof(TestSignal) };
-            _signalBus = new SignalBus(declaredSignals);
+            _signalBus = new SignalBus();
         }
 
         [Test] 
@@ -39,7 +38,8 @@ namespace ProjectTemplate.Tests.EditMode.Infrastructure.Signals
             Type extensionsType = typeof(ContainerBuilderExtensions);
 
             // Access the private static field 'DeclaredSignalTypes' via reflection
-            FieldInfo declaredSignalTypesField = extensionsType.GetField("DeclaredSignalTypes", BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo declaredSignalTypesField = extensionsType.GetField("DeclaredSignalTypes",
+                BindingFlags.NonPublic | BindingFlags.Static);
             // Get the value of 'DeclaredSignalTypes'
             List<Type> declaredSignalTypes = (List<Type>)declaredSignalTypesField.GetValue(null);
             

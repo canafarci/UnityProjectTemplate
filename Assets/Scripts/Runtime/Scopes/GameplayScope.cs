@@ -1,8 +1,10 @@
 using ProjectTemplate.Runtime.Gameplay;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
+using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings;
+using ProjectTemplate.Runtime.Infrastructure.Signals;
 using VContainer;
 using VContainer.Unity;
 
@@ -15,6 +17,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterGameplayLifecycleManagers(builder);
 			RegisterInGameSettings(builder);
 			RegisterGameOverPanel(builder);
+			RegisterSignals(builder);
 		}
 
 		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
@@ -37,6 +40,14 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterComponentInHierarchy<GameOverPanelView>().AsSelf();
 			builder.RegisterEntryPoint<GameOverPanelMediator>().AsSelf();
 			builder.RegisterEntryPoint<GameOverPanelController>().AsSelf();
+		}
+		
+		private void RegisterSignals(IContainerBuilder builder)
+		{
+			builder.DeclareSignal<GameStateChangedSignal>();
+			builder.DeclareSignal<ChangeGameStateSignal>();
+			builder.DeclareSignal<TriggerLevelEndSignal>();
+			builder.DeclareSignal<ExitGameplayLevelSignal>();
 		}
 	}
 }

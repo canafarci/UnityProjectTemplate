@@ -1,6 +1,7 @@
 using ProjectTemplate.Runtime.Gameplay.Enums;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates

@@ -76,15 +76,6 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
 			builder.DeclareSignal<CurrencyChangedSignal>();
-			
-			//Main Menu
-			builder.DeclareSignal<TriggerExitMainMenuSignal>();
-			
-			//Gameplay
-			builder.DeclareSignal<GameStateChangedSignal>();
-			builder.DeclareSignal<ChangeGameStateSignal>();
-			builder.DeclareSignal<TriggerLevelEndSignal>();
-			builder.DeclareSignal<ExitGameplayLevelSignal>();
 		}
 		
 		private void RegisterLoadingScreen(IContainerBuilder builder)

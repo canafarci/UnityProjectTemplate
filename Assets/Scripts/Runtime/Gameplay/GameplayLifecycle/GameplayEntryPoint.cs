@@ -12,14 +12,21 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 	{
 		protected override async void EnterScene()
 		{
-			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Gameplay));
-			_signalBus.Fire(new ChangeGameStateSignal(GameState.Initializing));
+			try
+			{
+				_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Gameplay));
+				_signalBus.Fire(new ChangeGameStateSignal(GameState.Initializing));
 			
-			InitializeGameplay();
+				InitializeGameplay();
 
-			await UniTask.Delay(TimeSpan.FromSeconds(1f));
+				await UniTask.Delay(TimeSpan.FromSeconds(1f));
 			
-			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));		
+				_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
+			}
+			catch (Exception e)
+			{
+				UnityEngine.Debug.LogWarning(e);
+			}
 		}
 		
 		private void InitializeGameplay()
