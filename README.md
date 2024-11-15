@@ -20,6 +20,10 @@ git clone https://github.com/canafarci/UnityProjectTemplate.git
 ```
 This template is developed using Unity version 2022.3.24f.
 
+-----
+
+
+
 ## Architecture Overview
 The project follows a Bootstrap initialization pattern leading to Level scene loading. An optional Main Menu layer can be inserted between the Bootstrap and Level scenes, allowing the Main Menu to manage scene navigation and settings.
 
@@ -390,6 +394,84 @@ By following these steps, you can effectively utilize the custom object pool in 
 
 Note: Ensure that any dependencies, such as Odin Inspector for the [FoldoutGroup] and [ValueDropdown] attributes, are included in your project to use the pool configuration in the editor.
 
+----
+
+## Bootstrap Scene Loader
+![bootstrap.png](Images/bootstrap.png) \
+You can use this tools menu to load the current scene after loading bootstrap when it is toggled on. This is meant to save time for each time entering the play mode, as it requires the bootstrap scene to be loaded first.
+
+## Application Settings
+The ApplicationSettings class is a ScriptableObject that centralizes configurable settings for your Unity project. It leverages Odin Inspector attributes to enhance the editor experience, allowing for organized and conditional display of settings in the Unity Inspector.
+
+![ApplicationSettings.png](Images/ApplicationSettings.png) \
+Class Overview
+```
+public class ApplicationSettings : SerializedScriptableObject
+{
+// General Settings
+public int TargetFrameRate = 60;
+public bool ShowLoadingScreen = false;
+public bool HasMainMenu = false;
+
+    // Scene Indexes
+    [TitleGroup("Scene Indexes")]
+    public int FirstGameplayLevelIndex;
+    public int LevelToLoopAfterAllLevelsFinishedIndex;
+    [ShowIf("HasMainMenu")]
+    public int MainMenuSceneIndex;
+
+    // Loading Screen Settings
+    [ShowIf("ShowLoadingScreen")]
+    [TitleGroup("Loading Screen")]
+    public float LoadingScreenMinimumDuration = 0.5f;
+    [ShowIf("ShowLoadingScreen")]
+    public LoadingScreenView LoadingScreenPrefab;
+
+    // DOTween Settings
+    [TitleGroup("DOTween Settings")]
+    public bool RecycleAllByDefault = false;
+    public bool UseSafeMode = false;
+    public Ease DefaultEase = Ease.Linear;
+    public int TweenCapacity;
+    public int SequenceCapacity;
+}
+```
+### Fields and Properties
+#### General Settings
+* TargetFrameRate (int): Sets the desired frame rate for the application. Default is 60.
+
+* ShowLoadingScreen (bool): Determines whether a loading screen should be displayed during scene transitions.
+
+*  HasMainMenu (bool): Indicates if the application includes a main menu scene.
+
+#### Scene Indexes
+Grouped under the Scene Indexes title for better organization.
+
+* FirstGameplayLevelIndex (int): The build index of the first gameplay level scene.
+
+* LevelToLoopAfterAllLevelsFinishedIndex (int): The build index of the level to loop back to after all levels are completed.
+
+* MainMenuSceneIndex (int): (Shown only if HasMainMenu is true) The build index of the main menu scene. The application will load this scene when returning to the main menu
+
+#### Loading Screen Settings
+Grouped under the Loading Screen title and shown only if ShowLoadingScreen is true.
+
+* LoadingScreenMinimumDuration (float): The minimum time (in seconds) that the loading screen should be displayed. Default is 0.5f.
+
+* LoadingScreenPrefab (LoadingScreenView): Reference to the loading screen prefab to be instantiated during scene transitions.
+
+#### DOTween Settings
+Grouped under the DOTween Settings title.
+
+* RecycleAllByDefault (bool): Determines whether all tweens should be recycled by default. If true, tweens are reused, reducing garbage collection but requiring careful management to avoid conflicts.
+
+* UseSafeMode (bool): Enables DOTween's safe mode, which catches and logs errors without stopping execution.
+
+* DefaultEase (Ease): Sets the default easing function for tweens. Default is Ease.Linear.
+
+* TweenCapacity (int): Sets the initial capacity of the Tween pool.
+
+*  SequenceCapacity (int): Sets the initial capacity of the Sequence pool.
 
 
 ### Acknowledgments
