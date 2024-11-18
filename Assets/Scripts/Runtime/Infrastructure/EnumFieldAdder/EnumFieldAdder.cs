@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace ProjectTemplate.Runtime.Infrastructure.EnumFieldAdder
 {
+#if UNITY_EDITOR
     [HideLabel]
     [HideReferenceObjectPicker]
 	public class EnumFieldAdder<T>
@@ -177,5 +178,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.EnumFieldAdder
 
             return validName;
         }
+#endif
 	}
 }
