@@ -10,7 +10,6 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 		
 		private int _levelToLoadIndex;
 		private int _levelVisualDisplayNumber = ES3.Load(LEVEL_VISUAL_NUMBER, PERSISTENT_DATA_PATH, 1);
-		private int _towerHealthUpgradeLevel;
 		private bool _isFirstTimePlaying;
 		
 		private	const string LEVEL_TO_LOAD_INDEX = "LEVEL_TO_LOAD_INDEX";
