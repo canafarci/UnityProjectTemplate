@@ -1,18 +1,18 @@
 {
-    "name": "ProjectTemplate.Editor",
-    "rootNamespace": "ProjectTemplate.Editor",
-    "references": [
-        "GUID:7eded9797a8fa43df8d2c4a01c313f06"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "ProjectTemplate.Editor",
+  "rootNamespace": "ProjectTemplate.Editor",
+  "references": [
+    "GUID:7eded9797a8fa43df8d2c4a01c313f06"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }
