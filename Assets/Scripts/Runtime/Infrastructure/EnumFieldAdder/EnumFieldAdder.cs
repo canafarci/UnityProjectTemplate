@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace ZumaMatch.Runtime.Infrastructure.EnumFieldAdder
+namespace ProjectTemplate.Runtime.Infrastructure.EnumFieldAdder
 {
     [HideLabel]
     [HideReferenceObjectPicker]
