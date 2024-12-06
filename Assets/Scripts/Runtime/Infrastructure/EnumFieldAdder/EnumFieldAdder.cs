@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,13 +6,13 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace ProjectTemplate.Runtime.Infrastructure.EnumFieldAdder
+namespace ZumaMatch.Runtime.Infrastructure.EnumFieldAdder
 {
-#if UNITY_EDITOR
     [HideLabel]
     [HideReferenceObjectPicker]
 	public class EnumFieldAdder<T>
 	{
+#if UNITY_EDITOR
 		[Title("Add New Field to Enum")]
         public string NewFieldName;
 
@@ -84,7 +84,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.EnumFieldAdder
         {
             // Find the .cs asset that defines the enum
             string[] guids = AssetDatabase.FindAssets($"{enumType.Name} t:Script");
-
             foreach (string guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
