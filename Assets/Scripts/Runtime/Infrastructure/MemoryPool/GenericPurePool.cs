@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 {
-	public class GenericPool<T> : PoolBase<T> where T : class, IPoolable
+	public class GenericPurePool<T> : PoolBase<T> where T : class, IPoolable
 	{
 		// ReSharper disable once CollectionNeverQueried.Local
 		private List<T> _referenceToStopGCList; //needed to stop GC from collecting pure C# classes
 
-		public GenericPool(PoolParams poolParams) : base(poolParams)
+		public GenericPurePool(PoolParams poolParams) : base(poolParams)
 		{
 			if (!_managePoolOnSceneChange)
 			{

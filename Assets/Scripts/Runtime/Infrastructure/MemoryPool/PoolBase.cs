@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
-using UnityEngine;
+using Sirenix.Utilities;
 using UnityEngine.Pool;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
@@ -15,6 +15,8 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
         protected readonly bool _managePoolOnSceneChange;
         protected readonly List<T> _pooledObjectsList;
+        
+        private readonly HashSet<T> _activeObjects = new();
 
         protected ObjectPool<T> _pool { get; private set; }
 
@@ -24,16 +26,26 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
             _lifetimeSceneID = poolParams.LifetimeSceneID;
             _managePoolOnSceneChange = poolParams.ManagePoolOnSceneChange;
 
-            _pool = new ObjectPool<T>(CreateObject,
-                GetFromPool,
-                ReturnToPool,
-                DestroyObject,
-                true,
-                poolParams.DefaultCapacity,
-                poolParams.MaximumSize);
+            CreatePool(poolParams);
 
             _pooledObjectsList = GetInternalList();
             
+            SubscribeToAppStateChangeEvents();
+        }
+
+        private void CreatePool(PoolParams poolParams)
+        {
+            _pool = new ObjectPool<T>(CreateObject,
+                                      GetFromPool,
+                                      ReturnToPool,
+                                      DestroyObject,
+                                      true,
+                                      poolParams.DefaultCapacity,
+                                      poolParams.MaximumSize);
+        }
+
+        private void SubscribeToAppStateChangeEvents()
+        {
             if (_managePoolOnSceneChange)
             {
                 PoolManager.OnAppStateChanged += OnAppStateChangedHandler;
@@ -64,9 +76,25 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
             _initialObjectList.Clear();
         }
 
-        public T Get() => _pool.Get();
+        internal T Get()
+        {
+            T poolable = _pool.Get();
+            _activeObjects.Add(poolable);
+            return poolable;
+        }
 
-        public void Release(T obj) => _pool.Release(obj);
+        internal void Release(T obj)
+        {
+            _activeObjects.Remove(obj);
+            _pool.Release(obj);
+        }
+
+        internal void ReleaseAll()
+        {
+            //in order to prevent collection modified exception when looping
+            HashSet<T> activeObjects = new(_activeObjects);
+            activeObjects.ForEach(Release);
+        }
 
         private List<T> GetInternalList()
         {
@@ -85,13 +113,18 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
             _pool.Clear();
         }
 
-        // Abstract methods to be implemented by derived classes for specific object creation and lifecycle management
+        // abstract methods to be implemented by derived classes for specific object creation and lifecycle management
         protected abstract T CreateObject();
         protected abstract void GetFromPool(T obj);
         protected abstract void ReturnToPool(T obj);
         protected abstract void DestroyObject(T obj);
 
         ~PoolBase()
+        {
+            UnsubscribeToPoolChangeEvents();
+        }
+
+        private void UnsubscribeToPoolChangeEvents()
         {
             if (_managePoolOnSceneChange)
             {

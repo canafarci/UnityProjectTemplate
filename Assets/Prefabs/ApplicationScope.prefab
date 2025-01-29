@@ -406,3 +406,4 @@ MonoBehaviour:
   AudioView: {fileID: 9013529549580266518}
   PoolConfig: {fileID: 11400000, guid: 1bb4d5465cfab4c8d89b88e42d40fc3e, type: 2}
   CurrencyConfig: {fileID: 11400000, guid: bedf5cd195c8cbe45933e1f03c67759f, type: 2}
+  ProgressData: {fileID: 11400000, guid: 096b174d4f54e754d80f970ed8cdf706, type: 2}

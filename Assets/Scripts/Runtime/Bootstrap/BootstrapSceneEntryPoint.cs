@@ -23,7 +23,6 @@ namespace ProjectTemplate.Runtime.Bootstrap
 		public void Initialize()
 		{
 			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.Initializing));
-			
 			_appInitializer.ApplyAppSettings();
 			LoadNextScene();		
 		}

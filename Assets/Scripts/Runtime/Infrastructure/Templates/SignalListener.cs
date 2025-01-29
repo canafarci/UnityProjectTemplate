@@ -5,21 +5,21 @@ using VContainer.Unity;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Templates
 {
-	public abstract class SignalListener : IInitializable, IDisposable
+public abstract class SignalListener : IInitializable, IDisposable
+{
+	[Inject] protected SignalBus _signalBus;
+	
+	public virtual void Initialize()
 	{
-		[Inject] protected SignalBus _signalBus;
-		
-		public virtual void Initialize()
-		{
-			SubscribeToEvents();
-		}
-		
-		protected abstract void SubscribeToEvents();
-		protected abstract void UnsubscribeFromEvents();
-		
-		public virtual void Dispose()
-		{
-			UnsubscribeFromEvents();
-		}
+		SubscribeToEvents();
 	}
+	
+	protected abstract void SubscribeToEvents();
+	protected abstract void UnsubscribeFromEvents();
+	
+	public virtual void Dispose()
+	{
+		UnsubscribeFromEvents();
+	}
+}
 }

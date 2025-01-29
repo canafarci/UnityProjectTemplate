@@ -2,55 +2,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
+using ProjectTemplate.Runtime.Infrastructure.MemoryPool.Templates;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 {
 	[Serializable]
 	public class PoolEntry
 	{
-		[FoldoutGroup("Pool Entry Data")]
 		public bool IsMonoBehaviour;
 
-		[FoldoutGroup("Pool Entry Data")]
 		[ShowIf(nameof(IsMonoBehaviour))]
 		public GameObject Prefab;
 
-		// Store the class type as a string for serialization
-		[FoldoutGroup("Pool Entry Data")]
+		// store the class type as a string for serialization
 		[ValueDropdown("GetClassTypeNames")]
 		[SerializeField]
 		private string ClassTypeName;
-
-		[FoldoutGroup("Pool Entry Data")]
+		// Start Size of the Pool
 		public int InitialSize = 5;
-		[FoldoutGroup("Pool Entry Data")]
+		//Start Size of the Pool reference list
 		public int DefaultCapacity = 10;
-		[FoldoutGroup("Pool Entry Data")]
 		public int MaximumSize = 100;
-		[FoldoutGroup("Pool Entry Data")]
+		//Whether the Pool objects should be only instantiated and removed in regard to application entering a state
 		public bool ManagePoolOnSceneChange = true;
 		
-		[FoldoutGroup("Pool Entry Data")]
 		[ShowIf(nameof(ManagePoolOnSceneChange))]
+		// App state which pool objects should be spawned upon entering and removed when exiting
 		public AppStateID LifetimeSceneID;    
 
-		// Property to get the actual Type from the string
+		// property to get the actual Type from the string
 		public Type classType
 		{
 			get => Type.GetType(ClassTypeName);
 			set => ClassTypeName = value?.Name;
 		}
 
-		// Odin dropdown to show available classes
+		// odin dropdown to show available classes implemeting IPoolable classes
 		private static IEnumerable<ValueDropdownItem<string>> GetClassTypeNames()
 		{
 			var types = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(assembly => assembly.GetTypes())
-				.Where(t => t.IsClass && !t.IsAbstract && typeof(IPoolable).IsAssignableFrom(t))
-				.Select(type => new ValueDropdownItem<string>(type.FullName, type.AssemblyQualifiedName));
+				.Where(t => t.IsClass && !t.IsAbstract &&
+				            (typeof(IPoolable).IsAssignableFrom(t) ||
+				             (t.BaseType != null && typeof(Poolable).IsAssignableFrom(t.BaseType)) || 
+				             (t.BaseType != null && typeof(MonoPoolable).IsAssignableFrom(t.BaseType))))
+				.Select(type => new ValueDropdownItem<string>(type.Name, type.AssemblyQualifiedName));
 
 
 			return types;

@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace DefaultNamespace
+namespace ProjectTemplate.Tests.PlayMode.Bootstrap
 {
 	public class BootstrapInitializationTests
 	{

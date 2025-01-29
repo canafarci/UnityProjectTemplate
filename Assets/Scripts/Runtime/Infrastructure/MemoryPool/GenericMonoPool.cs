@@ -5,10 +5,12 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 	public class GenericMonoPool<T> : PoolBase<T> where T : MonoBehaviour, IPoolable
 	{
 		private readonly GameObject _prefab;
+		private readonly Transform _poolParent;
 
-		public GenericMonoPool(GameObject prefab, PoolParams poolParams) : base(poolParams)
+		public GenericMonoPool(GameObject prefab, Transform poolParent, PoolParams poolParams) : base(poolParams)
 		{
 			_prefab = prefab;
+			_poolParent = poolParent;
 
 			if (!_managePoolOnSceneChange)
 			{
@@ -22,7 +24,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 			mono.OnCreated();
 			
 			if (!_managePoolOnSceneChange)
-				GameObject.DontDestroyOnLoad(mono);
+				mono.transform.SetParent(_poolParent);
 			
 			return mono;
 		}
@@ -35,8 +37,12 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
 		protected override void ReturnToPool(T mono)
 		{
-			mono.OnReturnToPool();
 			mono.gameObject.SetActive(false);
+			
+			if (!_managePoolOnSceneChange)
+				mono.transform.SetParent(_poolParent);
+			
+			mono.OnReturnToPool();
 		}
 
 		protected override void DestroyObject(T mono)

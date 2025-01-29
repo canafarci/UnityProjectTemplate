@@ -6,7 +6,6 @@
         "UnityEditor.TestRunner",
         "ProjectTemplate.Runtime",
         "VContainer",
-        "",
         "ES3"
     ],
     "includePlatforms": [

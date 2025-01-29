@@ -9,12 +9,21 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 	{
 		[SerializeField] private Button ContinueButton;
 		[SerializeField] private TextMeshProUGUI GameResultText;
+		[SerializeField] private TextMeshProUGUI ButtonText;
+		[SerializeField] private TextMeshProUGUI WonLevelText;
+		[SerializeField] private TextMeshProUGUI LostLevelText;
 		[SerializeField] private Sprite GameWonSprite;
 		[SerializeField] private Sprite GameLostSprite;
+		[SerializeField] private GameObject GameWonSecondaryImage;
+		[SerializeField] private GameObject GameLostSecondaryImage;
 		[SerializeField] private Image GameResultImage;
 		[SerializeField] private PlayableDirector Timeline;
-		[SerializeField] private PlayableAsset GameWonPlayableAsset;
-		[SerializeField] private PlayableAsset GameLostPlayableAsset;
+		[SerializeField] private GameObject Particle;
+		[SerializeField] private Image ProgressBarSlider;
+		[SerializeField] private Image ProgressBarIcon;
+		[SerializeField] private TextMeshProUGUI ProgressBarTitleText;
+		[SerializeField] private TextMeshProUGUI ProgressionCountText;
+		[SerializeField] private GameObject ProgressPanel;
 
 		public TextMeshProUGUI gameResultText => GameResultText;
 		public Button continueButton => ContinueButton;
@@ -22,9 +31,16 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 		public Sprite gameLostSprite => GameLostSprite;
 		public Image gameResultImage => GameResultImage;
 		public PlayableDirector timeline => Timeline;
-
-		public PlayableAsset gameWonPlayableAsset => GameWonPlayableAsset;
-
-		public PlayableAsset gameLostPlayableAsset => GameLostPlayableAsset;
+		public TextMeshProUGUI buttonText => ButtonText;
+		public TextMeshProUGUI wonLevelText => WonLevelText;
+		public TextMeshProUGUI lostLevelText => LostLevelText;
+		public GameObject particle => Particle;
+		public GameObject gameWonSecondaryImage => GameWonSecondaryImage;
+		public GameObject gameLostSecondaryImage => GameLostSecondaryImage;
+		public Image progressBarSlider => ProgressBarSlider;
+		public Image progressBarIcon => ProgressBarIcon;
+		public TextMeshProUGUI progressBarTitleText => ProgressBarTitleText;
+		public TextMeshProUGUI progressionCountText => ProgressionCountText;
+		public GameObject progressPanel => ProgressPanel;
 	}
 }

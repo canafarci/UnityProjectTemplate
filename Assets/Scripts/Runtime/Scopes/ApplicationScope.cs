@@ -10,13 +10,13 @@ using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
 using ProjectTemplate.Runtime.CrossScene.Notifications;
+using ProjectTemplate.Runtime.CrossScene.Progress;
 using ProjectTemplate.Runtime.CrossScene.Signals;
-using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
+using ProjectTemplate.Runtime.Infrastructure.MemoryPool.Data;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
-using ProjectTemplate.Runtime.MainMenu.Signals;
 
 namespace ProjectTemplate.Runtime.Scopes
 {
@@ -27,6 +27,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		[SerializeField] private AudioView AudioView;
 		[SerializeField] private PoolConfig PoolConfig;
 		[SerializeField] private CurrencyConfig CurrencyConfig;
+		[SerializeField] private ProgressData ProgressData;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
@@ -43,6 +44,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterInstance(AudioView);
 			builder.RegisterInstance(ApplicationSettings);
 			builder.RegisterInstance(CurrencyConfig);
+			builder.RegisterInstance(ProgressData);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
@@ -58,6 +60,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.Register<IHapticModel, HapticModel>(Lifetime.Singleton);
 			builder.Register<INotificationModel, NotificationModel>(Lifetime.Singleton);
 			builder.Register<ICurrencyModel, CurrencyModel>(Lifetime.Singleton);
+			builder.Register<IProgressModel, ProgressModel>(Lifetime.Singleton);
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);
