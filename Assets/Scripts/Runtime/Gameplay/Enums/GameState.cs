@@ -6,5 +6,6 @@ namespace ProjectTemplate.Runtime.Gameplay.Enums
 		Playing = 0x01,
 		Paused = 0x02,
 		GameOver = 0x03,
+		Reloading = 0x04,
 	}
 }

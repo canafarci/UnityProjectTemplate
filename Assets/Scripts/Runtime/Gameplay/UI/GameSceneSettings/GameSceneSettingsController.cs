@@ -6,7 +6,8 @@ using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Enums;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
-using UnityEngine.SceneManagement;
+using Lofelt.NiceVibrations;
+using Cysharp.Threading.Tasks;
 using VContainer;
 using VContainer.Unity;
 
@@ -57,7 +58,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
                     OnHapticButtonClicked();
                     break;
                 case GameSceneSettingsOption.ToggleActivation:
-                    OnToggleButtonClicked();
+                    OnToggleButtonClicked().Forget();
                     break;
                 default:
                     throw new Exception("No settings option has been found!");
@@ -68,28 +69,38 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
         {
             _gameSceneSettingsMediator.SetUpOnOffIcons(SettingType.Haptic, !_hapticModel.isEnabled);
             _signalBus.Fire(new ChangeHapticActivationSignal());
+            
+            _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
         }
 
         private void OnReloadButtonClicked()
         {
-            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-            _signalBus.Fire(new LoadSceneSignal(sceneIndex));
+            _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
+            
+            _signalBus.Fire(new ChangeGameStateSignal(GameState.Reloading));
+            _signalBus.Fire(new TriggerExitGameplayLevelSignal());
         }
         
         private void OnMusicButtonClicked()
         {
+            _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
+
             _gameSceneSettingsMediator.SetUpOnOffIcons(SettingType.Music, !_audioModel.isMusicEnabled);
             _signalBus.Fire(new ChangeAudioSettingsSignal(AudioSourceType.Music));
         }
         
         private void OnSoundButtonClicked()
         {
+            _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
+
             _gameSceneSettingsMediator.SetUpOnOffIcons(SettingType.Sound, !_audioModel.isSoundEnabled);
             _signalBus.Fire(new ChangeAudioSettingsSignal(AudioSourceType.SoundEffect));
         }
         
-        private async void OnToggleButtonClicked()
+        private async UniTask OnToggleButtonClicked()
         {
+            _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
+
             if (_activationState != PanelActivationState.Animating)
             {
                 HandlePreToggleState();
