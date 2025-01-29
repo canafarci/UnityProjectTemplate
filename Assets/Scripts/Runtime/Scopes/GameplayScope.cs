@@ -3,6 +3,7 @@ using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel;
+using ProjectTemplate.Runtime.Gameplay.UI.GameplayCurrencyPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using VContainer;
@@ -17,6 +18,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterGameplayLifecycleManagers(builder);
 			RegisterInGameSettings(builder);
 			RegisterGameOverPanel(builder);
+			RegisterCurrencyPanel(builder);
 			RegisterSignals(builder);
 		}
 
@@ -40,6 +42,12 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterComponentInHierarchy<GameOverPanelView>().AsSelf();
 			builder.RegisterEntryPoint<GameOverPanelMediator>().AsSelf();
 			builder.RegisterEntryPoint<GameOverPanelController>().AsSelf();
+		}
+		
+		private void RegisterCurrencyPanel(IContainerBuilder builder)
+		{
+			builder.RegisterComponentInHierarchy<GameplayCurrencyPanelView>().AsSelf();
+			builder.RegisterEntryPoint<GameplayCurrencyPanelController>();
 		}
 		
 		private void RegisterSignals(IContainerBuilder builder)

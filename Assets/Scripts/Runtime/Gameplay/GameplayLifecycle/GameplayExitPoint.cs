@@ -1,4 +1,6 @@
+using ProjectTemplate.Runtime.CrossScene.Currency;
 using ProjectTemplate.Runtime.CrossScene.Data;
+using ProjectTemplate.Runtime.CrossScene.Enums;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.Signals;
@@ -12,14 +14,17 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 		private readonly ApplicationSettings _applicationSettings;
 		private readonly IGameStateModel _gameStateModel;
 		private readonly IGameplayPersistentData _gameplayPersistentData;
+		private readonly ICurrencyModel _currencyModel;
 
 		public GameplayExitPoint(ApplicationSettings applicationSettings,
 		                         IGameStateModel gameStateModel,
-		                         IGameplayPersistentData gameplayPersistentData)
+		                         IGameplayPersistentData gameplayPersistentData,
+		                         ICurrencyModel currencyModel)
 		{
 			_applicationSettings = applicationSettings;
 			_gameStateModel = gameStateModel;
 			_gameplayPersistentData = gameplayPersistentData;
+			_currencyModel = currencyModel;
 		}		
 		
 		protected override void SubscribeToEvents()
@@ -39,6 +44,8 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 			if (_gameStateModel.isGameWon)
 			{
 				_gameplayPersistentData.IncreaseTargetSceneIndex();
+				_currencyModel.AddCurrency(CurrencyID.Money, 10);
+
 			}
 
 			int sceneIndex = _applicationSettings.HasMainMenu ?
