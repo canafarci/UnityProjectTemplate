@@ -15,6 +15,7 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
 
         protected readonly bool _managePoolOnSceneChange;
         protected readonly List<T> _pooledObjectsList;
+        protected readonly HashSet<T> _releasedObjects = new();
         
         private readonly HashSet<T> _activeObjects = new();
 
@@ -80,13 +81,22 @@ namespace ProjectTemplate.Runtime.Infrastructure.MemoryPool
         {
             T poolable = _pool.Get();
             _activeObjects.Add(poolable);
+
+            if (_releasedObjects.Contains(poolable))
+            {
+                _releasedObjects.Remove(poolable);
+            }
             return poolable;
         }
 
         internal void Release(T obj)
         {
-            _activeObjects.Remove(obj);
-            _pool.Release(obj);
+            if (!_releasedObjects.Contains(obj))
+            {
+                _activeObjects.Remove(obj);
+                _pool.Release(obj);
+                _releasedObjects.Add(obj);
+            }
         }
 
         internal void ReleaseAll()
