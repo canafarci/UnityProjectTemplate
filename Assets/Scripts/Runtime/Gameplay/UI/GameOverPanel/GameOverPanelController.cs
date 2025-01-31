@@ -1,6 +1,7 @@
 using Lofelt.NiceVibrations;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Enums;
+using ProjectTemplate.Runtime.CrossScene.Progress;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Enums;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
@@ -14,14 +15,17 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 		private readonly GameOverPanelMediator _mediator;
 		private readonly IGameStateModel _gameStateModel;
 		private readonly IGameplayPersistentData _gameplayPersistentData;
+		private readonly IProgressModel _progressModel;
 
 		public GameOverPanelController(GameOverPanelMediator mediator,
 			IGameStateModel gameStateModel,
-			IGameplayPersistentData gameplayPersistentData)
+			IGameplayPersistentData gameplayPersistentData,
+			IProgressModel progressModel)
 		{
 			_mediator = mediator;
 			_gameStateModel = gameStateModel;
 			_gameplayPersistentData = gameplayPersistentData;
+			_progressModel = progressModel;
 		}
 		
 		protected override void SubscribeToEvents()
@@ -43,11 +47,25 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 			if (signal.newState == GameState.GameOver)
 			{
 				_mediator.ActivateGameOverPanel(_gameStateModel.isGameWon, _gameplayPersistentData.levelVisualDisplayNumber);
-				
+
+				UpdateProgress();
+
 				HapticPatterns.PresetType hapticPreset = _gameStateModel.isGameWon ? HapticPatterns.PresetType.Success : HapticPatterns.PresetType.Failure;
-				
 				_signalBus.Fire(new PlayHapticSignal(hapticPreset));
 			}
+		}
+
+		private void UpdateProgress()
+		{
+			bool isProgressStepUnlocked = false;
+			
+			if (_gameStateModel.isGameWon)
+			{
+				_progressModel.IncrementProgress(out bool unlocked);
+				isProgressStepUnlocked = unlocked;
+			}
+				
+			_mediator.UpdateProgressBar(_gameStateModel.isGameWon,  isProgressStepUnlocked);
 		}
 
 		protected override void UnsubscribeFromEvents()

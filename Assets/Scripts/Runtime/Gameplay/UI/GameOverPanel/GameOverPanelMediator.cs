@@ -29,7 +29,6 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 			_view.gameObject.SetActive(true);
 
 			SetVisuals(isGameWon, levelIndex);
-			UpdateProgressBar(isGameWon);
 		}
 
 		private void SetVisuals(bool isGameWon, int levelIndex)
@@ -54,7 +53,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 			SetCountText();
 		}
 
-		private void UpdateProgressBar(bool isGameWon)
+		public void UpdateProgressBar(bool isGameWon, bool isUnlocked)
 		{
 			if (_progressModel.allElementsUnlocked)
 			{
@@ -67,9 +66,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 
 			if (isGameWon)
 			{
-				_progressModel.IncrementProgress(out bool unlocked);
-
-				if (unlocked)
+				if (isUnlocked)
 				{
 					HandleNewElementUnlock(progressCountToUnlock);
 				}
