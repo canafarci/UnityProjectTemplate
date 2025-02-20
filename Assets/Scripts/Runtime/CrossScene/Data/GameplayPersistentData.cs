@@ -1,4 +1,5 @@
 using ProjectTemplate.Runtime.Infrastructure.Data;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using VContainer;
 
@@ -7,7 +8,8 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 	public class GameplayPersistentData : IGameplayPersistentData
 	{
 		private readonly ApplicationSettings _applicationSettings;
-		
+		private readonly AddressableReferences _addressableReferences;
+
 		private int _levelToLoadIndex;
 		private int _levelVisualDisplayNumber = ES3.Load(LEVEL_VISUAL_NUMBER, PERSISTENT_DATA_PATH, 1);
 		private bool _isFirstTimePlaying;
@@ -20,10 +22,11 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 		public int levelToLoadIndex => _levelToLoadIndex;
 		public int levelVisualDisplayNumber => _levelVisualDisplayNumber;
 
-		public GameplayPersistentData(ApplicationSettings applicationSettings)
+		public GameplayPersistentData(ApplicationSettings applicationSettings, AddressableReferences addressableReferences)
 		{
 			_applicationSettings = applicationSettings;
-			_levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, _applicationSettings.FirstGameplayLevelIndex);
+			_addressableReferences = addressableReferences;
+			_levelToLoadIndex = ES3.Load(LEVEL_TO_LOAD_INDEX, PERSISTENT_DATA_PATH, 0);
 		}
 
 		public bool IsFirstTimePlaying()
@@ -38,10 +41,11 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 			int targetSceneIndex;
 			int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 				
-			int sceneCount = SceneManager.sceneCountInBuildSettings;
+			int sceneCount = _addressableReferences.gameplayScenes.Count;
 			if (currentSceneIndex + 1 >= sceneCount)
 			{
-				targetSceneIndex = _applicationSettings.LevelToLoopAfterAllLevelsFinishedIndex;
+				AssetReference levelToLoop = _addressableReferences.levelToLoopAfterLevelsFinished;
+				targetSceneIndex = _addressableReferences.gameplayScenes.IndexOf(levelToLoop);
 			}
 			else
 			{

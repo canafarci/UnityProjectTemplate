@@ -1,10 +1,12 @@
+using ProjectTemplate.Runtime.CrossScene.Scenes.Enums;
+
 namespace ProjectTemplate.Runtime.CrossScene.Signals
 {
 	public struct LoadSceneSignal
 	{
-		public int sceneID { get; private set; }
+		public SceneID sceneID { get; private set; }
 
-		public LoadSceneSignal(int sceneID)
+		public LoadSceneSignal(SceneID sceneID)
 		{
 			this.sceneID = sceneID;
 		}

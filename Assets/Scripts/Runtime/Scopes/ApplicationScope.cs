@@ -11,6 +11,7 @@ using ProjectTemplate.Runtime.CrossScene.Haptic;
 using ProjectTemplate.Runtime.CrossScene.LoadingScreen;
 using ProjectTemplate.Runtime.CrossScene.Notifications;
 using ProjectTemplate.Runtime.CrossScene.Progress;
+using ProjectTemplate.Runtime.CrossScene.Scenes;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.Data;
@@ -28,6 +29,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		[SerializeField] private PoolConfig PoolConfig;
 		[SerializeField] private CurrencyConfig CurrencyConfig;
 		[SerializeField] private ProgressData ProgressData;
+		[SerializeField] private AddressableReferences AddressableReferences;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
@@ -45,6 +47,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterInstance(ApplicationSettings);
 			builder.RegisterInstance(CurrencyConfig);
 			builder.RegisterInstance(ProgressData);
+			builder.RegisterInstance(AddressableReferences);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)

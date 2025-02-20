@@ -1,6 +1,7 @@
 using ProjectTemplate.Runtime.CrossScene.Currency;
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Enums;
+using ProjectTemplate.Runtime.CrossScene.Scenes.Enums;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.Signals;
@@ -34,12 +35,12 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 
 		private void OnExitGameplayLevelSignal(TriggerExitGameplayLevelSignal signal)
 		{
-			int targetSceneIndex = GetNextLevelIndex();
+			SceneID targetSceneID = GetNextLevelIndex();
 			
-			_signalBus.Fire(new LoadSceneSignal(targetSceneIndex));
+			_signalBus.Fire(new LoadSceneSignal(targetSceneID));
 		}
 		
-		private int GetNextLevelIndex()
+		private SceneID GetNextLevelIndex()
 		{
 			if (_gameStateModel.isGameWon)
 			{
@@ -48,10 +49,10 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 
 			}
 
-			int sceneIndex = _applicationSettings.HasMainMenu ?
-				                                            _applicationSettings.MainMenuSceneIndex :
-				                                            _gameplayPersistentData.levelToLoadIndex;
-			return sceneIndex;
+			SceneID sceneID = _applicationSettings.HasMainMenu ?
+				                                            SceneID.MainMenu :
+				                                            SceneID.Gameplay;
+			return sceneID;
 		}
 
 		protected override void UnsubscribeFromEvents()

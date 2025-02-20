@@ -1,14 +1,16 @@
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace ProjectTemplate.Runtime.CrossScene.Signals
 {
 	public readonly struct LoadingStartedSignal
 	{
-		private readonly AsyncOperation _asyncOperation;
+		private readonly AsyncOperationHandle<SceneInstance> _asyncOperation;
 
-		public AsyncOperation asyncOperation => _asyncOperation;
+		public AsyncOperationHandle<SceneInstance> asyncOperation => _asyncOperation;
 		
-		public LoadingStartedSignal(AsyncOperation asyncOperation)
+		public LoadingStartedSignal(AsyncOperationHandle<SceneInstance> asyncOperation)
 		{
 			_asyncOperation = asyncOperation;
 		}

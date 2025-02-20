@@ -32,9 +32,9 @@ namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
 			_view.gameObject.SetActive(true);
 			_view.fillImage.fillAmount = 0f;
 			
-			while (!signal.asyncOperation.isDone)
+			while (!signal.asyncOperation.IsDone)
 			{
-				LerpFillImage(signal.asyncOperation.progress);
+				LerpFillImage(signal.asyncOperation.PercentComplete);
 				await UniTask.NextFrame();
 			}
 

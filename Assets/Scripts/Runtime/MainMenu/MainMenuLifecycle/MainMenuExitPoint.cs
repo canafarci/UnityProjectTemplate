@@ -1,4 +1,5 @@
 ﻿using ProjectTemplate.Runtime.CrossScene.Data;
+using ProjectTemplate.Runtime.CrossScene.Scenes.Enums;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
 using ProjectTemplate.Runtime.MainMenu.Signals;
@@ -20,9 +21,7 @@ namespace ProjectTemplate.Runtime.MainMenu.MainMenuLifecycle
 
 		private void OnTriggerExitMainMenuSignalHandler(TriggerExitMainMenuSignal signal)
 		{
-			int targetSceneIndex = _gameplayPersistentData.levelToLoadIndex;
-			
-			_signalBus.Fire(new LoadSceneSignal(targetSceneIndex));
+			_signalBus.Fire(new LoadSceneSignal(SceneID.Gameplay));
 		}
 
 		protected override void UnsubscribeFromEvents()

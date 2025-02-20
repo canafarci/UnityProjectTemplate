@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectTemplate.Runtime.CrossScene.Data;
+using ProjectTemplate.Runtime.CrossScene.Scenes.Enums;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
@@ -29,15 +30,15 @@ namespace ProjectTemplate.Runtime.Bootstrap
 		
 		private void LoadNextScene()
 		{
-#if UNITY_EDITOR
-			if (LoadSceneAfterBootstrap()) return;
-#endif
+// #if UNITY_EDITOR
+// 			if (LoadSceneAfterBootstrap()) return;
+// #endif
 			
-			int sceneIndex = _applicationSettings.HasMainMenu ?
-				                 _applicationSettings.MainMenuSceneIndex :
-				                 _gameplayPersistentData.levelToLoadIndex;
+			SceneID sceneID = _applicationSettings.HasMainMenu ?
+								SceneID.MainMenu :
+								SceneID.Gameplay;
 			
-			_signalBus.Fire(new LoadSceneSignal(sceneIndex));
+			_signalBus.Fire(new LoadSceneSignal(sceneID));
 		}
 
 #if UNITY_EDITOR

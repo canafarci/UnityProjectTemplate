@@ -8,10 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bootstrap.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/Prototype Main Menu.unity
-    guid: 79df71f4cb4bf4d838ffd3d2a79024b0
-  - enabled: 1
-    path: Assets/Scenes/Prototype Level.unity
-    guid: 1cc5c1e7404293b4c8127612cbafda67
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: fd353b7ff1710f8429b9ec58faff5c05,
+      type: 2}

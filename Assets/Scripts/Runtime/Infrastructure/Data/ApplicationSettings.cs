@@ -13,13 +13,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.Data
 		public bool ShowLoadingScreen = false;
 		public bool HasMainMenu = false;
 		
-		[TitleGroup("Scene Indexes")]
-		
-		public int FirstGameplayLevelIndex;
-		public int LevelToLoopAfterAllLevelsFinishedIndex;
-		[ShowIf("HasMainMenu")]
-		public int MainMenuSceneIndex;
-		
 		[ShowIf("ShowLoadingScreen")]
 		[TitleGroup("Loading Screen")]
 		
