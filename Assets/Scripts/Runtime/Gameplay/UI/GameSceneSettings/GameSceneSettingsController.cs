@@ -61,7 +61,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
                     OnToggleButtonClicked().Forget();
                     break;
                 default:
-                    throw new Exception("No settings option has been found!");
+                    throw new Exception($"No settings option has been found for {gameSceneSettingsOption}!");
             }
         }
 
@@ -78,7 +78,7 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings
             _signalBus.Fire(new PlayHapticSignal(HapticPatterns.PresetType.MediumImpact));
             
             _signalBus.Fire(new ChangeGameStateSignal(GameState.Reloading));
-            _signalBus.Fire(new TriggerExitGameplayLevelSignal());
+            _signalBus.Fire(new TriggerExitGameplayLevelSignal(reload: true));
         }
         
         private void OnMusicButtonClicked()

@@ -19,7 +19,14 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 		private	const string PERSISTENT_DATA_PATH = "PERSISTENT_DATA";
 		private	const string IS_FIRST_TIME_PLAYING = "IS_FIRST_TIME_PLAYING";
 
-		public int levelToLoadIndex => _levelToLoadIndex;
+		public int levelToLoadIndex 
+		{
+			get { return _levelToLoadIndex; }
+#if UNITY_EDITOR
+			set { _levelToLoadIndex = value; }
+#endif			
+		}		
+		
 		public int levelVisualDisplayNumber => _levelVisualDisplayNumber;
 
 		public GameplayPersistentData(ApplicationSettings applicationSettings, AddressableReferences addressableReferences)

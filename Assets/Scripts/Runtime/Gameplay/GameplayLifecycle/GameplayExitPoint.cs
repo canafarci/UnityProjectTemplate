@@ -35,9 +35,16 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 
 		private void OnExitGameplayLevelSignal(TriggerExitGameplayLevelSignal signal)
 		{
-			SceneID targetSceneID = GetNextLevelIndex();
-			
-			_signalBus.Fire(new LoadSceneSignal(targetSceneID));
+			if (signal.reload)
+			{
+				//reload can only be called from gameplay levels
+				_signalBus.Fire(new LoadSceneSignal(SceneID.Gameplay));
+			}
+			else
+			{
+				SceneID targetSceneID = GetNextLevelIndex();
+				_signalBus.Fire(new LoadSceneSignal(targetSceneID));
+			}
 		}
 		
 		private SceneID GetNextLevelIndex()
