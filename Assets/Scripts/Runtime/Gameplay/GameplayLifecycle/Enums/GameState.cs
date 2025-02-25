@@ -1,4 +1,4 @@
-namespace ProjectTemplate.Runtime.Gameplay.Enums
+namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums
 {
 	public enum GameState : byte
 	{

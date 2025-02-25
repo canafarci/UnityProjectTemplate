@@ -4,6 +4,7 @@ using ProjectTemplate.Runtime.CrossScene.Enums;
 using ProjectTemplate.Runtime.CrossScene.Progress;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Enums;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;

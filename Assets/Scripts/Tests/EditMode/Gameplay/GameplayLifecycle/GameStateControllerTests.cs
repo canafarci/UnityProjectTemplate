@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.Enums;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using VContainer;

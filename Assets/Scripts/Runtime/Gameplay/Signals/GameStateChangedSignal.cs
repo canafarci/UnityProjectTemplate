@@ -1,4 +1,5 @@
 using ProjectTemplate.Runtime.Gameplay.Enums;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 
 namespace ProjectTemplate.Runtime.Gameplay.Signals
 {

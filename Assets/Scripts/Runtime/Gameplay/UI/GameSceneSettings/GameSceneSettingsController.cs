@@ -8,6 +8,7 @@ using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using Lofelt.NiceVibrations;
 using Cysharp.Threading.Tasks;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using VContainer;
 using VContainer.Unity;
 
