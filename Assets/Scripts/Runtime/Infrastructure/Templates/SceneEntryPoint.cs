@@ -7,29 +7,14 @@ using VContainer.Unity;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Templates
 {
-	public abstract class SceneEntryPoint : IInitializable, IStartable, IDisposable
+	public abstract class SceneEntryPoint : IInitializable
 	{
 		[Inject] protected SignalBus _signalBus;
 		[Inject] private ApplicationSettings _applicationSettings;
 
 		public void Initialize()
 		{
-			if (_applicationSettings.ShowLoadingScreen)
-				_signalBus.Subscribe<LoadingFinishedSignal>(OnLoadingFinishedSignal);
-		}
-		
-		public void Start()
-		{
-			if (!_applicationSettings.ShowLoadingScreen)
-				EnterScene();
-		}
-		
-		private void OnLoadingFinishedSignal(LoadingFinishedSignal signal) => EnterScene();
-		
-		public void Dispose()
-		{
-			if (_applicationSettings.ShowLoadingScreen)
-				_signalBus.Unsubscribe<LoadingFinishedSignal>(OnLoadingFinishedSignal);
+			EnterScene();
 		}
 		
 		protected abstract void EnterScene();

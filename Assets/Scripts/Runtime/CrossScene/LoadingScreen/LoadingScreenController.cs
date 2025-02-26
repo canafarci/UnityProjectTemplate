@@ -1,61 +1,81 @@
-using System;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
 using UnityEngine;
-using VContainer;
 
 namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
 {
-	public class LoadingScreenController : SignalListener
-	{
-		private readonly ApplicationSettings _applicationSettings;
-		private readonly LoadingScreenView _view;
+    public class LoadingScreenController : SignalListener
+    {
+        private readonly ApplicationSettings _applicationSettings;
+        private readonly LoadingScreenView _view;
 
-		public LoadingScreenController(ApplicationSettings applicationSettings, LoadingScreenView view)
-		{
-			_applicationSettings = applicationSettings;
-			_view = view;
-		}
-		
-		protected override void SubscribeToEvents()
-		{
-			_signalBus.Subscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
-		}
+        // Indicates whether the close signal has been received.
+        private bool _isCloseLoadingScreenRequested;
 
-		private async void OnLoadingStartedSignal(LoadingStartedSignal signal)
-		{
-			float startTime = Time.realtimeSinceStartup;
-			
-			_view.gameObject.SetActive(true);
-			_view.fillImage.fillAmount = 0f;
-			
-			while (!signal.asyncOperation.IsDone)
-			{
-				LerpFillImage(signal.asyncOperation.PercentComplete);
-				await UniTask.NextFrame();
-			}
+        private const float FILL_ANIMATION_SPEED = 10f;
 
-			while (startTime + _applicationSettings.LoadingScreenMinimumDuration > Time.realtimeSinceStartup)
-			{
-				LerpFillImage(1f);
-				await UniTask.NextFrame();
-			}
-			
-			_view.gameObject.SetActive(false);
-			_signalBus.Fire(new LoadingFinishedSignal());
-		}
+        public LoadingScreenController(ApplicationSettings applicationSettings, LoadingScreenView view)
+        {
+            _applicationSettings = applicationSettings;
+            _view = view;
+        }
 
-		private void LerpFillImage(float targetFillAmount)
-		{
-			_view.fillImage.fillAmount = Mathf.Lerp(_view.fillImage.fillAmount, targetFillAmount, Time.deltaTime * 10f);
-		}
+        protected override void SubscribeToEvents()
+        {
+            _signalBus.Subscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
+            _signalBus.Subscribe<CloseLoadingScreenSignal>(OnCloseLoadingScreenSignal);
+        }
 
-		protected override void UnsubscribeFromEvents()
-		{
-			_signalBus.Unsubscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
-		}
-	}
+        protected override void UnsubscribeFromEvents()
+        {
+            _signalBus.Unsubscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
+            _signalBus.Unsubscribe<CloseLoadingScreenSignal>(OnCloseLoadingScreenSignal);
+        }
+
+        // Handles the start of a loading operation by displaying and animating the loading screen.
+        // Waits until the async operation is done, the minimum display duration has passed, 
+        // and a close signal is received before hiding the screen.
+        private async void OnLoadingStartedSignal(LoadingStartedSignal signal)
+        {
+            ResetLoadingScreenState();
+            ActivateLoadingScreen();
+
+            float loadingScreenStartTime = Time.realtimeSinceStartup;
+
+            // Animate progress until the async operation completes.
+            while (!signal.asyncOperation.IsDone)
+            {
+                UpdateFillAmount(signal.asyncOperation.PercentComplete);
+                await UniTask.NextFrame();
+            }
+
+            // Wait until both the minimum duration has passed and the close signal has been received.
+            while (!_isCloseLoadingScreenRequested || !HasMinimumDurationPassed(loadingScreenStartTime))
+            {
+                UpdateFillAmount(1f);
+                await UniTask.NextFrame();
+            }
+
+            DeactivateLoadingScreen();
+        }
+        
+        private void OnCloseLoadingScreenSignal(CloseLoadingScreenSignal signal) => _isCloseLoadingScreenRequested = true; 
+        
+        private void ResetLoadingScreenState() => _isCloseLoadingScreenRequested = false;
+
+        private void ActivateLoadingScreen()
+        {
+            _view.gameObject.SetActive(true);
+            _view.fillImage.fillAmount = 0f;
+        }
+        
+        private void DeactivateLoadingScreen() => _view.gameObject.SetActive(false);
+        
+        private void UpdateFillAmount(float targetFillAmount) => _view.fillImage.fillAmount = Mathf.Lerp(_view.fillImage.fillAmount, targetFillAmount, Time.deltaTime * FILL_ANIMATION_SPEED);
+        
+        private bool HasMinimumDurationPassed(float startTime) => (Time.realtimeSinceStartup - startTime) >= _applicationSettings.LoadingScreenMinimumDuration;
+        
+    }
 }

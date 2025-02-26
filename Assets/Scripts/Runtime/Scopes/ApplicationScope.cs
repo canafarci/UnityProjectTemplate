@@ -91,7 +91,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterComponentInNewPrefab(ApplicationSettings.LoadingScreenPrefab, Lifetime.Scoped).DontDestroyOnLoad();
 			builder.RegisterEntryPoint<LoadingScreenController>();
 			builder.DeclareSignal<LoadingStartedSignal>();
-			builder.DeclareSignal<LoadingFinishedSignal>();
+			builder.DeclareSignal<CloseLoadingScreenSignal>();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Gameplay.Enums;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using ProjectTemplate.Runtime.Gameplay.Signals;
@@ -25,6 +26,7 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 			
 			await _gameplayInitializer.InitializeModules();
 			
+			_signalBus.Fire(new CloseLoadingScreenSignal());
 			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
 		}
 	}
