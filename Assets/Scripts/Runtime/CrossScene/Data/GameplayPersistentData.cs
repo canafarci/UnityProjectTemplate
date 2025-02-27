@@ -60,7 +60,7 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 		{
 			for (int i = 0; i < _addressableReferences.gameplayScenes.Count; i++)
 			{
-				if (_addressableReferences.gameplayScenes[i].editorAsset == loopLevel.editorAsset)
+				if (_addressableReferences.gameplayScenes[i].AssetGUID == loopLevel.AssetGUID)	
 				{
 					return i;
 				}

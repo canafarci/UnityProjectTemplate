@@ -54,7 +54,7 @@ MonoBehaviour:
       Data: 
     - Name: LevelsToCompleteToUnlock
       Entry: 3
-      Data: 0
+      Data: 5
     - Name: UnlockableID
       Entry: 3
       Data: 1
