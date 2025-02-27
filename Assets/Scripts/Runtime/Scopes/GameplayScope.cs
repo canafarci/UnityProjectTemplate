@@ -5,6 +5,7 @@ using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayCurrencyPanel;
+using ProjectTemplate.Runtime.Gameplay.UI.GameplayLevelDisplayPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using VContainer;
@@ -17,12 +18,18 @@ namespace ProjectTemplate.Runtime.Scopes
 		protected override void Configure(IContainerBuilder builder)
 		{
 			RegisterGameplayLifecycleManagers(builder);
-			RegisterInGameSettings(builder);
-			RegisterGameOverPanel(builder);
-			RegisterCurrencyPanel(builder);
+			RegisterUIPanels(builder);
 			RegisterSignals(builder);
 		}
 
+		private void RegisterUIPanels(IContainerBuilder builder)
+		{
+			RegisterInGameSettings(builder);
+			RegisterGameOverPanel(builder);
+			RegisterCurrencyPanel(builder);
+			RegisterLevelDisplayPanel(builder);
+		}
+		
 		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
 		{
 			builder.RegisterEntryPoint<GameplayEntryPoint>();
@@ -50,6 +57,12 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.RegisterComponentInHierarchy<GameplayCurrencyPanelView>().AsSelf();
 			builder.RegisterEntryPoint<GameplayCurrencyPanelController>();
+		}
+		
+		private void RegisterLevelDisplayPanel(IContainerBuilder builder)
+		{
+			builder.RegisterComponentInHierarchy<GameplayLevelDisplayView>().AsSelf();
+			builder.RegisterEntryPoint<GameplayLevelDisplayController>();		
 		}
 		
 		private void RegisterSignals(IContainerBuilder builder)
