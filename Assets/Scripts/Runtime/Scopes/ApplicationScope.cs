@@ -82,6 +82,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
 			builder.DeclareSignal<CurrencyChangedSignal>();
+			builder.DeclareSignal<CloseLoadingScreenSignal>();
 		}
 		
 		private void RegisterLoadingScreen(IContainerBuilder builder)
@@ -91,7 +92,6 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterComponentInNewPrefab(ApplicationSettings.LoadingScreenPrefab, Lifetime.Scoped).DontDestroyOnLoad();
 			builder.RegisterEntryPoint<LoadingScreenController>();
 			builder.DeclareSignal<LoadingStartedSignal>();
-			builder.DeclareSignal<CloseLoadingScreenSignal>();
 		}
 	}
 }

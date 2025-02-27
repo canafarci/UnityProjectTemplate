@@ -1,4 +1,5 @@
 using ProjectTemplate.Runtime.Infrastructure.Data;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -45,21 +46,27 @@ namespace ProjectTemplate.Runtime.CrossScene.Data
 
 		public void IncreaseTargetSceneIndex()
 		{
-			int targetSceneIndex;
-			int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-				
 			int sceneCount = _addressableReferences.gameplayScenes.Count;
-			if (currentSceneIndex + 1 >= sceneCount)
-			{
-				AssetReference levelToLoop = _addressableReferences.levelToLoopAfterLevelsFinished;
-				targetSceneIndex = _addressableReferences.gameplayScenes.IndexOf(levelToLoop);
-			}
-			else
-			{
-				targetSceneIndex = currentSceneIndex + 1;
-			}
+			int nextSceneIndex = _levelToLoadIndex + 1;
+
+			int targetSceneIndex = nextSceneIndex >= sceneCount
+				? GetLoopSceneIndex(_addressableReferences.levelToLoopAfterLevelsFinished)
+				: nextSceneIndex;
 
 			SaveIndices(targetSceneIndex);
+		}
+		
+		private int GetLoopSceneIndex(AssetReference loopLevel)
+		{
+			for (int i = 0; i < _addressableReferences.gameplayScenes.Count; i++)
+			{
+				if (_addressableReferences.gameplayScenes[i].editorAsset == loopLevel.editorAsset)
+				{
+					return i;
+				}
+			}
+			
+			throw new System.Exception("Could not find loop level");
 		}
 
 		private void SaveIndices(int targetSceneIndex)

@@ -3,6 +3,7 @@ using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
+using ProjectTemplate.Runtime.Gameplay.UI.DebugNextLevelCanvas;
 using ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayCurrencyPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayLevelDisplayPanel;
@@ -28,6 +29,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			RegisterGameOverPanel(builder);
 			RegisterCurrencyPanel(builder);
 			RegisterLevelDisplayPanel(builder);
+			RegisterDebugNextLevelPanel(builder);
 		}
 		
 		private void RegisterGameplayLifecycleManagers(IContainerBuilder builder)
@@ -63,6 +65,12 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.RegisterComponentInHierarchy<GameplayLevelDisplayView>().AsSelf();
 			builder.RegisterEntryPoint<GameplayLevelDisplayController>();		
+		}
+		
+		private void RegisterDebugNextLevelPanel(IContainerBuilder builder)
+		{
+			builder.RegisterComponentInHierarchy<DebugNextLevelPanelView>().AsSelf();
+			builder.RegisterEntryPoint<DebugNextLevelPanelController>();		
 		}
 		
 		private void RegisterSignals(IContainerBuilder builder)
