@@ -64,6 +64,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.Register<INotificationModel, NotificationModel>(Lifetime.Singleton);
 			builder.Register<ICurrencyModel, CurrencyModel>(Lifetime.Singleton);
 			builder.Register<IProgressModel, ProgressModel>(Lifetime.Singleton);
+			builder.Register<ProgressService>(Lifetime.Singleton).AsSelf();
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);

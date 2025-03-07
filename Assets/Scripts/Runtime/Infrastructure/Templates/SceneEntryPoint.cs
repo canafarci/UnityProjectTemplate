@@ -7,12 +7,11 @@ using VContainer.Unity;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Templates
 {
-	public abstract class SceneEntryPoint : IInitializable
+	public abstract class SceneEntryPoint : IStartable
 	{
 		[Inject] protected SignalBus _signalBus;
-		[Inject] private ApplicationSettings _applicationSettings;
 
-		public void Initialize()
+		public void Start()
 		{
 			EnterScene();
 		}
