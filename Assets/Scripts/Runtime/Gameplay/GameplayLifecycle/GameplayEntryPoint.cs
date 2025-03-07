@@ -26,7 +26,6 @@ namespace ProjectTemplate.Runtime.Gameplay.GameplayLifecycle
 			
 			await _gameplayInitializer.InitializeModules();
 			
-			_signalBus.Fire(new CloseLoadingScreenSignal());
 			_signalBus.Fire(new ChangeGameStateSignal(GameState.Playing));
 		}
 	}

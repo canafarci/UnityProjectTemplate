@@ -1,4 +1,7 @@
-﻿using ProjectTemplate.Runtime.Infrastructure.Signals;
+﻿using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
+using ProjectTemplate.Runtime.Infrastructure.Signals;
+using ProjectTemplate.Runtime.MainMenu;
+using ProjectTemplate.Runtime.MainMenu.Enums;
 using ProjectTemplate.Runtime.MainMenu.MainMenuLifecycle;
 using ProjectTemplate.Runtime.MainMenu.Signals;
 using ProjectTemplate.Runtime.MainMenu.UI.CurrencyPanel;
@@ -36,6 +39,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.RegisterEntryPoint<MainMenuEntryPoint>();
 			builder.RegisterEntryPoint<MainMenuExitPoint>();
+			builder.RegisterEntryPoint<MainMenuInitializer>().AsSelf();
 		}
 		
 		private void RegisterSettingsPanel(IContainerBuilder builder)
@@ -49,6 +53,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			//Main Menu
 			builder.DeclareSignal<TriggerExitMainMenuSignal>();
+			builder.DeclareSignal<ModuleInitializedSignal<MainMenuInitializableModule>>();
 		}
 	}
 }

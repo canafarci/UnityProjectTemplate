@@ -1,4 +1,5 @@
 ﻿using ProjectTemplate.Runtime.CrossScene.Signals;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
@@ -7,18 +8,17 @@ namespace ProjectTemplate.Runtime.MainMenu.MainMenuLifecycle
 {
 	public class MainMenuEntryPoint : SceneEntryPoint
 	{
-		protected override void EnterScene()
+		private readonly MainMenuInitializer _mainMenuInitializer;
+
+		public MainMenuEntryPoint(MainMenuInitializer mainMenuInitializer)
+		{
+			_mainMenuInitializer = mainMenuInitializer;
+		}
+		
+		protected override async void EnterScene()
 		{
 			_signalBus.Fire(new ChangeAppStateSignal(AppStateID.MainMenu));
-
-			InitializeMainMenu();
-			
-			_signalBus.Fire(new CloseLoadingScreenSignal());
-		}
-
-		private void InitializeMainMenu()
-		{
-			
+			await _mainMenuInitializer.InitializeModules();
 		}
 	}
 }

@@ -13,6 +13,7 @@ using ProjectTemplate.Runtime.CrossScene.Notifications;
 using ProjectTemplate.Runtime.CrossScene.Progress;
 using ProjectTemplate.Runtime.CrossScene.Scenes;
 using ProjectTemplate.Runtime.CrossScene.Signals;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
@@ -83,7 +84,8 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<PlayAudioSignal>();
 			builder.DeclareSignal<PlayHapticSignal>();
 			builder.DeclareSignal<CurrencyChangedSignal>();
-			builder.DeclareSignal<CloseLoadingScreenSignal>();
+			builder.DeclareSignal<AllModulesInitializedSignal>();
+			builder.DeclareSignal<InitializeModulesSignal>();
 		}
 		
 		private void RegisterLoadingScreen(IContainerBuilder builder)

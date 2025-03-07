@@ -1,5 +1,6 @@
 using ProjectTemplate.Runtime.Gameplay;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
@@ -9,6 +10,7 @@ using ProjectTemplate.Runtime.Gameplay.UI.GameplayCurrencyPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayLevelDisplayPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
+using ProjectTemplate.Runtime.MainMenu.Enums;
 using VContainer;
 using VContainer.Unity;
 
@@ -79,8 +81,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<ChangeGameStateSignal>();
 			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<TriggerExitGameplayLevelSignal>();
-			builder.DeclareSignal<InitializeModulesSignal>();
-			builder.DeclareSignal<ModuleInitializedSignal>();
+			builder.DeclareSignal<ModuleInitializedSignal<GameplayInitializableModule>>();
 		}
 	}
 }

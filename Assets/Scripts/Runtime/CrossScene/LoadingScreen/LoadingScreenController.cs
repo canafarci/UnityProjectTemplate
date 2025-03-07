@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using ProjectTemplate.Runtime.CrossScene.Signals;
+using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
 using UnityEngine;
@@ -25,13 +26,13 @@ namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
         protected override void SubscribeToEvents()
         {
             _signalBus.Subscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
-            _signalBus.Subscribe<CloseLoadingScreenSignal>(OnCloseLoadingScreenSignal);
+            _signalBus.Subscribe<AllModulesInitializedSignal>(OnAllModulesInitializedSignal);
         }
 
         protected override void UnsubscribeFromEvents()
         {
             _signalBus.Unsubscribe<LoadingStartedSignal>(OnLoadingStartedSignal);
-            _signalBus.Unsubscribe<CloseLoadingScreenSignal>(OnCloseLoadingScreenSignal);
+            _signalBus.Unsubscribe<AllModulesInitializedSignal>(OnAllModulesInitializedSignal);
         }
 
         // Handles the start of a loading operation by displaying and animating the loading screen.
@@ -61,7 +62,7 @@ namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
             DeactivateLoadingScreen();
         }
         
-        private void OnCloseLoadingScreenSignal(CloseLoadingScreenSignal signal) => _isCloseLoadingScreenRequested = true; 
+        private void OnAllModulesInitializedSignal(AllModulesInitializedSignal signal) => _isCloseLoadingScreenRequested = true; 
         
         private void ResetLoadingScreenState() => _isCloseLoadingScreenRequested = false;
 
