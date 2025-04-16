@@ -409,3 +409,5 @@ MonoBehaviour:
   ProgressData: {fileID: 11400000, guid: 096b174d4f54e754d80f970ed8cdf706, type: 2}
   AddressableReferences: {fileID: 11400000, guid: da33207cfa7ecb349950420276a4244a,
     type: 2}
+  InitializableModuleData: {fileID: 11400000, guid: 81599cab264f06a489c49db66e9513ef,
+    type: 2}

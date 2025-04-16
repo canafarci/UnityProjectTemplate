@@ -1,4 +1,4 @@
-﻿using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
+﻿using ProjectTemplate.Runtime.Infrastructure.Initialization;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using ProjectTemplate.Runtime.MainMenu;
 using ProjectTemplate.Runtime.MainMenu.Enums;
@@ -39,7 +39,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			builder.RegisterEntryPoint<MainMenuEntryPoint>();
 			builder.RegisterEntryPoint<MainMenuExitPoint>();
-			builder.RegisterEntryPoint<MainMenuInitializer>().AsSelf();
+			builder.RegisterEntryPoint<SceneInitializer>().AsSelf();
 		}
 		
 		private void RegisterSettingsPanel(IContainerBuilder builder)
@@ -53,7 +53,6 @@ namespace ProjectTemplate.Runtime.Scopes
 		{
 			//Main Menu
 			builder.DeclareSignal<TriggerExitMainMenuSignal>();
-			builder.DeclareSignal<ModuleInitializedSignal<MainMenuInitializableModule>>();
 		}
 	}
 }

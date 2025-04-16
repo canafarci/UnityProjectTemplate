@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using ProjectTemplate.Runtime.CrossScene.Signals;
-using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
+using ProjectTemplate.Runtime.Infrastructure.Initialization.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
 using UnityEngine;
 

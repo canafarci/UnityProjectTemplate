@@ -13,9 +13,10 @@ using ProjectTemplate.Runtime.CrossScene.Notifications;
 using ProjectTemplate.Runtime.CrossScene.Progress;
 using ProjectTemplate.Runtime.CrossScene.Scenes;
 using ProjectTemplate.Runtime.CrossScene.Signals;
-using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.Data;
+using ProjectTemplate.Runtime.Infrastructure.Initialization.Data;
+using ProjectTemplate.Runtime.Infrastructure.Initialization.Signals;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool;
 using ProjectTemplate.Runtime.Infrastructure.MemoryPool.Data;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
@@ -31,6 +32,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		[SerializeField] private CurrencyConfig CurrencyConfig;
 		[SerializeField] private ProgressData ProgressData;
 		[SerializeField] private AddressableReferences AddressableReferences;
+		[SerializeField] private InitializableModuleData InitializableModuleData;
 
 		protected override void Configure(IContainerBuilder builder)
 		{
@@ -49,6 +51,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterInstance(CurrencyConfig);
 			builder.RegisterInstance(ProgressData);
 			builder.RegisterInstance(AddressableReferences);
+			builder.RegisterInstance(InitializableModuleData);
 		}
 		
 		private static void RegisterEntryPoints(IContainerBuilder builder)
@@ -85,7 +88,9 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<PlayHapticSignal>();
 			builder.DeclareSignal<CurrencyChangedSignal>();
 			builder.DeclareSignal<AllModulesInitializedSignal>();
-			builder.DeclareSignal<InitializeModulesSignal>();
+			builder.DeclareSignal<InitializeModuleSignal>();
+			builder.DeclareSignal<ModuleInitializedSignal>();
+			builder.DeclareSignal<SceneActivatedSignal>();
 		}
 		
 		private void RegisterLoadingScreen(IContainerBuilder builder)

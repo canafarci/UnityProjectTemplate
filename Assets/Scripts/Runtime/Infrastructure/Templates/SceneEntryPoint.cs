@@ -1,21 +1,25 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
 using ProjectTemplate.Runtime.CrossScene.Signals;
-using ProjectTemplate.Runtime.Infrastructure.Data;
-using ProjectTemplate.Runtime.Infrastructure.Signals;
-using VContainer;
-using VContainer.Unity;
 
 namespace ProjectTemplate.Runtime.Infrastructure.Templates
 {
-	public abstract class SceneEntryPoint : IStartable
+	public abstract class SceneEntryPoint : SignalListener
 	{
-		[Inject] protected SignalBus _signalBus;
+		protected abstract UniTaskVoid EnterScene();
 
-		public void Start()
+		protected override void SubscribeToEvents()
+		{
+			_signalBus.Subscribe<SceneActivatedSignal>(OnSceneActivatedSignalHandler);
+		}
+		
+		private void OnSceneActivatedSignalHandler(SceneActivatedSignal signal)
 		{
 			EnterScene();
 		}
-		
-		protected abstract void EnterScene();
+
+		protected override void UnsubscribeFromEvents()
+		{
+			_signalBus.Unsubscribe<SceneActivatedSignal>(OnSceneActivatedSignalHandler);
+		}
 	}
 }

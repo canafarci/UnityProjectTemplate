@@ -2,13 +2,13 @@ using ProjectTemplate.Runtime.Gameplay;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Enums;
 using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.GameStates;
-using ProjectTemplate.Runtime.Gameplay.GameplayLifecycle.Signals;
 using ProjectTemplate.Runtime.Gameplay.Signals;
 using ProjectTemplate.Runtime.Gameplay.UI.DebugNextLevelCanvas;
 using ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayCurrencyPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameplayLevelDisplayPanel;
 using ProjectTemplate.Runtime.Gameplay.UI.GameSceneSettings;
+using ProjectTemplate.Runtime.Infrastructure.Initialization;
 using ProjectTemplate.Runtime.Infrastructure.Signals;
 using ProjectTemplate.Runtime.MainMenu.Enums;
 using VContainer;
@@ -39,7 +39,7 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.RegisterEntryPoint<GameplayEntryPoint>();
 			builder.RegisterEntryPoint<GameplayExitPoint>();
 			builder.RegisterEntryPoint<GameStateController>();
-			builder.RegisterEntryPoint<GameplayInitializer>().AsSelf();
+			builder.RegisterEntryPoint<SceneInitializer>().AsSelf();
 			builder.Register<IGameStateModel, GameStateModel>(Lifetime.Singleton);
 		}
 
@@ -81,7 +81,6 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.DeclareSignal<ChangeGameStateSignal>();
 			builder.DeclareSignal<TriggerLevelEndSignal>();
 			builder.DeclareSignal<TriggerExitGameplayLevelSignal>();
-			builder.DeclareSignal<ModuleInitializedSignal<GameplayInitializableModule>>();
 		}
 	}
 }
