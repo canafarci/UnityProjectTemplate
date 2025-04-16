@@ -1,28 +1,28 @@
-using UnityEngine;
+using ProjectTemplate.Runtime.CrossScene.Data;
 
 namespace ProjectTemplate.Runtime.CrossScene.Audio
 {
-    public class AudioMediator
-    {
-        private readonly AudioView _view;
+	public class AudioMediator
+	{
+		private readonly AudioView _view;
 
-        public AudioMediator(AudioView view)
-        {
-            _view = view;
-        }
+		public AudioMediator(AudioView view)
+		{
+			_view = view;
+		}
         
-        public void PlaySound(AudioClip audioClip, float volume)
-        {
-            _view.soundEffectAudioSource.PlayOneShot(audioClip, volume);
-        }
+		public void PlaySound(AudioClipData data)
+		{
+			_view.soundEffectAudioSource.PlayOneShot(data.AudioClip, data.Volume);
+		}
         
-        public void PlayMusic(AudioClip audioClip, float volume)
-        {
-            _view.musicAudioSource.clip = audioClip;
-            _view.musicAudioSource.loop = true;
-            _view.musicAudioSource.volume = volume;
+		public void PlayMusic(AudioClipData data)
+		{
+			_view.musicAudioSource.clip = data.AudioClip;
+			_view.musicAudioSource.loop = true;
+			_view.musicAudioSource.volume = data.Volume;
             
-            _view.musicAudioSource.Play();
-        }
-    }
+			_view.musicAudioSource.Play();
+		}
+	}
 }

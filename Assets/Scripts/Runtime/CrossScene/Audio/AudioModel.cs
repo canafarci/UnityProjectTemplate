@@ -1,10 +1,18 @@
 using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Enums;
-using UnityEngine;
 using UnityEngine.Audio;
 
 namespace ProjectTemplate.Runtime.CrossScene.Audio
 {
+    public interface IAudioModel
+    {
+        public bool isSoundEnabled { get; }
+        public bool isMusicEnabled { get; }
+        public AudioClipData GetAudioClip(AudioClipID clipID);
+        public void ChangeSoundActivation();
+        public void ChangeMusicActivation();
+    }
+    
     public class AudioModel :  IAudioModel
     {
         private readonly AudioDataSO _audioData;
@@ -39,11 +47,11 @@ namespace ProjectTemplate.Runtime.CrossScene.Audio
                 MuteSound();
         }
         
-        public AudioClip GetAudioClip(AudioClipID clipID)
+        public AudioClipData GetAudioClip(AudioClipID clipID)
         {
-            if (_audioData.audioClips.TryGetValue(clipID, out AudioClip clip))
+            if (_audioData.audioClips.TryGetValue(clipID, out AudioClipData data))
             {
-                return clip;
+                return data;
             }
             else
             {

@@ -1,8 +1,8 @@
 using System;
+using ProjectTemplate.Runtime.CrossScene.Data;
 using ProjectTemplate.Runtime.CrossScene.Enums;
 using ProjectTemplate.Runtime.CrossScene.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
-using UnityEngine;
 
 namespace ProjectTemplate.Runtime.CrossScene.Audio
 {
@@ -25,15 +25,15 @@ namespace ProjectTemplate.Runtime.CrossScene.Audio
 
         private void PlayAudioMessageHandler(PlayAudioSignal signal)
         {
-            AudioClip audioClip = _audioModel.GetAudioClip(signal.audioClipID);
+            AudioClipData data = _audioModel.GetAudioClip(signal.audioClipID);
 
             switch (signal.audioSourceType)
             {
                 case AudioSourceType.SoundEffect:
-                    _mediator.PlaySound(audioClip, signal.volume);
+                    _mediator.PlaySound(data);
                     break;
                 case AudioSourceType.Music:
-                    _mediator.PlayMusic(audioClip, signal.volume);
+                    _mediator.PlayMusic(data);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
