@@ -51,14 +51,14 @@ namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
                 UpdateFillAmount(signal.asyncOperation.PercentComplete);
                 await UniTask.NextFrame();
             }
-
+            
             // Wait until both the minimum duration has passed and the close signal has been received.
             while (!_isCloseLoadingScreenRequested || !HasMinimumDurationPassed(loadingScreenStartTime))
             {
                 UpdateFillAmount(1f);
                 await UniTask.NextFrame();
             }
-
+            
             DeactivateLoadingScreen();
         }
         
@@ -77,6 +77,5 @@ namespace ProjectTemplate.Runtime.CrossScene.LoadingScreen
         private void UpdateFillAmount(float targetFillAmount) => _view.fillImage.fillAmount = Mathf.Lerp(_view.fillImage.fillAmount, targetFillAmount, Time.deltaTime * FILL_ANIMATION_SPEED);
         
         private bool HasMinimumDurationPassed(float startTime) => (Time.realtimeSinceStartup - startTime) >= _applicationSettings.LoadingScreenMinimumDuration;
-        
     }
 }

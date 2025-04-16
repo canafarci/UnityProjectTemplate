@@ -21,14 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _audioClips
+    - Name: AudioClips
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[ProjectTemplate.CrossScene.Enums.AudioClipID,
-        Assembly-CSharp],[UnityEngine.AudioClip, UnityEngine.AudioModule]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[ProjectTemplate.Runtime.CrossScene.Enums.AudioClipID,
+        ProjectTemplate.Runtime],[ProjectTemplate.Runtime.CrossScene.Data.AudioClipData,
+        ProjectTemplate.Runtime]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[ProjectTemplate.CrossScene.Enums.AudioClipID,
-        Assembly-CSharp]], mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[ProjectTemplate.Runtime.CrossScene.Enums.AudioClipID,
+        ProjectTemplate.Runtime]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -47,4 +48,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _audioMixer: {fileID: 24100000, guid: d54675c758bfe499797ee9c58e153b71, type: 2}
+  AudioMixer: {fileID: 24100000, guid: d54675c758bfe499797ee9c58e153b71, type: 2}

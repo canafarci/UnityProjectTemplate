@@ -7,12 +7,10 @@ using ProjectTemplate.Runtime.Infrastructure.ApplicationState;
 using ProjectTemplate.Runtime.Infrastructure.ApplicationState.Signals;
 using ProjectTemplate.Runtime.Infrastructure.Data;
 using ProjectTemplate.Runtime.Infrastructure.Templates;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
-using VContainer;
 
 namespace ProjectTemplate.Runtime.CrossScene.Scenes
 {
@@ -49,10 +47,8 @@ namespace ProjectTemplate.Runtime.CrossScene.Scenes
 			
 			if (_handle.IsValid())
 			{
-				Addressables.UnloadSceneAsync(_handle);
+				await Addressables.UnloadSceneAsync(_handle);
 			}
-			
-			await UniTask.NextFrame();
 			
 			if (signal.sceneID == SceneID.MainMenu)
 			{
@@ -66,12 +62,27 @@ namespace ProjectTemplate.Runtime.CrossScene.Scenes
 				_handle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive);
 			}
 			
+			_handle.Completed += OnLoadingComplete;
+			
 			if (_applicationSettings.ShowLoadingScreen)
 			{
 				_signalBus.Fire(new LoadingStartedSignal(_handle));
 			}
 			
 			DOTween.KillAll();
+		}
+
+		private void OnLoadingComplete(AsyncOperationHandle<SceneInstance> handle)
+		{
+			HandleSceneLoadComplete(handle).Forget();
+			handle.Completed -= OnLoadingComplete;
+		}
+
+		private async UniTaskVoid HandleSceneLoadComplete(AsyncOperationHandle<SceneInstance> handle)
+		{
+			await handle.Result.ActivateAsync();
+			SceneManager.SetActiveScene(handle.Result.Scene);
+			_signalBus.Fire(new SceneActivatedSignal());
 		}
 	}
 }
