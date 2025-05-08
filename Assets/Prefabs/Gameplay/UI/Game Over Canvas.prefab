@@ -622,6 +622,7 @@ GameObject:
   - component: {fileID: 3350283171507984908}
   - component: {fileID: 1383344862901520409}
   - component: {fileID: 4063143993012329089}
+  - component: {fileID: 8773008811592341958}
   m_Layer: 5
   m_Name: Game Over Canvas
   m_TagString: Untagged
@@ -751,7 +752,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3343841638362729086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5027f567def1472090a99f0ec593eba3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d8a7c767aba41348d941046208c3b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ContinueButton: {fileID: 380304413074075223}
@@ -766,11 +767,23 @@ MonoBehaviour:
   GameResultImage: {fileID: 5805787912218055970}
   Timeline: {fileID: 1383344862901520409}
   Particle: {fileID: 1579470974594409912}
-  ProgressBarSlider: {fileID: 8316372749500181108}
-  ProgressBarIcon: {fileID: 6279370842999449514}
-  ProgressBarTitleText: {fileID: 587747543400302466}
-  ProgressionCountText: {fileID: 6285427994186190302}
-  ProgressPanel: {fileID: 345049380734427591}
+--- !u!114 &8773008811592341958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3343841638362729086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8474dcf88fee4600b313d74698317355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelRoot: {fileID: 345049380734427591}
+  Slider: {fileID: 8316372749500181108}
+  Icon: {fileID: 6279370842999449514}
+  TitleText: {fileID: 587747543400302466}
+  CountText: {fileID: 6285427994186190302}
 --- !u!1 &3772427408722391378
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-using ProjectTemplate.Runtime.CrossScene;
 using ProjectTemplate.Runtime.CrossScene.Audio;
 using ProjectTemplate.Runtime.CrossScene.Currency;
 using ProjectTemplate.Runtime.CrossScene.Data;
@@ -30,7 +29,7 @@ namespace ProjectTemplate.Runtime.Scopes
 		[SerializeField] private AudioView AudioView;
 		[SerializeField] private PoolConfig PoolConfig;
 		[SerializeField] private CurrencyConfig CurrencyConfig;
-		[SerializeField] private ProgressData ProgressData;
+		[SerializeField] private ProgressionData ProgressData;
 		[SerializeField] private AddressableReferences AddressableReferences;
 		[SerializeField] private InitializableModuleData InitializableModuleData;
 
@@ -67,8 +66,8 @@ namespace ProjectTemplate.Runtime.Scopes
 			builder.Register<IHapticModel, HapticModel>(Lifetime.Singleton);
 			builder.Register<INotificationModel, NotificationModel>(Lifetime.Singleton);
 			builder.Register<ICurrencyModel, CurrencyModel>(Lifetime.Singleton);
-			builder.Register<IProgressModel, ProgressModel>(Lifetime.Singleton);
-			builder.Register<ProgressService>(Lifetime.Singleton).AsSelf();
+			builder.Register<IProgressModel, ProgressionModel>(Lifetime.Singleton);
+			builder.Register<ProgressionService>(Lifetime.Singleton).AsSelf();
 			builder.Register<AudioMediator>(Lifetime.Singleton).AsSelf();
 
 			builder.Register<IGameplayPersistentData, GameplayPersistentData>(Lifetime.Singleton);

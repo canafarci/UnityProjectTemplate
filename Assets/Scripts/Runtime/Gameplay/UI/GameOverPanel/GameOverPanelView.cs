@@ -19,28 +19,18 @@ namespace ProjectTemplate.Runtime.Gameplay.UI.GameOverPanel
 		[SerializeField] private Image GameResultImage;
 		[SerializeField] private PlayableDirector Timeline;
 		[SerializeField] private GameObject Particle;
-		[SerializeField] private Image ProgressBarSlider;
-		[SerializeField] private Image ProgressBarIcon;
-		[SerializeField] private TextMeshProUGUI ProgressBarTitleText;
-		[SerializeField] private TextMeshProUGUI ProgressionCountText;
-		[SerializeField] private GameObject ProgressPanel;
 
-		public TextMeshProUGUI gameResultText => GameResultText;
 		public Button continueButton => ContinueButton;
-		public Sprite gameWonSprite => GameWonSprite;
-		public Sprite gameLostSprite => GameLostSprite;
-		public Image gameResultImage => GameResultImage;
-		public PlayableDirector timeline => Timeline;
+		public TextMeshProUGUI gameResultText => GameResultText;
 		public TextMeshProUGUI buttonText => ButtonText;
 		public TextMeshProUGUI wonLevelText => WonLevelText;
 		public TextMeshProUGUI lostLevelText => LostLevelText;
-		public GameObject particle => Particle;
+		public Sprite gameWonSprite => GameWonSprite;
+		public Sprite gameLostSprite => GameLostSprite;
 		public GameObject gameWonSecondaryImage => GameWonSecondaryImage;
 		public GameObject gameLostSecondaryImage => GameLostSecondaryImage;
-		public Image progressBarSlider => ProgressBarSlider;
-		public Image progressBarIcon => ProgressBarIcon;
-		public TextMeshProUGUI progressBarTitleText => ProgressBarTitleText;
-		public TextMeshProUGUI progressionCountText => ProgressionCountText;
-		public GameObject progressPanel => ProgressPanel;
+		public Image gameResultImage => GameResultImage;
+		public PlayableDirector timeline => Timeline;
+		public GameObject particle => Particle;
 	}
 }
