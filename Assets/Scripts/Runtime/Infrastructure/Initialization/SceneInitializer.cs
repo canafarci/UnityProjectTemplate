@@ -46,14 +46,6 @@ namespace ProjectTemplate.Runtime.Infrastructure.Initialization
 				priority++;
 			}
 			
-
-			// int moduleCount = Enum.GetValues(typeof(T)).Length;
-			//
-			// while (moduleCount > 0 && _initializedModules.Count != moduleCount)
-			// {
-			// 	await UniTask.NextFrame();
-			// }
-			
 			_signalBus.Fire(new AllModulesInitializedSignal());
 		}
 
